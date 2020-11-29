@@ -16,6 +16,13 @@ kotlin {
             }
         }
     }
+    // Block from https://github.com/cashapp/sqldelight/issues/2044#issuecomment-721299517.
+    val onPhone = System.getenv("SDK_NAME")?.startsWith("iphoneos") ?: false
+    if (onPhone) {
+        iosArm64("ios")
+    } else {
+        iosX64("ios")
+    }
 
     android()
 
