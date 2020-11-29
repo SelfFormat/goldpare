@@ -2,20 +2,21 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
-    id("com.android.library")
     kotlin("plugin.serialization")
+    id("com.android.library")
     id("com.squareup.sqldelight")
 }
 
-val coroutinesVersion = "1.3.9-native-mt"
-val serializationVersion = "1.0.1"
-val ktorVersion = "1.4.2"
-val junitVersion = "4.13.1"
-val materialVersion = "1.2.1"
-val sqlDelightVersion = "1.4.2"
-
 kotlin {
     android()
+
+    val coroutinesVersion = "1.3.9-native-mt"
+    val serializationVersion = "1.0.1"
+    val ktorVersion = "1.4.0"
+    val junitVersion = "4.13.1"
+    val materialVersion = "1.2.1"
+    val sqlDelightVersion: String by project
+
     ios {
         binaries {
             framework {
@@ -23,6 +24,7 @@ kotlin {
             }
         }
     }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
