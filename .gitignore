@@ -1,13 +1,13 @@
 *.iml
 .gradle
-/local.properties
-/.idea
+local.properties
+.idea/
 .DS_Store
 /build
+/out
 /captures
 .externalNativeBuild
 .cxx
-local.properties
 /shared/build
 /androidApp/build
 /shared/java_pid41192.hprof
