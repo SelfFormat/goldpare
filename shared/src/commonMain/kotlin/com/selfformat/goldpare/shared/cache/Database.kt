@@ -1,5 +1,7 @@
 package com.selfformat.goldpare.shared.cache
 
+import com.selfformat.goldpare.shared.model.GoldItem
+
 internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = AppDatabase(databaseDriverFactory.createDriver())
     private val dbQuery = database.appDatabaseQueries
@@ -35,7 +37,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             goldItems.forEach { item ->
                 val goldItem = dbQuery.selectGoldItemById(item.id).executeAsOneOrNull()
                 if (goldItem != null) {
-                    insertGoldItem(goldItem)
+                    insertGoldItem(item)
                 }
             }
         }
