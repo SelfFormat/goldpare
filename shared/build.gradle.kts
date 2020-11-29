@@ -77,7 +77,7 @@ android {
 
 sqldelight {
     database("AppDatabase") {
-        packageName = "com.jetbrains.handson.kmm.shared.cache"
+        packageName = "com.selfformat.goldpare.shared.cache"
     }
 }
 
