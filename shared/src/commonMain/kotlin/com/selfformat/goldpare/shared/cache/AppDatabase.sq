@@ -1,0 +1,21 @@
+CREATE TABLE GoldItem (
+id INTEGER NOT NULL PRIMARY KEY,
+price TEXT NOT NULL,
+title TEXT NOT NULL,
+link TEXT NOT NULL,
+website TEXT NOT NULL
+);
+
+insertGoldItem:
+INSERT INTO GoldItem(id, price, title, link, website)
+VALUES(?, ?, ?, ?, ?);
+
+removeAllGoldItems:
+DELETE FROM GoldItem;
+
+selectGoldItemById:
+SELECT * FROM GoldItem
+WHERE id = ?;
+
+selectAllGoldItems:
+SELECT * FROM GoldItem;
