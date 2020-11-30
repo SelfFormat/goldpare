@@ -22,6 +22,6 @@ class GoldApi {
     }
 
     companion object {
-        private val GOLD_ENDPOINT = Url("https://selfformat.com/coin")
+        private val GOLD_ENDPOINT = Url("https://selfformat.com/test.json")
     }
 }

@@ -12,7 +12,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    internal fun getAllLaunches(): List<GoldItem> {
+    internal fun getAllGoldItems(): List<GoldItem> {
         return dbQuery.selectAllGoldItems(::mapGoldItemSelecting).executeAsList()
     }
 
@@ -32,7 +32,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
         )
     }
 
-    internal fun createLaunches(goldItems: List<GoldItem>) {
+    internal fun createGoldItems(goldItems: List<GoldItem>) {
         dbQuery.transaction {
             goldItems.forEach { item ->
                 val goldItem = dbQuery.selectGoldItemById(item.id).executeAsOneOrNull()

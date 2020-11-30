@@ -9,14 +9,14 @@ class GoldSDK(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = Database(databaseDriverFactory)
     private val api = GoldApi()
 
-    @Throws(Exception::class) suspend fun getLaunches(forceReload: Boolean): List<GoldItem> {
-        val cachedLaunches = database.getAllLaunches()
-        return if (cachedLaunches.isNotEmpty() && !forceReload) {
-            cachedLaunches
+    @Throws(Exception::class) suspend fun getGoldItems(forceReload: Boolean): List<GoldItem> {
+        val cachedGoldItems = database.getAllGoldItems()
+        return if (cachedGoldItems.isNotEmpty() && !forceReload) {
+            cachedGoldItems
         } else {
             api.getAllGoldItems().also {
                 database.clearDatabase()
-                database.createLaunches(it)
+                database.createGoldItems(it)
             }
         }
     }
