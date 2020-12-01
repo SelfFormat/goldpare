@@ -11,3 +11,5 @@ local.properties
 /shared/build
 /androidApp/build
 /shared/java_pid41192.hprof
+xcuserdata/
+Pods/
