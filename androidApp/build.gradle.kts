@@ -1,7 +1,11 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("kotlin-android")
 }
+
+val composeVersion = "1.0.0-alpha08"
+val kotlinVersion = "1.4.20"
 
 dependencies {
     implementation(project(":shared"))
@@ -13,6 +17,17 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.compose.runtime:runtime:$composeVersion")
+//    implementation("androidx.compose.ui:ui:$composeVersion")
+//    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+//    implementation("androidx.compose.ui:ui-test:$composeVersion")
+//    implementation("androidx.compose.foundation:foundation:$composeVersion")
+//    implementation("androidx.compose.foundation:foundation-layout:$composeVersion")
+//    implementation("androidx.compose.material:material:$composeVersion")
+//    implementation("androidx.compose.runtime:runtime-livedata:$composeVersion")
+//    implementation("com.google.android.material:compose-theme-adapter:$composeVersion")
+//    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
+//    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.3.0-alpha06")
 }
 
 android {
@@ -29,12 +44,24 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerVersion = kotlinVersion
+        kotlinCompilerExtensionVersion = composeVersion
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
+        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.freeCompilerArgs = listOf(
+            *kotlinOptions.freeCompilerArgs.toTypedArray(),
+            "-Xallow-jvm-ir-dependencies",
+            "-Xskip-prerelease-check")
+        kotlinOptions.useIR = true
     }
 }
