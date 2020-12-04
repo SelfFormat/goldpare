@@ -1,5 +1,6 @@
 package com.selfformat.goldpare.shared.cache
 
+import com.selfformat.goldpare.shared.model.APIGoldItem
 import com.selfformat.goldpare.shared.model.GoldItem
 
 internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
@@ -13,39 +14,27 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     }
 
     internal fun getAllGoldItems(): List<GoldItem> {
-        return dbQuery.selectAllGoldItems(::mapGoldItemSelecting).executeAsList()
+        return dbQuery.selectAllGoldItems().executeAsList().map {
+            GoldItem(
+                id = it.id,
+                price = it.price,
+                title = it.title,
+                link = it.link,
+                website = it.website
+            )
+        }
     }
 
-    private fun mapGoldItemSelecting(
-        id: Long,
-        price: String,
-        title: String,
-        link: String,
-        website: String
-    ): GoldItem {
-        return GoldItem(
-            id = id,
-            price = price,
-            title = title,
-            link = link,
-            website = website
-        )
-    }
-
-    internal fun createGoldItems(goldItems: List<GoldItem>) {
+    internal fun createGoldItems(goldItems: List<APIGoldItem>) {
         dbQuery.transaction {
-            goldItems.forEach { item ->
-                val goldItem = dbQuery.selectGoldItemById(item.id).executeAsOneOrNull()
-                if (goldItem != null) {
-                    insertGoldItem(item)
-                }
+            goldItems.forEach { item: APIGoldItem ->
+                insertGoldItem(item)
             }
         }
     }
 
-    private fun insertGoldItem(goldItem: GoldItem) {
+    private fun insertGoldItem(goldItem: APIGoldItem) {
         dbQuery.insertGoldItem(
-            id = goldItem.id,
             price = goldItem.price,
             title = goldItem.title,
             link = goldItem.link,

@@ -45,7 +45,7 @@ class MainComposeActivity : AppCompatActivity() {
                     }
                 }
             }.onFailure {
-                Toast.makeText(this@MainComposeActivity, it.localizedMessage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainComposeActivity, it.localizedMessage, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -72,7 +72,7 @@ fun GoldRow(item: GoldItem) {
         Column(Modifier
                 .padding(16.dp)) {
             Text(text = item.title)
-            Text(text = item.price)
+            Text(text = item.price.orEmpty())
             Text(text = item.link)
             Text(text = item.website)
         }
