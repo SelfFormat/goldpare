@@ -1,14 +1,14 @@
 CREATE TABLE GoldItem (
-id INTEGER NOT NULL PRIMARY KEY,
-price TEXT NOT NULL,
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+price TEXT,
 title TEXT NOT NULL,
 link TEXT NOT NULL,
 website TEXT NOT NULL
 );
 
 insertGoldItem:
-INSERT INTO GoldItem(id, price, title, link, website)
-VALUES(?, ?, ?, ?, ?);
+INSERT INTO GoldItem(price, title, link, website)
+VALUES(?, ?, ?, ?);
 
 removeAllGoldItems:
 DELETE FROM GoldItem;

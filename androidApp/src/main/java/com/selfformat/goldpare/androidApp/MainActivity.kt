@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        title = "Goldpare - compare gold prices"
+        title = getString(R.string.app_name)
         setContentView(R.layout.activity_main)
 
         goldRecyclerView = findViewById(R.id.goldListRv)

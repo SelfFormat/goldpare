@@ -7,6 +7,5 @@ class IosGreetingTest {
 
     @Test
     fun testExample() {
-        assertTrue(Greeting().greeting().contains("iOS".reversed()), "Check iOS is mentioned in reverse")
     }
 }

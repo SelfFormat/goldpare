@@ -14,10 +14,11 @@ class GoldSDK(databaseDriverFactory: DatabaseDriverFactory) {
         return if (cachedGoldItems.isNotEmpty() && !forceReload) {
             cachedGoldItems
         } else {
-            api.getAllGoldItems().also {
+            api.fetchGoldItems().also {
                 database.clearDatabase()
                 database.createGoldItems(it)
             }
+            database.getAllGoldItems()
         }
     }
 }

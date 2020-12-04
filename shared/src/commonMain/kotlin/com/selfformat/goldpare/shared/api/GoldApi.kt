@@ -1,6 +1,6 @@
 package com.selfformat.goldpare.shared.api
 
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.model.APIGoldItem
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -17,11 +17,11 @@ class GoldApi {
         }
     }
 
-    suspend fun getAllGoldItems(): List<GoldItem> {
+    suspend fun fetchGoldItems(): List<APIGoldItem> {
         return httpClient.get(GOLD_ENDPOINT)
     }
 
     companion object {
-        private val GOLD_ENDPOINT = Url("https://selfformat.com/test.json")
+        private val GOLD_ENDPOINT = Url("https://selfformat.com/coin.json")
     }
 }
