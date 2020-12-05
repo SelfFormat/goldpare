@@ -9,7 +9,6 @@ import io.ktor.http.Url
 import kotlinx.serialization.json.Json
 
 class GoldApi {
-
     private val httpClient = HttpClient {
         install(JsonFeature) {
             val json = Json { ignoreUnknownKeys = true }
@@ -22,6 +21,6 @@ class GoldApi {
     }
 
     companion object {
-        private val GOLD_ENDPOINT = Url("https://selfformat.com/coin.json")
+        private val GOLD_ENDPOINT = Url("https://selfformat.com/coin_new.json")
     }
 }

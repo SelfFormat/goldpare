@@ -3,12 +3,14 @@ id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 price TEXT,
 title TEXT NOT NULL,
 link TEXT NOT NULL,
-website TEXT NOT NULL
+website TEXT NOT NULL,
+image_url TEXT,
+weight TEXT
 );
 
 insertGoldItem:
-INSERT INTO GoldItem(price, title, link, website)
-VALUES(?, ?, ?, ?);
+INSERT INTO GoldItem(price, title, link, website, image_url, weight)
+VALUES(?, ?, ?, ?, ?, ?);
 
 removeAllGoldItems:
 DELETE FROM GoldItem;

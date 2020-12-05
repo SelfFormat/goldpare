@@ -14,6 +14,7 @@ val cardViewVersion = "1.0.0"
 val appCompatVersion = "1.2.0"
 val recyclerViewVersion = "1.1.0"
 val swipeRefreshVersion = "1.1.0"
+val composeGlideVersion = "0.4.1"
 
 dependencies {
     implementation(project(":shared"))
@@ -28,6 +29,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
+    implementation("com.github.mvarnagiris:compose-glide-image:$composeGlideVersion")
 }
 
 android {
