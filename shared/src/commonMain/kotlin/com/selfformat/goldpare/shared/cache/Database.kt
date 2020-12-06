@@ -20,7 +20,10 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 price = it.price,
                 title = it.title,
                 link = it.link,
-                website = it.website
+                website = it.website,
+                img_url = it.image_url,
+                weight = it.weight,
+                quantity = it.quantity
             )
         }
     }
@@ -38,7 +41,10 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             price = goldItem.price,
             title = goldItem.title,
             link = goldItem.link,
-            website = goldItem.website
+            website = goldItem.website,
+            image_url = goldItem.image_url,
+            weight = goldItem.weight,
+            quantity = goldItem.quantity
         )
     }
 }

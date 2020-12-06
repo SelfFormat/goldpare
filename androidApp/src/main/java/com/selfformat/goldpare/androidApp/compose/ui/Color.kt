@@ -2,7 +2,7 @@ package com.selfformat.goldpare.androidApp.compose.ui
 
 import androidx.compose.ui.graphics.Color
 
-val purple200 = Color(0xFFBB86FC)
-val purple500 = Color(0xFF6200EE)
-val purple700 = Color(0xFF3700B3)
-val teal200 = Color(0xFF03DAC5)
+val gray200 = Color(0xFF919191)
+val gray400 = Color(0xFF717171)
+val gray900 = Color(0xFF212121)
+val blue200 = Color(0xFF34a4eb)
