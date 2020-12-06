@@ -6,7 +6,7 @@ link TEXT NOT NULL,
 website TEXT NOT NULL,
 image_url TEXT,
 weight TEXT,
-quantity TEXT NOT NULL
+quantity INTEGER NOT NULL
 );
 
 insertGoldItem:
