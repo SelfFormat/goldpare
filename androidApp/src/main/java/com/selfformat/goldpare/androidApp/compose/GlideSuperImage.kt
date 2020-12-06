@@ -23,7 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-//fixed version of
+//fixed version of https://github.com/mvarnagiris/compose-glide-image
 
 @Composable
 fun GlideSuperImage(
