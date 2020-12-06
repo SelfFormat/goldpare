@@ -88,8 +88,8 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
                 Text(text = item.title, fontWeight = Bold)
                 Text(text = item.price.orEmpty())
                 Text(text = item.priceDouble.toString())
-                Text(text = "price for ounce: ${item.pricePerOunce}")
-                Text(text = "estimated weight: ${item.weight}")
+                Text(text = "quantity: ${item.quantity}")
+                Text(text = "weight: ${item.weight ?: "unknown"}")
                 Text(text = item.website, modifier = Modifier.align(Alignment.End))
             }
         }
@@ -105,7 +105,7 @@ fun openWebPage(url: String, context: Context) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val goldItem = GoldItem(1, "3000zł", "Gold 1/2 oz", "www.gold.com/1oz", "gold.com", "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg", weight = "1/4oz")
+    val goldItem = GoldItem(1, "3000zł", "Gold 1/2 oz", "www.gold.com/1oz", "gold.com", "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg", weight = "1/4oz", quantity = "1")
     GoldpareTheme {
         GoldRow(goldItem) { }
     }

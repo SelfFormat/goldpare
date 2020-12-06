@@ -7,7 +7,8 @@ data class GoldItem(
     val link: String,
     val website: String,
     val img_url: String?,
-    val weight: String?
+    val weight: String?,
+    val quantity: String
 ) {
     val pricePerOunce: String = "we need to calculate that"
     val calculatedWeight: CoinWeight = when {
