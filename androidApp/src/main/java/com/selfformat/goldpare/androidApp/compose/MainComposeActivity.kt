@@ -16,7 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
@@ -75,24 +74,50 @@ fun LazyGoldColumn(
 fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
     Card(Modifier
         .padding(8.dp)
-        .preferredHeight(180.dp)
         .fillMaxWidth()
         .clickable(onClick = onClick)
     ) {
-        Row() {
-            if (item.img_url != null) {
-                GlideSuperImage(item.img_url!!, contentScale = ContentScale.FillHeight)
+        val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
+        val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
+        val formattedPriceMarkup = "%.2f".format(item.priceMarkup(6863.62))
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column() {
+                if (item.img_url != null) {
+                    GlideSuperImage(item.img_url!!, modifier = Modifier.width(120.dp))
+                }
             }
             Column(Modifier
                 .padding(16.dp)) {
                 Text(text = item.title, fontWeight = Bold)
-                Text(text = item.price.orEmpty())
-                Text(text = item.priceDouble.toString())
-                Text(text = "quantity: ${item.quantity.toString()}")
-                Text(text = "weight: ${item.weight ?: "unknown"}")
-                Text(text = item.website, modifier = Modifier.align(Alignment.End))
+                Text(text = "cena produktu: ${item.price.orEmpty()}")
+                Text(text = "cena 1 uncji: $formattedPricePerOunce")
+                Text(text = "waga w gramach: $formattedWeightInGrams")
+                Text(text = "marża: $formattedPriceMarkup%")
+                Text(text = "sklep: ${getWebsiteName(item.website)}")
+                if (item.quantity > 1) {
+                    Text(text = "sztuk w zestawie: ${item.quantity}")
+                }
             }
         }
+    }
+}
+
+@Composable
+fun getWebsiteName(websiteKey: String): String {
+    return when (websiteKey) {
+        "goldenmark" -> "Goldenmark"
+        "79element" -> "79th element"
+        "mennicacompl" -> "Mennica Polska"
+        "mennicakapitalowa" -> "Mennica Kapitałowa"
+        "mennicakrajowa" -> "Mennica Krajowa"
+        "mennicamazovia" -> "Mennica Mazovia"
+        "metalelokacyjne" -> "Metale Lokacyjne"
+        "metalmarketu" -> "Metal Market Europe"
+        "wyrobymennicze" -> "Wyroby Mennicze"
+        "mennicaskarbowa" -> "Mennica Skarbowa"
+        "coininvest" -> "Coininvest"
+        else -> "Sklep"
     }
 }
 
