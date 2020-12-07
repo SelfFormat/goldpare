@@ -8,7 +8,8 @@ data class GoldItem(
     val website: String,
     val img_url: String?,
     val weight: String?,
-    val quantity: Long
+    val quantity: Long,
+    val type: String
 ) {
     companion object {
         const val OZ_TROY = 31.1034768

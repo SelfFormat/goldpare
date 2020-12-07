@@ -6,12 +6,13 @@ link TEXT NOT NULL,
 website TEXT NOT NULL,
 image_url TEXT,
 weight TEXT,
-quantity INTEGER NOT NULL
+quantity INTEGER NOT NULL,
+type TEXT NOT NULL
 );
 
 insertGoldItem:
-INSERT INTO GoldItem(price, title, link, website, image_url, weight, quantity)
-VALUES(?, ?, ?, ?, ?, ?, ?);
+INSERT INTO GoldItem(price, title, link, website, image_url, weight, quantity, type)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?);
 
 removeAllGoldItems:
 DELETE FROM GoldItem;

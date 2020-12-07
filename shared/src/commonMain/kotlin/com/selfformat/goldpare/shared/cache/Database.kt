@@ -23,7 +23,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
                 website = it.website,
                 img_url = it.image_url,
                 weight = it.weight,
-                quantity = it.quantity
+                quantity = it.quantity,
+                type = it.type
             )
         }
     }
@@ -44,7 +45,8 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
             website = goldItem.website,
             image_url = goldItem.image_url,
             weight = goldItem.weight,
-            quantity = goldItem.quantity
+            quantity = goldItem.quantity,
+            type = goldItem.type
         )
     }
 }
