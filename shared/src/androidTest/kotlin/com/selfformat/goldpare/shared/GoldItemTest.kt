@@ -17,7 +17,8 @@ class AndroidGreetingTest {
             website = "",
             img_url = null,
             weight = weight,
-            quantity = 0
+            quantity = 0,
+            type = "",
         )
         val ozTroy = 31.1034768
         val expected = ozTroy / 2
@@ -37,7 +38,8 @@ class AndroidGreetingTest {
             website = "",
             img_url = null,
             weight = weight,
-            quantity = 0
+            quantity = 0,
+            type = ""
         )
         val expected = ozTroy / 4
         val result = goldItem.weightInGrams(weight)
@@ -56,7 +58,8 @@ class AndroidGreetingTest {
             website = "",
             img_url = null,
             weight = weight,
-            quantity = 0
+            quantity = 0,
+            type = ""
         )
         val expected = 8.0
         val result = goldItem.weightInGrams(weight)
@@ -75,7 +78,8 @@ class AndroidGreetingTest {
             website = "",
             img_url = null,
             weight = weight,
-            quantity = 0
+            quantity = 0,
+            type = ""
         )
         val expected = 35.9
         val result = goldItem.weightInGrams(weight)
@@ -93,7 +97,8 @@ class AndroidGreetingTest {
             website = "",
             img_url = null,
             weight = weight,
-            quantity = 0
+            quantity = 0,
+            type = ""
         )
         val expected = 88.0
         val result = goldItem.weightInGrams(weight)
@@ -112,7 +117,8 @@ class AndroidGreetingTest {
             website = "",
             img_url = null,
             weight = "31.10",
-            quantity = 1
+            quantity = 1,
+            type = ""
         )
         assertEquals(30.0, goldItem.priceMarkup(stockPrice)!!, 0.1)
     }

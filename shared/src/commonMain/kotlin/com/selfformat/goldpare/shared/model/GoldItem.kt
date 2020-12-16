@@ -29,15 +29,15 @@ data class GoldItem(
         return when {
             weightWithoutWhitespace.contains(ozRegex) -> {
                 val weightWithoutUnitText = weightWithoutWhitespace.replace(ozRegex, "")
-                val weightInOz: Double = if (weightWithoutUnitText.contains('/')) {
+                val weightInOz: Double? = if (weightWithoutUnitText.contains('/')) {
                     parseFraction(weightWithoutUnitText)
                 } else {
-                    weightWithoutUnitText.toDouble()
+                    weightWithoutUnitText.toDoubleOrNull()
                 }
                 return convertOzToGram(weightInOz)
             }
             weightWithoutWhitespace.contains(gramRegex) -> {
-                return weightWithoutWhitespace.replace(gramRegex, "").toDouble()
+                return weightWithoutWhitespace.replace(gramRegex, "").toDoubleOrNull()
             }
             else -> {
                 val toDouble = weightWithoutWhitespace.toDoubleOrNull()
@@ -68,7 +68,7 @@ data class GoldItem(
         }
     }
 
-    private fun convertOzToGram(ozQuantity: Double): Double {
-        return OZ_TROY * ozQuantity
+    private fun convertOzToGram(ozQuantity: Double?): Double? {
+        return ozQuantity?.times(OZ_TROY)
     }
 }
