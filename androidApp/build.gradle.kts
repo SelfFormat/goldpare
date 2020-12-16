@@ -28,7 +28,10 @@ dependencies {
     implementation("androidx.cardview:cardview:$cardViewVersion")
     implementation("androidx.compose.runtime:runtime:$composeVersion")
     implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.runtime:runtime:$composeVersion")
+    implementation("androidx.compose.compiler:compiler:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.foundation:foundation:$composeVersion")
     implementation("com.github.mvarnagiris:compose-glide-image:$composeGlideVersion")
 }
 
