@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
 
-    val kotlinVersion = "1.4.21"
+    val kotlinVersion by extra("1.4.21")
     val gradleVersion = "7.0.0-alpha02"
     val sqlDelightVersion: String by project
 
