@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.Card
 import androidx.compose.material.Surface
@@ -16,18 +17,50 @@ import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.viewModel
 import androidx.core.content.ContextCompat
 import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
 import com.selfformat.goldpare.shared.model.GoldItem
 
+val goldItem = GoldItem(
+    1,
+    "3000zł",
+    "Gold 1/2 oz",
+    "www.gold.com/1oz",
+    "gold.com",
+    "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
+    weight = "1/4oz",
+    quantity = 1,
+    type = "coin"
+)
+val goldItem2 = GoldItem(
+    1,
+    "3000zł",
+    "Gold 1/2 oz",
+    "www.gold.com/1oz",
+    "gold.com",
+    "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
+    weight = "1/4oz",
+    quantity = 1,
+    type = "coin"
+)
+val listOfGolds = listOf(goldItem, goldItem2)
+
 @Composable
-fun LazyGoldColumn(
-    goldItems: List<GoldItem>
-) {
+fun LazyGoldColumn() {
+    val viewModel: HomeViewModel = viewModel()
+    viewModel.loadGoldItems()
+//    val items = viewModel.getGoldItem.value
+    val items = listOfGolds
+
     Surface(modifier = Modifier.fillMaxSize()) {
         val context = AmbientContext.current
-        LazyColumnFor(goldItems) { item ->
-            GoldRow(item, onClick = { openWebPage(item.link, context = context) })
+        LazyColumn() {
+            items.forEach {
+                item {
+                    GoldRow(it, onClick = { openWebPage(it.link, context = context) })
+                }
+            }
         }
     }
 }
@@ -36,9 +69,9 @@ fun LazyGoldColumn(
 fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
     Card(
         Modifier
-        .padding(8.dp)
-        .fillMaxWidth()
-        .clickable(onClick = onClick)
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
     ) {
         val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
         val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
@@ -47,12 +80,16 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column() {
                 if (item.img_url != null) {
-                    GlideSuperImage(item.img_url!!, modifier = Modifier.width(120.dp))
+                    GlideSuperImage(
+                        "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
+                        modifier = Modifier.width(120.dp)
+                    )
                 }
             }
             Column(
                 Modifier
-                .padding(16.dp)) {
+                    .padding(16.dp)
+            ) {
                 Text(text = item.title, fontWeight = FontWeight.Bold)
                 Text(text = "cena produktu: ${item.price.orEmpty()}")
                 Text(text = "cena 1 uncji: $formattedPricePerOunce")
@@ -105,30 +142,8 @@ fun openWebPage(url: String, context: Context) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val goldItem = GoldItem(
-        1,
-        "3000zł",
-        "Gold 1/2 oz",
-        "www.gold.com/1oz",
-        "gold.com",
-        "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
-        weight = "1/4oz",
-        quantity = 1,
-        type = "coin"
-    )
-    val goldItem2 = GoldItem(
-        1,
-        "3000zł",
-        "Gold 1/2 oz",
-        "www.gold.com/1oz",
-        "gold.com",
-        "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
-        weight = "1/4oz",
-        quantity = 1,
-        type = "coin"
-    )
-    val listOfGolds = listOf(goldItem, goldItem2)
     GoldpareTheme {
-        LazyGoldColumn(goldItems = listOfGolds)
+        GoldRow(item = goldItem) {
+        }
     }
 }
