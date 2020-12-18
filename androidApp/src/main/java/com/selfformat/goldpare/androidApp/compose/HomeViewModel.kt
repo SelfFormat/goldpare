@@ -22,6 +22,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     val state: LiveData<State> = _state
 
     fun loadGoldItems() {
+        _state.value = State.Loading
         viewModelScope.launch {
             kotlin.runCatching {
                 sdk.getGoldItems(false)
