@@ -36,6 +36,16 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
+        currentCoinTypeFiltering = goldCoinType
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
+    fun updateSortingType(sortingType: SortingType) {
+        currentSortingType = sortingType
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
     private fun List<GoldItem>.filterByCoinType(goldCoinType: GoldCoinType) : List<GoldItem> {
         if (goldCoinType == ALL) return this
         return this.filter {
@@ -51,16 +61,6 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
             PRICE_PER_OZ_DESC -> this.sortedByDescending { it.pricePerOunce }
             NONE -> this
         }
-    }
-
-    fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
-        currentCoinTypeFiltering = goldCoinType
-        _state.value = loadedStateWithSortingAndFiltering()
-    }
-
-    fun updateSortingType(sortingType: SortingType) {
-        currentSortingType = sortingType
-        _state.value = loadedStateWithSortingAndFiltering()
     }
 
     private fun loadedStateWithSortingAndFiltering() =

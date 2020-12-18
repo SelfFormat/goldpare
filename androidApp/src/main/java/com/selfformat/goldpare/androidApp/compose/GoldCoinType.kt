@@ -8,7 +8,7 @@ enum class GoldCoinType(val coinName: String = "") {
     BRITANNIA("Britannia"),
     LISC_KLONOWY("Klonowy"),
     AUSTRALIJSKI_KANGUR("Kangur"),
-    CHINSKA_PANDA("Pad"),
+    CHINSKA_PANDA("Panda"),
     AMERYKANSKI_BIZON("Bizon"),
     AMERYKANSKI_ORZEL("Orzeł"),
     FILCHARMONICY_WIEDENSCY("Filharmonik")
