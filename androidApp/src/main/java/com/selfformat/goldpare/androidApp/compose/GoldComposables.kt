@@ -3,9 +3,14 @@ package com.selfformat.goldpare.androidApp.compose
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AmbientContext
@@ -25,12 +30,8 @@ fun HomeView() {
         when (it) {
             is HomeViewModel.State.Loaded -> {
                 Column {
-                    Button(onClick = { viewModel.updateCoinTypeFiltering(GoldCoinType.KRUGERRAND) }) {
-                        Text(text = "filter by Kruggerand")
-                    }
-                    Button(onClick = { viewModel.updateCoinTypeFiltering(GoldCoinType.DUKAT) }) {
-                        Text(text = "filter by Dukat")
-                    }
+                    SortingMenu()
+                    FilteringMenu()
                     FilterableLazyRow(list = it.goldItems)
                 }
             }
@@ -39,6 +40,72 @@ fun HomeView() {
             }
             is HomeViewModel.State.Loading -> {
                 Text(text = "Loading...")
+            }
+        }
+    }
+}
+
+@Composable
+private fun SortingMenu() {
+    val viewModel: HomeViewModel = viewModel()
+    val showMenu = remember { mutableStateOf(false) }
+    val selectedIndex = remember { mutableStateOf(0) }
+
+    DropdownMenu(
+        toggle = {
+            Text(text = SortingType.values()[selectedIndex.value].sortingName,
+                modifier = Modifier.fillMaxWidth().clickable(
+                    onClick = { showMenu.value = true }
+                )
+            )
+        },
+        expanded = showMenu.value,
+        onDismissRequest = { showMenu.value = false },
+        toggleModifier = Modifier.fillMaxWidth(),
+        dropdownModifier = Modifier.fillMaxWidth()
+    ) {
+        SortingType.values().forEachIndexed { index, value ->
+            DropdownMenuItem(
+                onClick = {
+                    selectedIndex.value = index
+                    showMenu.value = false
+                    viewModel.updateSortingType(value)
+                }
+            ) {
+                Text(text = value.sortingName)
+            }
+        }
+    }
+}
+
+@Composable
+private fun FilteringMenu() {
+    val viewModel: HomeViewModel = viewModel()
+    val showMenu = remember { mutableStateOf(false) }
+    val selectedIndex = remember { mutableStateOf(0) }
+
+    DropdownMenu(
+        toggle = {
+            Text(text = GoldCoinType.values()[selectedIndex.value].coinName,
+                modifier = Modifier.fillMaxWidth().clickable(
+                    onClick = { showMenu.value = true }
+                )
+            )
+        },
+        expanded = showMenu.value,
+        onDismissRequest = { showMenu.value = false },
+        toggleModifier = Modifier.fillMaxWidth(),
+        dropdownModifier = Modifier.fillMaxWidth()
+    ) {
+        GoldCoinType.values().forEachIndexed { index, value ->
+            DropdownMenuItem(
+                onClick = {
+                    selectedIndex.value = index
+                    showMenu.value = false
+                    viewModel.updateCoinTypeFiltering(value)
+                }
+            ) {
+                Text(text = value.coinName)
             }
         }
     }

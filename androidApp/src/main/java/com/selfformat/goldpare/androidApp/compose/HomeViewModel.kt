@@ -6,10 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selfformat.goldpare.androidApp.compose.GoldCoinType.ALL
+import com.selfformat.goldpare.androidApp.compose.SortingType.*
 import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
 import com.selfformat.goldpare.shared.model.GoldItem
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 internal class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -17,7 +17,8 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     private lateinit var data: List<GoldItem>
     private val _state = MutableLiveData<State>()
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
-    private var currentSorting = ALL
+    private var currentCoinTypeFiltering = ALL
+    private var currentSortingType = NONE
 
     val state: LiveData<State> = _state
 
@@ -28,7 +29,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
                 sdk.getGoldItems(false)
             }.onSuccess {
                 data = it
-                _state.value = State.Loaded(data.filterByCoinType(currentSorting))
+                _state.value = loadedStateWithSortingAndFiltering()
             }.onFailure {
                 _state.value = State.Error(it)
             }
@@ -42,10 +43,28 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
-        currentSorting = goldCoinType
-        _state.value = State.Loaded(data.filterByCoinType(currentSorting))
+    private fun List<GoldItem>.sortBy(sortingType: SortingType) : List<GoldItem> {
+        return when (sortingType) {
+            PRICE_ASC -> this.sortedBy { it.price }
+            PRICE_DESC -> this.sortedByDescending { it.price }
+            PRICE_PER_OZ_ASC -> this.sortedBy { it.pricePerOunce }
+            PRICE_PER_OZ_DESC -> this.sortedByDescending { it.pricePerOunce }
+            NONE -> this
+        }
     }
+
+    fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
+        currentCoinTypeFiltering = goldCoinType
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
+    fun updateSortingType(sortingType: SortingType) {
+        currentSortingType = sortingType
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
+    private fun loadedStateWithSortingAndFiltering() =
+        State.Loaded(data.filterByCoinType(currentCoinTypeFiltering).sortBy(currentSortingType))
 
     sealed class State {
         data class Loaded(val goldItems: List<GoldItem>) : State()
