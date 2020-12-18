@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.selfformat.goldpare.androidApp.compose.GoldCoinType.ALL
 import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
@@ -13,19 +14,20 @@ import kotlinx.coroutines.launch
 
 internal class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
+    private lateinit var data: List<GoldItem>
     private val _state = MutableLiveData<State>()
-    private val mainScope = MainScope()
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
     private var currentSorting = ALL
 
     val state: LiveData<State> = _state
 
     fun loadGoldItems() {
-        mainScope.launch {
+        viewModelScope.launch {
             kotlin.runCatching {
-                sdk.getGoldItems(true)
+                sdk.getGoldItems(false)
             }.onSuccess {
-                _state.value = State.Loaded(it.filterByCoinType(currentSorting))
+                data = it
+                _state.value = State.Loaded(data.filterByCoinType(currentSorting))
             }.onFailure {
                 _state.value = State.Error(it)
             }
@@ -41,6 +43,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
 
     fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
         currentSorting = goldCoinType
+        _state.value = State.Loaded(data.filterByCoinType(currentSorting))
     }
 
     sealed class State {
