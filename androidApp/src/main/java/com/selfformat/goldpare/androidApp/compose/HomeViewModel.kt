@@ -1,7 +1,6 @@
 package com.selfformat.goldpare.androidApp.compose
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,21 +12,28 @@ import kotlinx.coroutines.launch
 
 internal class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val goldItems = MutableLiveData<List<GoldItem>>()
+    private val _state = MutableLiveData<State>()
     private val mainScope = MainScope()
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
 
-    val getGoldItem: LiveData<List<GoldItem>> = goldItems
+    val state: LiveData<State> = _state
 
     fun loadGoldItems() {
         mainScope.launch {
             kotlin.runCatching {
                 sdk.getGoldItems(true)
             }.onSuccess {
-                goldItems.postValue(it)
+                _state.value = State.Loaded(it)
             }.onFailure {
-                Log.i("viewmodel", "loadGoldItems: onFailure")
+                _state.value = State.Error(it)
             }
         }
     }
+
+    sealed class State {
+        data class Loaded(val goldItems: List<GoldItem>): State()
+        data class Error(val throwable: Throwable) : State()
+        object Loading : State()
+    }
+
 }

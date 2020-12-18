@@ -7,7 +7,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,26 +19,31 @@ import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
 import com.selfformat.goldpare.shared.model.GoldItem
 
 @Composable
-fun LazyGoldColumn() {
+fun HomeView() {
     val viewModel: HomeViewModel = viewModel()
     viewModel.loadGoldItems()
-    val items: State<List<GoldItem>?> = viewModel.getGoldItem.observeAsState()
-    val context = AmbientContext.current
-    Surface(modifier = Modifier.fillMaxSize()) {
-        LazyColumn {
-            if (items.value != null) {
-                items.value!!.forEach {
-                    item {
-                        GoldRow(it) {
-                            openWebPage(
-                                it.link,
-                                context = context
-                            )
+    val state = viewModel.state.observeAsState().value
+    when (state) {
+        is HomeViewModel.State.Loaded -> {
+            val context = AmbientContext.current
+            Surface(modifier = Modifier.fillMaxSize()) {
+                LazyColumn {
+                        state.goldItems.forEach {
+                            item {
+                                GoldRow(it) {
+                                    openWebPage(
+                                        it.link,
+                                        context = context
+                                    )
+                                }
+                            }
                         }
-                    }
                 }
             }
         }
+        is HomeViewModel.State.Error -> {}
+        HomeViewModel.State.Loading -> {}
+        null -> {}
     }
 }
 

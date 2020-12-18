@@ -21,7 +21,7 @@ class HomeFragment : Fragment() {
             setContent {
                 GoldpareTheme {
                     Surface(color = MaterialTheme.colors.background) {
-                        LazyGoldColumn()
+                        HomeView()
                     }
                 }
             }
