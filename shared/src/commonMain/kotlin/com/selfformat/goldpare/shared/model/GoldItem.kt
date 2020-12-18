@@ -11,9 +11,6 @@ data class GoldItem(
     val quantity: Long,
     val type: String
 ) {
-    companion object {
-        const val OZ_TROY = 31.1034768
-    }
 
     val pricePerOunce: Double?
         get() = pricePerGram?.times(OZ_TROY)
@@ -70,5 +67,46 @@ data class GoldItem(
 
     private fun convertOzToGram(ozQuantity: Double?): Double? {
         return ozQuantity?.times(OZ_TROY)
+    }
+
+    val mintName: String =
+        when (website) {
+            "goldenmark" -> "Goldenmark"
+            "79element" -> "79th element"
+            "mennicacompl" -> "Mennica Polska"
+            "mennicakapitalowa" -> "Mennica Kapitałowa"
+            "mennicakrajowa" -> "Mennica Krajowa"
+            "mennicamazovia" -> "Mennica Mazovia"
+            "metalelokacyjne" -> "Metale Lokacyjne"
+            "metalmarketu" -> "Metal Market Europe"
+            "wyrobymennicze" -> "Wyroby Mennicze"
+            "mennicaskarbowa" -> "Mennica Skarbowa"
+            "coininvest" -> "Coininvest"
+            "travex" -> "Travex"
+            "mennica24" -> "Mennica24"
+            "zlotauncja" -> "Złota Uncja"
+            "mennicakrakowska" -> "Mennica Krakowska"
+            "mennicagdanska" -> "Mennica Gdańska"
+            "mennicazielona" -> "Mennica Zielona"
+            "goldco" -> "Goldco"
+            "idfmetale" -> "IDF metale"
+            "chojnackiikwiecien" -> "Chojnacki i Kwiecień"
+            "flyingatomgold" -> "Flyingatom"
+            else -> "Sklep"
+        }
+
+    companion object {
+        const val OZ_TROY = 31.1034768
+        val fakeGoldItem = GoldItem(
+            1,
+            "3000zł",
+            "Gold 1/2 oz",
+            "www.gold.com/1oz",
+            "gold.com",
+            "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
+            weight = "1/4oz",
+            quantity = 1,
+            type = "coin"
+        )
     }
 }
