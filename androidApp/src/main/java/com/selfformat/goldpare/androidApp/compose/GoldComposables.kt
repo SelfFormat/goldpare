@@ -3,9 +3,7 @@ package com.selfformat.goldpare.androidApp.compose
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Card
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -23,27 +21,45 @@ fun HomeView() {
     val viewModel: HomeViewModel = viewModel()
     viewModel.loadGoldItems()
     val state = viewModel.state.observeAsState().value
-    when (state) {
-        is HomeViewModel.State.Loaded -> {
-            val context = AmbientContext.current
-            Surface(modifier = Modifier.fillMaxSize()) {
-                LazyColumn {
-                        state.goldItems.forEach {
-                            item {
-                                GoldRow(it) {
-                                    openWebPage(
-                                        it.link,
-                                        context = context
-                                    )
-                                }
-                            }
-                        }
+    state.let {
+        when (it) {
+            is HomeViewModel.State.Loaded -> {
+                Column {
+                    Button(onClick = { viewModel.updateCoinTypeFiltering(GoldCoinType.KRUGERRAND) }) {
+                        Text(text = "filter by Kruggerand")
+                    }
+                    Button(onClick = { viewModel.updateCoinTypeFiltering(GoldCoinType.DUKAT) }) {
+                        Text(text = "filter by Dukat")
+                    }
+                    FilterableLazyRow(list = it.goldItems)
+                }
+            }
+            is HomeViewModel.State.Error -> {
+                Text(text = "Error: ${it.throwable}")
+            }
+            is HomeViewModel.State.Loading -> {
+                Text(text = "Loading...")
+            }
+        }
+    }
+}
+
+@Composable
+fun FilterableLazyRow(
+    list: List<GoldItem>,
+) {
+    val context = AmbientContext.current
+    LazyColumn {
+        list.forEach {
+            item {
+                GoldRow(it) {
+                    openWebPage(
+                        it.link,
+                        context = context
+                    )
                 }
             }
         }
-        is HomeViewModel.State.Error -> {}
-        HomeViewModel.State.Loading -> {}
-        null -> {}
     }
 }
 
@@ -60,7 +76,7 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
         val formattedPriceMarkup = "%.2f".format(item.priceMarkup(6863.62))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Column() {
+            Column {
                 if (item.img_url != null) {
                     GlideSuperImage(
                         item.img_url!!,
