@@ -3,6 +3,7 @@ package com.selfformat.goldpare.androidApp.compose
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -11,11 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
-import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.Mint
 
@@ -33,6 +35,17 @@ fun HomeView() {
                     FilteringGoldTypeMenu()
                     FilteringMintMenu()
                     FilterGoldSetsSwitch()
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Text("Ceny")
+                        PriceEditText("OD") { priceFrom ->
+                            viewModel.updatePriceFromFiltering(priceFrom)
+                        }
+                        PriceEditText("DO") { priceTo ->
+                            viewModel.updatePriceToFiltering(priceTo)
+                        }
+                    }
                     FilterableLazyRow(list = it.goldItems)
                 }
             }
@@ -44,6 +57,31 @@ fun HomeView() {
             }
         }
     }
+}
+
+@Composable
+fun PriceEditText(labelText: String, function: (Double) -> Unit) {
+    val text = remember { mutableStateOf(TextFieldValue()) }
+
+    OutlinedTextField(
+        // TODO: force input type to be digits (for now only keyboard is forced)
+        placeholder = {
+            Text(labelText)
+        },
+        label = {
+            Text(labelText)
+        },
+        value = text.value,
+        singleLine = true,
+        onValueChange = {
+            text.value = it
+            if (it.text.isNotEmpty()) {
+                function(it.text.toDouble())
+            }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        textStyle = TextStyle()
+    )
 }
 
 @Composable
@@ -221,7 +259,8 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
     ) {
         val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
         val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
-        val formattedPriceMarkup = "%.2f".format(item.priceMarkup(6863.62)) // TODO: get stock price info from new API call
+        val formattedPriceMarkup =
+            "%.2f".format(item.priceMarkup(6863.62)) // TODO: get stock price info from new API call
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {
