@@ -160,8 +160,7 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
                 Text(text = "cena 1 uncji: $formattedPricePerOunce")
                 Text(text = "waga w gramach: $formattedWeightInGrams")
                 Text(text = "marża: $formattedPriceMarkup%")
-                Text(text = "sklep: ${item.mintFullName}")
-                Text(text = "typ: ${item.type}")
+                Text(text = "sklep: ${item.mintFullName()}")
                 if (item.quantity > 1) {
                     Text(text = "sztuk w zestawie: ${item.quantity}")
                 }
