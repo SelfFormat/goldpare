@@ -21,5 +21,6 @@ enum class Mint(val fullName: String) {
     goldco("Goldco"),
     idfmetale("IDF metale"),
     chojnackiikwiecien("Chojnacki i Kwiecień"),
-    flyingatomgold("Flyingatom")
+    flyingatomgold("Flyingatom"),
+    all("Wszystkie")
 }
