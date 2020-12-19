@@ -9,71 +9,16 @@ data class GoldItem(
     val img_url: String?,
     val weight: String?,
     val quantity: Long,
-    val type: String
+    val type: String,
+    val priceDouble: Double?,
+    val mintFullName: String,
+    val weightInGrams: Double?,
+    val pricePerGram: Double?,
+    val pricePerOunce: Double?
 ) {
-    val weightInGrams: Double? = weightInGrams(weight)
-
-    private val priceDouble: Double? = price?.
-        replace("\\s".toRegex(), "")?.
-        replace("zł", "")?.
-        replace("PLN", "")?.
-        replace("/szt.", "")?.
-        replace(",", ".")?.
-        toDoubleOrNull()
-
-    private val pricePerGram: Double? = (weightInGrams?.let { priceDouble?.div(it) })?.div(quantity)
-
-    val pricePerOunce: Double? = pricePerGram?.times(OZ_TROY)
-
-    fun mintFullName(): String {
-        Mint.values().forEach {
-            if (website == it.name) {
-                return it.fullName
-            }
-        }
-        return "Uknown provider"
-    }
-
-    fun weightInGrams(weight: String?): Double? {
-        val weightWithoutWhitespace =
-            weight?.replace("\\s".toRegex(), "")?.replace(",", ".") ?: return null
-        val ozRegex = "(?:uncj\\w)|(?:oz)".toRegex()
-        val gramRegex = "(?:gram?\\w)|(?:g)".toRegex()
-        return when {
-            weightWithoutWhitespace.contains(ozRegex) -> {
-                val weightWithoutUnitText = weightWithoutWhitespace.replace(ozRegex, "")
-                val weightInOz: Double? = if (weightWithoutUnitText.contains('/')) {
-                    parseFraction(weightWithoutUnitText)
-                } else {
-                    weightWithoutUnitText.toDoubleOrNull()
-                }
-                return convertOzToGram(weightInOz)
-            }
-            weightWithoutWhitespace.contains(gramRegex) -> {
-                return weightWithoutWhitespace.replace(gramRegex, "").toDoubleOrNull()
-            }
-            else -> {
-                val toDouble = weightWithoutWhitespace.toDoubleOrNull()
-                toDouble ?: 1.0
-            }
-        }
-    }
 
     fun priceMarkup(stockPrice: Double): Double? {
         return ((pricePerOunce?.div(stockPrice))?.minus(1.0))?.times(100)
-    }
-
-    private fun parseFraction(ratio: String): Double {
-        return if (ratio.contains("/")) {
-            val rat = ratio.split("/").toTypedArray()
-            rat[0].toDouble() / rat[1].toDouble()
-        } else {
-            ratio.toDouble()
-        }
-    }
-
-    private fun convertOzToGram(ozQuantity: Double?): Double? {
-        return ozQuantity?.times(OZ_TROY)
     }
 
     companion object {
@@ -87,7 +32,12 @@ data class GoldItem(
             "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
             weight = "1/4oz",
             quantity = 1,
-            type = "coin"
+            type = "coin",
+            priceDouble = 3000.0,
+            mintFullName = "Gold Mint",
+            weightInGrams = 15.55,
+            pricePerGram = 100.0,
+            pricePerOunce = 6000.0
         )
     }
 }

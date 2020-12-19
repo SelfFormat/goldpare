@@ -140,7 +140,7 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
     ) {
         val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
         val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
-        val formattedPriceMarkup = "%.2f".format(item.priceMarkup(6863.62))
+        val formattedPriceMarkup = "%.2f".format(item.priceMarkup(6863.62)) // TODO: get stock price info from new API call
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {
@@ -160,7 +160,7 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
                 Text(text = "cena 1 uncji: $formattedPricePerOunce")
                 Text(text = "waga w gramach: $formattedWeightInGrams")
                 Text(text = "marża: $formattedPriceMarkup%")
-                Text(text = "sklep: ${item.mintFullName()}")
+                Text(text = "sklep: ${item.mintFullName}")
                 if (item.quantity > 1) {
                     Text(text = "sztuk w zestawie: ${item.quantity}")
                 }
