@@ -19,6 +19,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
     private var currentCoinTypeFiltering = ALL
     private var currentSortingType = NONE
+    private var showGoldSets = false
 
     val state: LiveData<State> = _state
 
@@ -46,10 +47,22 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
+    fun updateDisplayingGoldSets(show: Boolean) {
+        showGoldSets = show
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
     private fun List<GoldItem>.filterByCoinType(goldCoinType: GoldCoinType) : List<GoldItem> {
         if (goldCoinType == ALL) return this
         return this.filter {
             it.title.contains(goldCoinType.name, ignoreCase = true)
+        }
+    }
+
+    private fun List<GoldItem>.showCoinSets(show: Boolean) : List<GoldItem> {
+        if (!show) return this
+        return this.filter {
+            it.quantity == 1L
         }
     }
 
@@ -64,7 +77,11 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private fun loadedStateWithSortingAndFiltering() =
-        State.Loaded(data.filterByCoinType(currentCoinTypeFiltering).sortBy(currentSortingType))
+        State.Loaded(
+            data.filterByCoinType(currentCoinTypeFiltering).
+                sortBy(currentSortingType).
+                showCoinSets(showGoldSets)
+        )
 
     sealed class State {
         data class Loaded(val goldItems: List<GoldItem>) : State()
