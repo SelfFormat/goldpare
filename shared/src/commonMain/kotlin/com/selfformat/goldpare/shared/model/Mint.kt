@@ -1,6 +1,7 @@
 package com.selfformat.goldpare.shared.model
 
 enum class Mint(val fullName: String) {
+    all("Wszystkie mennice"),
     goldenmark("Goldenmark"),
     element79("79th element"),
     mennicacompl("Mennica Polska"),
@@ -21,6 +22,5 @@ enum class Mint(val fullName: String) {
     goldco("Goldco"),
     idfmetale("IDF metale"),
     chojnackiikwiecien("Chojnacki i Kwiecień"),
-    flyingatomgold("Flyingatom"),
-    all("Wszystkie")
+    flyingatomgold("Flyingatom")
 }

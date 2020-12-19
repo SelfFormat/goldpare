@@ -3,10 +3,7 @@ package com.selfformat.goldpare.androidApp.compose
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Card
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +32,7 @@ fun HomeView() {
                     FilteringCoinTypeMenu()
                     FilteringGoldTypeMenu()
                     FilteringMintMenu()
+                    FilterGoldSetsSwitch()
                     FilterableLazyRow(list = it.goldItems)
                 }
             }
@@ -111,6 +109,22 @@ private fun FilteringCoinTypeMenu() {
                 Text(text = value.coinName)
             }
         }
+    }
+}
+
+@Composable
+fun FilterGoldSetsSwitch() {
+    val showSets = remember { mutableStateOf(true) }
+    val viewModel: HomeViewModel = viewModel()
+    Row {
+        Text("show sets: ")
+        Switch(
+            checked = showSets.value,
+            onCheckedChange = {
+                showSets.value = !showSets.value
+                viewModel.updateDisplayingGoldSets(showSets.value)
+            }
+        )
     }
 }
 

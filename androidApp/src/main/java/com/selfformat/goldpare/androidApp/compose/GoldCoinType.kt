@@ -2,7 +2,7 @@ package com.selfformat.goldpare.androidApp.compose
 
 enum class GoldCoinType(val coinName: String = "") {
     //TODO: Change coinName to be regexp based on results
-    ALL("Wszystkie"),
+    ALL("Wszystkie typy monet"),
     KRUGERRAND("Krugerrand"),
     DUKAT("Dukat"),
     BRITANNIA("Britannia"),
