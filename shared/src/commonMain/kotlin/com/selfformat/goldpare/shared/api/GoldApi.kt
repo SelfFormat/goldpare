@@ -1,6 +1,7 @@
 package com.selfformat.goldpare.shared.api
 
 import com.selfformat.goldpare.shared.model.APIGoldItem
+import com.selfformat.goldpare.shared.model.APIXauPln
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -11,7 +12,7 @@ import kotlinx.serialization.json.Json
 class GoldApi {
     private val httpClient = HttpClient {
         install(JsonFeature) {
-            val json = Json { ignoreUnknownKeys = true }
+            val json = Json { isLenient = true }
             serializer = KotlinxSerializer(json)
         }
     }
@@ -20,7 +21,12 @@ class GoldApi {
         return httpClient.get(GOLD_ENDPOINT)
     }
 
+    suspend fun fetchXauPln(): APIXauPln {
+        return httpClient.get(XAU_PLN_ENDPOINT)
+    }
+
     companion object {
         private val GOLD_ENDPOINT = Url("https://selfformat.com/coin_new_mints.json")
+        private val XAU_PLN_ENDPOINT = Url("https://selfformat.com/xau_pln.json")
     }
 }

@@ -12,12 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
+import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.Mint
 import com.selfformat.goldpare.shared.model.WeightRanges
@@ -27,35 +27,44 @@ fun HomeView() {
     val viewModel: HomeViewModel = viewModel()
     viewModel.loadGoldItems()
     val state = viewModel.state.observeAsState().value
-    state.let {
-        when (it) {
-            is HomeViewModel.State.Loaded -> {
-                Column {
-                    SortingMenu()
-                    FilteringCoinTypeMenu()
-                    FilteringGoldTypeMenu()
-                    FilteringMintMenu()
-                    FilterGoldSetsSwitch()
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly
-                    ) {
-                        Text("Ceny")
-                        PriceEditText("OD") { priceFrom ->
-                            viewModel.updatePriceFromFiltering(priceFrom)
-                        }
-                        PriceEditText("DO") { priceTo ->
-                            viewModel.updatePriceToFiltering(priceTo)
+    viewModel.loadXauPln()
+    val xauPln: XauPln? = viewModel.xaupln.observeAsState().value
+    xauPln.let { xau_to_pln ->
+        if (xauPln != null) {
+            state.let {
+                when (it) {
+                    is HomeViewModel.State.Loaded -> {
+                        Column {
+                            SearchView("Wyszukaj") { searchedPhrase ->
+                                viewModel.updateSearchKeyword(searchedPhrase)
+                            }
+                            SortingMenu()
+                            FilteringCoinTypeMenu()
+                            FilteringGoldTypeMenu()
+                            FilteringMintMenu()
+                            FilterGoldSetsSwitch()
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                Text("Ceny")
+                                PriceEditText("OD") { priceFrom ->
+                                    viewModel.updatePriceFromFiltering(priceFrom)
+                                }
+                                PriceEditText("DO") { priceTo ->
+                                    viewModel.updatePriceToFiltering(priceTo)
+                                }
+                            }
+                            FilteringWeightMenu()
+                            FilterableLazyRow(list = it.goldItems, xauPln = xau_to_pln!!)
                         }
                     }
-                    FilteringWeightMenu()
-                    FilterableLazyRow(list = it.goldItems)
+                    is HomeViewModel.State.Error -> {
+                        Text(text = "Error: ${it.throwable}")
+                    }
+                    is HomeViewModel.State.Loading -> {
+                        Text(text = "Loading...")
+                    }
                 }
-            }
-            is HomeViewModel.State.Error -> {
-                Text(text = "Error: ${it.throwable}")
-            }
-            is HomeViewModel.State.Loading -> {
-                Text(text = "Loading...")
             }
         }
     }
@@ -82,7 +91,28 @@ fun PriceEditText(labelText: String, function: (Double) -> Unit) {
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        textStyle = TextStyle()
+    )
+}
+
+
+@Composable
+fun SearchView(labelText: String, function: (String) -> Unit) {
+    val text = remember { mutableStateOf(TextFieldValue()) }
+
+    OutlinedTextField(
+        // TODO: force input type to be digits (for now only keyboard is forced)
+        placeholder = {
+            Text(labelText)
+        },
+        label = {
+            Text(labelText)
+        },
+        value = text.value,
+        singleLine = true,
+        onValueChange = {
+            text.value = it
+            function(it.text)
+        },
     )
 }
 
@@ -268,12 +298,12 @@ private fun FilteringGoldTypeMenu() {
 }
 
 @Composable
-fun FilterableLazyRow(list: List<GoldItem>) {
+fun FilterableLazyRow(list: List<GoldItem>, xauPln: XauPln) {
     val context = AmbientContext.current
     LazyColumn {
         list.forEach {
             item {
-                GoldRow(it) {
+                GoldRow(it, xauPln) {
                     openWebPage(
                         it.link,
                         context = context
@@ -285,7 +315,7 @@ fun FilterableLazyRow(list: List<GoldItem>) {
 }
 
 @Composable
-fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
+fun GoldRow(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
     Card(
         Modifier
             .padding(8.dp)
@@ -295,7 +325,7 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
         val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
         val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
         val formattedPriceMarkup =
-            "%.2f".format(item.priceMarkup(6863.62)) // TODO: get stock price info from new API call
+            "%.2f".format(item.priceMarkup(xauPln.price)) // TODO: get stock price info from new API call
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {

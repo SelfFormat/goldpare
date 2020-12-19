@@ -1,12 +1,14 @@
 package com.selfformat.goldpare.androidApp.compose
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selfformat.goldpare.androidApp.compose.SortingType.*
 import com.selfformat.goldpare.shared.GoldSDK
+import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.Mint
@@ -17,6 +19,11 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
 
     private lateinit var data: List<GoldItem>
     private val _state = MutableLiveData<State>()
+    val state: LiveData<State> = _state
+
+    private val _xaupln = MutableLiveData<XauPln>()
+    val xaupln: LiveData<XauPln> = _xaupln
+
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
     private var currentCoinTypeFilter = GoldCoinType.ALL
     private var currentSortingType = NONE
@@ -26,8 +33,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     private var currentGoldTypeFilter = GoldType.ALL
     private var currentMint = Mint.all
     private var currentWeightFilter = WeightRanges.ALL
-
-    val state: LiveData<State> = _state
+    private var currentSearchPhrase: String? = null
 
     fun loadGoldItems() {
         _state.value = State.Loading
@@ -39,6 +45,16 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
                 _state.value = loadedStateWithSortingAndFiltering()
             }.onFailure {
                 _state.value = State.Error(it)
+            }
+        }
+    }
+
+    fun loadXauPln() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                sdk.getXauPln(false)
+            }.onSuccess {
+                _xaupln.value = it[0]
             }
         }
     }
@@ -80,6 +96,11 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
 
     fun updateWeightFiltering(weight: WeightRanges) {
         currentWeightFilter = weight
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
+    fun updateSearchKeyword(searchedPhrase: String) {
+        currentSearchPhrase = searchedPhrase
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
@@ -141,9 +162,16 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         return this.filter { it.website == currentMint.name }
     }
 
+    private fun List<GoldItem>.searchFor(phrase: String?): List<GoldItem> {
+        if (phrase.isNullOrEmpty()) return this
+        return this.filter {
+            it.title.contains(phrase, ignoreCase = true)
+        }
+    }
+
     private fun loadedStateWithSortingAndFiltering() =
         State.Loaded(
-            data.filterGoldType(currentGoldTypeFilter)
+            data.searchFor(currentSearchPhrase).filterGoldType(currentGoldTypeFilter)
                 .filterByCoinType(currentCoinTypeFilter)
                 .filterByWeight(currentWeightFilter)
                 .showCoinSets(showGoldSets).filterByMint(currentMint)

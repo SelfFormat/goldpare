@@ -1,6 +1,8 @@
 package com.selfformat.goldpare.shared.cache
 
+import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.APIGoldItem
+import com.selfformat.goldpare.shared.model.APIXauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.Mint
 
@@ -8,7 +10,7 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = AppDatabase(databaseDriverFactory.createDriver())
     private val dbQuery = database.appDatabaseQueries
 
-    internal fun clearDatabase() {
+    internal fun clearGoldDatabase() {
         dbQuery.transaction {
             dbQuery.removeAllGoldItems()
         }
@@ -128,5 +130,50 @@ internal class Database(databaseDriverFactory: DatabaseDriverFactory) {
 
     private fun convertOzToGram(ozQuantity: Double?): Double? {
         return ozQuantity?.times(GoldItem.OZ_TROY)
+    }
+
+    fun clearPlnXauDatabase() {
+        dbQuery.transaction {
+            dbQuery.removeXauPln()
+        }
+    }
+
+    fun createGoldXau(it: APIXauPln) {
+        dbQuery.transaction {
+            insertXauPln(it)
+        }
+    }
+
+    private fun insertXauPln(it: APIXauPln) {
+        dbQuery.insertXauPln(
+            timestamp = it.timestamp,
+            metal = it.metal,
+            currency = it.currency,
+            exchange = it.exchange,
+            symbol = it.symbol,
+            open_time = it.open_time,
+            price = it.price,
+            ch = it.ch,
+            ask = it.ask,
+            bid = it.bid
+        )
+    }
+
+    fun getXauPln(): List<XauPln> {
+        return dbQuery.selectAllXauPln().executeAsList().map {
+            XauPln(
+                id = it.id,
+                timestamp = it.timestamp,
+                metal = it.metal,
+                currency = it.currency,
+                exchange = it.exchange,
+                symbol = it.symbol,
+                open_time = it.open_time,
+                price = it.price,
+                ch = it.ch,
+                ask = it.ask,
+                bid = it.bid
+            )
+        }
     }
 }
