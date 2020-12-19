@@ -195,9 +195,7 @@ private fun FilteringGoldTypeMenu() {
 }
 
 @Composable
-fun FilterableLazyRow(
-    list: List<GoldItem>,
-) {
+fun FilterableLazyRow(list: List<GoldItem>) {
     val context = AmbientContext.current
     LazyColumn {
         list.forEach {
@@ -249,13 +247,5 @@ fun GoldRow(item: GoldItem, onClick: (() -> Unit)) {
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    GoldpareTheme {
-        GoldRow(item = GoldItem.fakeGoldItem, onClick = { })
     }
 }
