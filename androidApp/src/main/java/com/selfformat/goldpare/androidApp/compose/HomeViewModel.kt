@@ -10,6 +10,7 @@ import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.Mint
+import com.selfformat.goldpare.shared.model.WeightRanges
 import kotlinx.coroutines.launch
 
 internal class HomeViewModel(application: Application) : AndroidViewModel(application) {
@@ -17,13 +18,14 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     private lateinit var data: List<GoldItem>
     private val _state = MutableLiveData<State>()
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
-    private var currentCoinTypeFiltering = GoldCoinType.ALL
+    private var currentCoinTypeFilter = GoldCoinType.ALL
     private var currentSortingType = NONE
     private var showGoldSets = SHOW_GOLD_SETS
-    private var priceFromFiltering = NO_PRICE_FILTERING
-    private var priceToFiltering = NO_PRICE_FILTERING
+    private var priceFromFilter = NO_PRICE_FILTERING
+    private var priceToFilter = NO_PRICE_FILTERING
     private var currentGoldTypeFilter = GoldType.ALL
     private var currentMint = Mint.all
+    private var currentWeightFilter = WeightRanges.ALL
 
     val state: LiveData<State> = _state
 
@@ -42,7 +44,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
-        currentCoinTypeFiltering = goldCoinType
+        currentCoinTypeFilter = goldCoinType
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
@@ -66,19 +68,18 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
-    fun clearPriceFiltering() {
-        priceFromFiltering = NO_PRICE_FILTERING
-        priceToFiltering = NO_PRICE_FILTERING
-        _state.value = loadedStateWithSortingAndFiltering()
-    }
-
     fun updatePriceToFiltering(priceTo: Double) {
-        priceToFiltering = priceTo
+        priceToFilter = priceTo
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
     fun updatePriceFromFiltering(priceFrom: Double) {
-        priceFromFiltering = priceFrom
+        priceFromFilter = priceFrom
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
+    fun updateWeightFiltering(weight: WeightRanges) {
+        currentWeightFilter = weight
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
@@ -125,21 +126,28 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
 
     private fun List<GoldItem>.filterGoldType(type: GoldType): List<GoldItem> {
         if (currentGoldTypeFilter == GoldType.ALL) return this
+        return this.filter { it.type == type.typeName }
+    }
+
+    private fun List<GoldItem>.filterByWeight(weight: WeightRanges): List<GoldItem> {
+        if (currentWeightFilter == WeightRanges.ALL) return this
         return this
-            .filter { it.type == type.typeName }
+            .filter { it.weightInGrams != null } // first filter out items which doesn't have calculated weight in grams
+            .filter { it.weightInGrams!! >= weight.weightFromInGrams && it.weightInGrams!! <= weight.weightToInGrams}
     }
 
     private fun List<GoldItem>.filterByMint(currentMint: Mint): List<GoldItem> {
         if (currentMint == Mint.all) return this
-        return this
-            .filter { it.website == currentMint.name }
+        return this.filter { it.website == currentMint.name }
     }
 
     private fun loadedStateWithSortingAndFiltering() =
         State.Loaded(
-            data.filterGoldType(currentGoldTypeFilter).filterByCoinType(currentCoinTypeFiltering)
+            data.filterGoldType(currentGoldTypeFilter)
+                .filterByCoinType(currentCoinTypeFilter)
+                .filterByWeight(currentWeightFilter)
                 .showCoinSets(showGoldSets).filterByMint(currentMint)
-                .filterPriceFrom(priceFromFiltering).filterPriceTo(priceToFiltering)
+                .filterPriceFrom(priceFromFilter).filterPriceTo(priceToFilter)
                 .sortBy(currentSortingType)
         )
 

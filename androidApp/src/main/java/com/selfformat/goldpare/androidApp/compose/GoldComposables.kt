@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.Mint
+import com.selfformat.goldpare.shared.model.WeightRanges
 
 @Composable
 fun HomeView() {
@@ -46,6 +47,7 @@ fun HomeView() {
                             viewModel.updatePriceToFiltering(priceTo)
                         }
                     }
+                    FilteringWeightMenu()
                     FilterableLazyRow(list = it.goldItems)
                 }
             }
@@ -145,6 +147,39 @@ private fun FilteringCoinTypeMenu() {
                 }
             ) {
                 Text(text = value.coinName)
+            }
+        }
+    }
+}
+
+@Composable
+private fun FilteringWeightMenu() {
+    val viewModel: HomeViewModel = viewModel()
+    val showMenu = remember { mutableStateOf(false) }
+    val selectedIndex = remember { mutableStateOf(0) }
+
+    DropdownMenu(
+        toggle = {
+            Text(text = WeightRanges.values()[selectedIndex.value].rangeName,
+                modifier = Modifier.fillMaxWidth().clickable(
+                    onClick = { showMenu.value = true }
+                )
+            )
+        },
+        expanded = showMenu.value,
+        onDismissRequest = { showMenu.value = false },
+        toggleModifier = Modifier.fillMaxWidth(),
+        dropdownModifier = Modifier.fillMaxWidth()
+    ) {
+        WeightRanges.values().forEachIndexed { index, value ->
+            DropdownMenuItem(
+                onClick = {
+                    selectedIndex.value = index
+                    showMenu.value = false
+                    viewModel.updateWeightFiltering(value)
+                }
+            ) {
+                Text(text = value.rangeName)
             }
         }
     }
