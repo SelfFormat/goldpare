@@ -46,7 +46,6 @@ class AndroidGreetingTest {
         assertEquals(expected, result)
     }
 
-
     @Test
     fun checkIfWeightWithGKeywordIsParsedToGrams() {
         val weight = "8g"
@@ -65,7 +64,6 @@ class AndroidGreetingTest {
         val result = goldItem.weightInGrams(weight)
         assertEquals(expected, result)
     }
-
 
     @Test
     fun checkIfWeightWithDecimalPointAndWithGKeywordIsParsedToGrams() {

@@ -5,11 +5,8 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
-    
 }
 rootProject.name = "Goldpare"
 
-
 include(":androidApp")
 include(":shared")
-

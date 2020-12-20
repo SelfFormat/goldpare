@@ -10,7 +10,8 @@ class GoldSDK(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = Database(databaseDriverFactory)
     private val api = GoldApi()
 
-    @Throws(Exception::class) suspend fun getGoldItems(forceReload: Boolean): List<GoldItem> {
+    @Throws(Exception::class)
+    suspend fun getGoldItems(forceReload: Boolean): List<GoldItem> {
         val cachedGoldItems = database.getAllGoldItems()
         return if (cachedGoldItems.isNotEmpty() && !forceReload) {
             cachedGoldItems
@@ -23,7 +24,8 @@ class GoldSDK(databaseDriverFactory: DatabaseDriverFactory) {
         }
     }
 
-    @Throws(Exception::class) suspend fun getXauPln(forceReload: Boolean): List<XauPln> {
+    @Throws(Exception::class)
+    suspend fun getXauPln(forceReload: Boolean): List<XauPln> {
         val cachedXauPln = database.getXauPln()
         return if (cachedXauPln.isNotEmpty() && !forceReload) {
             database.getXauPln()

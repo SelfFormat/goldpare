@@ -1,7 +1,7 @@
 package com.selfformat.goldpare.shared.model
 
 enum class GoldCoinType(val coinName: String = "") {
-    //TODO: Change coinName to be regexp based on results
+    // TODO: Change coinName to be regexp based on results
     ALL("Wszystkie typy monet"),
     KRUGERRAND("Krugerrand"),
     DUKAT("Dukat"),

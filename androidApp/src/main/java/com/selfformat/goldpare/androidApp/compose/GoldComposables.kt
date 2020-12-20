@@ -175,7 +175,8 @@ fun PriceEditText(labelText: String, function: (Double) -> Unit) {
 @Composable
 private fun TopSection(xauToPln: XauPln?) {
     val viewModel: HomeViewModel = viewModel()
-    Row(verticalAlignment = Alignment.CenterVertically,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.height(topSectionHeight).padding(start = dp16, end = dp16, top = dp12, bottom = dp12)
     ) {
         Image(vectorResource(id = R.drawable.ic_temp_mini_logo), modifier = Modifier.padding(end = dp16))
@@ -246,7 +247,7 @@ private fun CustomSearchView(
                     .background(
                         searchBackground,
                         shape = CircleShape
-                ),
+                    ),
             ) {
                 Icon(
                     Icons.Filled.Search,
@@ -307,7 +308,8 @@ private fun SortingMenu() {
 
     DropdownMenu(
         toggle = {
-            Text(text = SortingType.values()[selectedIndex.value].sortingName,
+            Text(
+                text = SortingType.values()[selectedIndex.value].sortingName,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -340,7 +342,8 @@ private fun FilteringCoinTypeMenu() {
 
     DropdownMenu(
         toggle = {
-            Text(text = GoldCoinType.values()[selectedIndex.value].coinName,
+            Text(
+                text = GoldCoinType.values()[selectedIndex.value].coinName,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -373,7 +376,8 @@ private fun FilteringWeightMenu() {
 
     DropdownMenu(
         toggle = {
-            Text(text = WeightRanges.values()[selectedIndex.value].rangeName,
+            Text(
+                text = WeightRanges.values()[selectedIndex.value].rangeName,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -422,7 +426,8 @@ private fun FilteringMintMenu() {
 
     DropdownMenu(
         toggle = {
-            Text(text = Mint.values()[selectedIndex.value].fullName,
+            Text(
+                text = Mint.values()[selectedIndex.value].fullName,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -455,7 +460,8 @@ private fun FilteringGoldTypeMenu() {
 
     DropdownMenu(
         toggle = {
-            Text(text = GoldType.values()[selectedIndex.value].typeName,
+            Text(
+                text = GoldType.values()[selectedIndex.value].typeName,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )

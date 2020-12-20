@@ -80,8 +80,8 @@ android {
         kotlinOptions.freeCompilerArgs = listOf(
             *kotlinOptions.freeCompilerArgs.toTypedArray(),
             "-Xallow-jvm-ir-dependencies",
-            "-Xskip-prerelease-check")
+            "-Xskip-prerelease-check"
+        )
         kotlinOptions.useIR = true
     }
 }
-
