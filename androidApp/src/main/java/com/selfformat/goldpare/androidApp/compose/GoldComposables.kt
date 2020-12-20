@@ -326,7 +326,7 @@ fun GoldRow(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
         val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
         val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
         val formattedPriceMarkup =
-            "%.2f".format(item.priceMarkup(xauPln.price)) // TODO: get stock price info from new API call
+            "%.2f".format(item.priceMarkup(xauPln.price))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {
