@@ -4,13 +4,34 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.AmbientContentColor
+import androidx.compose.material.AmbientTextStyle
+import androidx.compose.material.Card
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Divider
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Switch
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -27,18 +48,35 @@ import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.ui.gray200
+import com.selfformat.goldpare.androidApp.compose.ui.cardCorners
+import com.selfformat.goldpare.androidApp.compose.ui.cardElevation
+import com.selfformat.goldpare.androidApp.compose.ui.dividerColor
+import com.selfformat.goldpare.androidApp.compose.ui.dividerThickness
+import com.selfformat.goldpare.androidApp.compose.ui.dp12
+import com.selfformat.goldpare.androidApp.compose.ui.dp16
+import com.selfformat.goldpare.androidApp.compose.ui.dp32
+import com.selfformat.goldpare.androidApp.compose.ui.dp4
+import com.selfformat.goldpare.androidApp.compose.ui.dp6
+import com.selfformat.goldpare.androidApp.compose.ui.dp8
+import com.selfformat.goldpare.androidApp.compose.ui.gradientHeight
+import com.selfformat.goldpare.androidApp.compose.ui.imageWidth
+import com.selfformat.goldpare.androidApp.compose.ui.searchBackground
+import com.selfformat.goldpare.androidApp.compose.ui.searchHeight
+import com.selfformat.goldpare.androidApp.compose.ui.smallFontSize
+import com.selfformat.goldpare.androidApp.compose.ui.topSectionHeight
 import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.*
+import com.selfformat.goldpare.shared.model.GoldCoinType
+import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.model.GoldType
+import com.selfformat.goldpare.shared.model.Mint
+import com.selfformat.goldpare.shared.model.SortingType
+import com.selfformat.goldpare.shared.model.WeightRanges
 
 @ExperimentalFoundationApi
 @Composable
@@ -78,7 +116,7 @@ fun HomeView() {
         }
         Row(
             modifier = Modifier
-                .height(150.dp)
+                .height(gradientHeight)
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
                 .background(
@@ -89,7 +127,7 @@ fun HomeView() {
 
                 )
         ) {
-
+            // This is gradient overlay effect from the bottom of the screen
         }
     }
 }
@@ -114,7 +152,7 @@ fun PriceEditText(labelText: String, function: (Double) -> Unit) {
     val text = remember { mutableStateOf(TextFieldValue()) }
 
     OutlinedTextField(
-        // TODO: force input type to be digits (for now only keyboard is forced)
+        // TODO(force input type to be digits - for now only keyboard is forced)
         placeholder = {
             Text(labelText)
         },
@@ -135,22 +173,22 @@ fun PriceEditText(labelText: String, function: (Double) -> Unit) {
 
 @ExperimentalFoundationApi
 @Composable
-private fun TopSection(xau_to_pln: XauPln?) {
+private fun TopSection(xauToPln: XauPln?) {
     val viewModel: HomeViewModel = viewModel()
     Row(verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.height(60.dp).padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
+        modifier = Modifier.height(topSectionHeight).padding(start = dp16, end = dp16, top = dp12, bottom = dp12)
     ) {
-        Image(vectorResource(id = R.drawable.ic_temp_mini_logo), modifier = Modifier.padding(end = 16.dp))
-        val formattedXauPln = "%.2f".format(xau_to_pln!!.price)
+        Image(vectorResource(id = R.drawable.ic_temp_mini_logo), modifier = Modifier.padding(end = dp16))
+        val formattedXauPln = "%.2f".format(xauToPln!!.price)
         Column(
-            modifier = Modifier.padding(end = 16.dp)
+            modifier = Modifier.padding(end = dp16)
         ) {
-            Text("Kurs złota", fontWeight = FontWeight.Bold, style = TextStyle.Default.copy(fontSize = 12.sp))
-            Text("$formattedXauPln zł/oz", style = TextStyle.Default.copy(fontSize = 12.sp))
+            Text("Kurs złota", fontWeight = FontWeight.Bold, style = TextStyle.Default.copy(fontSize = smallFontSize))
+            Text("$formattedXauPln zł/oz", style = TextStyle.Default.copy(fontSize = smallFontSize))
         }
         SearchView(
             modifier = Modifier
-                .preferredHeight(48.dp)
+                .preferredHeight(searchHeight)
                 .fillMaxWidth(),
             function = { searchedPhrase ->
                 viewModel.updateSearchKeyword(searchedPhrase)
@@ -168,7 +206,7 @@ fun SearchView(
     placeholderText: String
 ) {
     val text = remember { mutableStateOf(TextFieldValue()) }
-    // TODO: force input type to be digits (for now only keyboard is forced)
+    // TODO(force input type to be digits - for now only keyboard is forced)
 
     val textFieldFocusState = remember { mutableStateOf(false) }
 
@@ -204,15 +242,15 @@ private fun CustomSearchView(
         Surface {
             Box(
                 modifier = Modifier
-                    .preferredHeight(48.dp)
+                    .preferredHeight(searchHeight)
                     .background(
-                        Color(0xFFEEEEEE),
+                        searchBackground,
                         shape = CircleShape
                 ),
             ) {
                 Icon(
                     Icons.Filled.Search,
-                    Modifier.align(Alignment.CenterStart).padding(start = 6.dp)
+                    Modifier.align(Alignment.CenterStart).padding(start = dp6)
                 )
                 val lastFocusState = remember { mutableStateOf(FocusState.Inactive) }
                 BasicTextField(
@@ -220,7 +258,7 @@ private fun CustomSearchView(
                     onValueChange = { onTextChanged(it) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 32.dp, end = 8.dp)
+                        .padding(start = dp32, end = dp8)
                         .align(Alignment.CenterStart)
                         .onFocusChanged { state ->
                             if (lastFocusState.value != state) {
@@ -244,7 +282,7 @@ private fun CustomSearchView(
                     Text(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .padding(start = 32.dp, end = 8.dp),
+                            .padding(start = dp32, end = dp8),
                         text = placeholderText,
                         style = MaterialTheme.typography.body1.copy(color = disableContentColor)
                     )
@@ -462,10 +500,10 @@ fun FilterableLazyRow(list: List<GoldItem>, xauPln: XauPln) {
 @Composable
 fun GoldRow(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
     Card(
-        elevation = 34.dp,
-        shape = RoundedCornerShape(10.dp),
+        elevation = cardElevation,
+        shape = RoundedCornerShape(cardCorners),
         modifier = Modifier
-            .padding(top = 5.dp, bottom = 5.dp, start = 16.dp, end = 16.dp)
+            .padding(top = dp4, bottom = dp4, start = dp16, end = dp16)
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
@@ -475,22 +513,22 @@ fun GoldRow(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
         val formattedPriceMarkup = "%.2f".format(item.priceMarkup(xauPln.price))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.padding(12.dp)) {
+            Column(Modifier.padding(dp12)) {
                 if (item.img_url != null) {
                     GlideSuperImage(
                         item.img_url!!,
-                        modifier = Modifier.width(80.dp)
+                        modifier = Modifier.width(imageWidth)
                     )
                 }
             }
-            Column(Modifier.padding(16.dp)) {
+            Column(Modifier.padding(dp16)) {
                 Text(text = item.title, fontWeight = FontWeight.Bold)
-                Divider(color = gray200, thickness = 1.dp)
+                Divider(color = dividerColor, thickness = dividerThickness)
                 Row {
                     Text(
                         text = "$formattedPriceDouble zł",
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(end = 16.dp)
+                        modifier = Modifier.padding(end = dp16)
                     )
                     Text(
                         text = "($formattedPricePerOunce/oz)",
@@ -499,8 +537,8 @@ fun GoldRow(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(vectorResource(id = R.drawable.ic_gram), modifier = Modifier.padding(end = 8.dp))
-                    Text(text = "$formattedWeightInGrams g", Modifier.padding(end = 16.dp))
+                    Image(vectorResource(id = R.drawable.ic_gram), modifier = Modifier.padding(end = dp8))
+                    Text(text = "$formattedWeightInGrams g", Modifier.padding(end = dp16))
                     Text(text = "marża: $formattedPriceMarkup%")
                 }
                 Text(text = "Mennica: ${item.mintFullName}")
