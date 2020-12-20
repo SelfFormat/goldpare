@@ -10,6 +10,20 @@ quantity INTEGER NOT NULL,
 type TEXT NOT NULL
 );
 
+CREATE TABLE XauPln (
+id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+timestamp INTEGER NOT NULL,
+metal TEXT NOT NULL,
+currency TEXT NOT NULL,
+exchange TEXT NOT NULL,
+symbol TEXT NOT NULL,
+open_time TEXT NOT NULL,
+price REAL NOT NULL,
+ch REAL NOT NULL,
+ask REAL NOT NULL,
+bid REAL NOT NULL
+);
+
 insertGoldItem:
 INSERT INTO GoldItem(price, title, link, website, image_url, weight, quantity, type)
 VALUES(?, ?, ?, ?, ?, ?, ?, ?);
@@ -23,3 +37,13 @@ WHERE id = ?;
 
 selectAllGoldItems:
 SELECT * FROM GoldItem;
+
+insertXauPln:
+INSERT INTO XauPln(timestamp, metal, currency, exchange, symbol, open_time, price, ch, ask, bid)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+removeXauPln:
+DELETE FROM XauPln;
+
+selectAllXauPln:
+SELECT * FROM XauPln;
