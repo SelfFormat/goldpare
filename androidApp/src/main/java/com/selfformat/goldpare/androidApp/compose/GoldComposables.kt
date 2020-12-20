@@ -33,8 +33,11 @@ fun HomeView() {
                 when (it) {
                     is HomeViewModel.State.Loaded -> {
                         Column {
-                            SearchView("Wyszukaj") { searchedPhrase ->
-                                viewModel.updateSearchKeyword(searchedPhrase)
+                            Row {
+                                SearchView("Wyszukaj") { searchedPhrase ->
+                                    viewModel.updateSearchKeyword(searchedPhrase)
+                                }
+                                Text("XAU/PLN: ${xau_to_pln!!.price}")
                             }
                             SortingMenu()
                             FilteringCoinTypeMenu()
