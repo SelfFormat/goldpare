@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.shared.model
 
 enum class SortingType(val sortingName: String = "") {
     NONE("Brak sortowania"),

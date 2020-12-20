@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.shared.model
 
 enum class GoldType(val typeName: String) {
     ALL("Monety i sztabki"),

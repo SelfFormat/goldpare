@@ -18,9 +18,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.Mint
-import com.selfformat.goldpare.shared.model.WeightRanges
+import com.selfformat.goldpare.shared.model.*
 
 @Composable
 fun HomeView() {

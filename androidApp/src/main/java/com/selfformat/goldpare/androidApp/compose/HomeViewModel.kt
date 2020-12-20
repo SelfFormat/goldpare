@@ -1,18 +1,15 @@
 package com.selfformat.goldpare.androidApp.compose
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.selfformat.goldpare.androidApp.compose.SortingType.*
+import com.selfformat.goldpare.shared.model.SortingType.*
 import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
-import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.Mint
-import com.selfformat.goldpare.shared.model.WeightRanges
+import com.selfformat.goldpare.shared.model.*
 import kotlinx.coroutines.launch
 
 internal class HomeViewModel(application: Application) : AndroidViewModel(application) {

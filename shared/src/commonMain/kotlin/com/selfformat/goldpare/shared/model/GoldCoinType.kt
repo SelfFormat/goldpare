@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.shared.model
 
 enum class GoldCoinType(val coinName: String = "") {
     //TODO: Change coinName to be regexp based on results
