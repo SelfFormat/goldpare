@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp.compose.util
 
 import android.content.Context
 import android.content.Intent
