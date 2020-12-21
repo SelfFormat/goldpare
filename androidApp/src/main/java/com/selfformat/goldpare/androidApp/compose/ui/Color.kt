@@ -8,3 +8,5 @@ val gray900 = Color(0xFF212121)
 val blue200 = Color(0xFF34a4eb)
 val searchBackground = Color(0xFFEEEEEE)
 val dividerColor = Color(0xFFF2F2F2)
+val lightBackground = Color.White
+val darkBackground = Color.Black
