@@ -8,7 +8,7 @@ data class APIGoldItem(
     val title: String,
     val link: String,
     val website: String,
-    val image_url: String?,
+    val image: String?,
     val weight: String?,
     val quantity: Long,
     val type: String

@@ -4,7 +4,7 @@ price TEXT,
 title TEXT NOT NULL,
 link TEXT NOT NULL,
 website TEXT NOT NULL,
-image_url TEXT,
+image TEXT,
 weight TEXT,
 quantity INTEGER NOT NULL,
 type TEXT NOT NULL
@@ -17,7 +17,7 @@ metal TEXT NOT NULL,
 currency TEXT NOT NULL,
 exchange TEXT NOT NULL,
 symbol TEXT NOT NULL,
-open_time TEXT NOT NULL,
+openTime TEXT NOT NULL,
 price REAL NOT NULL,
 ch REAL NOT NULL,
 ask REAL NOT NULL,
@@ -25,7 +25,7 @@ bid REAL NOT NULL
 );
 
 insertGoldItem:
-INSERT INTO GoldItem(price, title, link, website, image_url, weight, quantity, type)
+INSERT INTO GoldItem(price, title, link, website, image, weight, quantity, type)
 VALUES(?, ?, ?, ?, ?, ?, ?, ?);
 
 removeAllGoldItems:
@@ -39,7 +39,7 @@ selectAllGoldItems:
 SELECT * FROM GoldItem;
 
 insertXauPln:
-INSERT INTO XauPln(timestamp, metal, currency, exchange, symbol, open_time, price, ch, ask, bid)
+INSERT INTO XauPln(timestamp, metal, currency, exchange, symbol, openTime, price, ch, ask, bid)
 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 
 removeXauPln:

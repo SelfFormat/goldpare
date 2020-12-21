@@ -1,5 +1,6 @@
 package com.selfformat.goldpare.shared.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,7 +10,8 @@ data class APIXauPln(
     val currency: String,
     val exchange: String,
     val symbol: String,
-    val open_time: String,
+    @SerialName("open_time")
+    val openTime: String,
     val price: Double,
     val ch: Double,
     val ask: Double,

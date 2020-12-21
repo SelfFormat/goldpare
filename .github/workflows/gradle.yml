@@ -33,8 +33,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-#      - name: Detekt all
-#        uses: natiginfo/action-detekt-all@1.10.0-RC1
+      - name: Detekt all
+        uses: natiginfo/action-detekt-all@1.15.0
+        with:
+          args: --fail-fast --config androidApp/config/detekt/detekt.yml
       - name: Build with Gradle
         run: ./gradlew androidApp::testDebugUnitTest --stacktrace
 

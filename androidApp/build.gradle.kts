@@ -75,13 +75,30 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    tasks.withType<io.gitlab.arturbosch.detekt.Detekt>() {
+        description = "Runs Detekt against all modules and produces a single report."
+        failFast = true
+        parallel = true
+        source(files(rootDir))
+        config.setFrom(files("$rootDir/androidApp/config/detekt/detekt.yml"))
+        include("**/*.kt")
+        include("**/*.kts")
+        exclude("**/resources/**")
+        exclude("**/build/**")
+        reports {
+            html.enabled = true
+            txt.enabled = true
+        }
+    }
+
+    @Suppress("SpreadOperator")
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>() {
         kotlinOptions.jvmTarget = "1.8"
         kotlinOptions.freeCompilerArgs = listOf(
             *kotlinOptions.freeCompilerArgs.toTypedArray(),
             "-Xallow-jvm-ir-dependencies",
-            "-Xskip-prerelease-check")
+            "-Xskip-prerelease-check"
+        )
         kotlinOptions.useIR = true
     }
 }
-

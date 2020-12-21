@@ -9,7 +9,7 @@ struct GoldRow: View {
         Button(action: {
             if let url = URL(string: goldItem.link) { UIApplication.shared.open(url) }
         }) {
-            let imageURL = goldItem.img_url ?? "nourl"
+            let imageURL = goldItem.image ?? "nourl"
             HStack() {
                 VStack(alignment: .trailing){
                     ImageView(withURL: imageURL)

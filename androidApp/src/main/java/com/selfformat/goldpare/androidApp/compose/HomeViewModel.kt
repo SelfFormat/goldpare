@@ -5,13 +5,23 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.selfformat.goldpare.shared.model.SortingType.*
 import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
-import com.selfformat.goldpare.shared.model.*
+import com.selfformat.goldpare.shared.model.GoldCoinType
+import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.model.GoldType
+import com.selfformat.goldpare.shared.model.Mint
+import com.selfformat.goldpare.shared.model.SortingType
+import com.selfformat.goldpare.shared.model.SortingType.NONE
+import com.selfformat.goldpare.shared.model.SortingType.PRICE_ASC
+import com.selfformat.goldpare.shared.model.SortingType.PRICE_DESC
+import com.selfformat.goldpare.shared.model.SortingType.PRICE_PER_OZ_ASC
+import com.selfformat.goldpare.shared.model.SortingType.PRICE_PER_OZ_DESC
+import com.selfformat.goldpare.shared.model.WeightRanges
 import kotlinx.coroutines.launch
 
+@Suppress("TooManyFunctions")
 internal class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private lateinit var data: List<GoldItem>
@@ -28,7 +38,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     private var priceFromFilter = NO_PRICE_FILTERING
     private var priceToFilter = NO_PRICE_FILTERING
     private var currentGoldTypeFilter = GoldType.ALL
-    private var currentMint = Mint.all
+    private var currentMint = Mint.ALL
     private var currentWeightFilter = WeightRanges.ALL
     private var currentSearchPhrase: String? = null
 
@@ -108,6 +118,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    @Suppress("MaxLineLength")
     private fun List<GoldItem>.filterPriceFrom(priceFrom: Double): List<GoldItem> {
         if (priceFrom == NO_PRICE_FILTERING) return this
         return this
@@ -115,6 +126,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
             .filter { it.priceDouble!! >= priceFrom }
     }
 
+    @Suppress("MaxLineLength")
     private fun List<GoldItem>.filterPriceTo(priceTo: Double): List<GoldItem> {
         if (priceTo == NO_PRICE_FILTERING) return this
         return this
@@ -151,11 +163,11 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
         if (currentWeightFilter == WeightRanges.ALL) return this
         return this
             .filter { it.weightInGrams != null } // first filter out items which doesn't have calculated weight in grams
-            .filter { it.weightInGrams!! >= weight.weightFromInGrams && it.weightInGrams!! <= weight.weightToInGrams}
+            .filter { it.weightInGrams!! >= weight.weightFromInGrams && it.weightInGrams!! <= weight.weightToInGrams }
     }
 
     private fun List<GoldItem>.filterByMint(currentMint: Mint): List<GoldItem> {
-        if (currentMint == Mint.all) return this
+        if (currentMint == Mint.ALL) return this
         return this.filter { it.website == currentMint.name }
     }
 
