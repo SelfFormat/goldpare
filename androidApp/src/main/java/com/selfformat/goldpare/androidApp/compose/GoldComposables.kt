@@ -516,13 +516,13 @@ fun GoldRow(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
         val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
         val formattedPriceDouble = "%.2f".format(item.priceDouble)
         val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
-        val formattedPriceMarkup = "%.2f".format(item.priceMarkup(xauPln.price))
+        val formattedPriceMarkup = "%.2f".format(item.priceMarkupInPercentage(xauPln.price))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.padding(dp12)) {
-                if (item.img_url != null) {
+                if (item.image != null) {
                     GlideSuperImage(
-                        item.img_url!!,
+                        item.image!!,
                         modifier = Modifier.width(imageWidth)
                     )
                 }

@@ -38,7 +38,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     private var priceFromFilter = NO_PRICE_FILTERING
     private var priceToFilter = NO_PRICE_FILTERING
     private var currentGoldTypeFilter = GoldType.ALL
-    private var currentMint = Mint.all
+    private var currentMint = Mint.ALL
     private var currentWeightFilter = WeightRanges.ALL
     private var currentSearchPhrase: String? = null
 
@@ -167,7 +167,7 @@ internal class HomeViewModel(application: Application) : AndroidViewModel(applic
     }
 
     private fun List<GoldItem>.filterByMint(currentMint: Mint): List<GoldItem> {
-        if (currentMint == Mint.all) return this
+        if (currentMint == Mint.ALL) return this
         return this.filter { it.website == currentMint.name }
     }
 

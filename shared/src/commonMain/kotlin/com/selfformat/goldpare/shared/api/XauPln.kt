@@ -7,7 +7,7 @@ data class XauPln(
     val currency: String,
     val exchange: String,
     val symbol: String,
-    val open_time: String,
+    val openTime: String,
     val price: Double,
     val ch: Double,
     val ask: Double,

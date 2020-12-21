@@ -6,7 +6,7 @@ data class GoldItem(
     val title: String,
     val link: String,
     val website: String,
-    val img_url: String?,
+    val image: String?,
     val weight: String?,
     val quantity: Long,
     val type: String,
@@ -17,7 +17,8 @@ data class GoldItem(
     val pricePerOunce: Double?
 ) {
 
-    fun priceMarkup(stockPrice: Double): Double? {
+    @Suppress("MagicNumber")
+    fun priceMarkupInPercentage(stockPrice: Double): Double? {
         return ((pricePerOunce?.div(stockPrice))?.minus(1.0))?.times(100)
     }
 
