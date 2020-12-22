@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.ui
+package com.selfformat.goldpare.androidApp.compose.theme
 
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,3 +28,6 @@ val headerDescriptionFontSize = 18.sp
 val fontWeight300 = FontWeight(300)
 
 val logoDescriptionFontSize = smallFontSize
+val noElevation = 0.dp
+
+const val SHADOW_ALPHA = 0.10f

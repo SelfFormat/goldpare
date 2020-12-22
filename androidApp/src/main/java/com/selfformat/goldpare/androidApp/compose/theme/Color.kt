@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.ui
+package com.selfformat.goldpare.androidApp.compose.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -15,3 +15,4 @@ val searchBackground = Color(0xFFEEEEEE)
 val dividerColor = Color(0xFFF2F2F2)
 val lightBackground = Color.White
 val darkBackground = Color.Black
+val shadowColor = Color(0x0FF000000)

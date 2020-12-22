@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.ui
+package com.selfformat.goldpare.androidApp.compose.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

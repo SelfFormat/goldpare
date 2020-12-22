@@ -103,7 +103,7 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: ['**/GoldComposables.kt', '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
+    excludes: ['**/HomeComposables.kt', '**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11
@@ -535,7 +535,7 @@ style:
     maxJumpCount: 1
   MagicNumber:
     active: true
-    excludes: ['**/build.gradle.kts', '**/ui/**','**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
+    excludes: ['**/build.gradle.kts', '**/theme/**','**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     ignoreNumbers: ['-1', '0', '1', '2']
     ignoreHashCodeFunction: true
     ignorePropertyDeclaration: false

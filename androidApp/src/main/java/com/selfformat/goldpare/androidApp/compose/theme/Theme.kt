@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.ui
+package com.selfformat.goldpare.androidApp.compose.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -17,7 +17,7 @@ private val LightColorPalette = lightColors(
     primary = gray400,
     primaryVariant = gray900,
     secondary = blue200,
-    background = lightBackground
+    background = lightBackground,
     /* Other default colors to override
     background = Color.White,
     surface = Color.White,

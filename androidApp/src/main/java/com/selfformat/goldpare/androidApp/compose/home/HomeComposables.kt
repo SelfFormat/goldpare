@@ -34,27 +34,28 @@ import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
-import com.selfformat.goldpare.androidApp.compose.ui.SearchView
-import com.selfformat.goldpare.androidApp.compose.ui.categoryBoxMinSize
-import com.selfformat.goldpare.androidApp.compose.ui.categoryGradientBottom
-import com.selfformat.goldpare.androidApp.compose.ui.categoryGradientTop
-import com.selfformat.goldpare.androidApp.compose.ui.dp12
-import com.selfformat.goldpare.androidApp.compose.ui.dp16
-import com.selfformat.goldpare.androidApp.compose.ui.dp20
-import com.selfformat.goldpare.androidApp.compose.ui.dp4
-import com.selfformat.goldpare.androidApp.compose.ui.dp8
-import com.selfformat.goldpare.androidApp.compose.ui.fontWeight300
-import com.selfformat.goldpare.androidApp.compose.ui.gradientHeight
-import com.selfformat.goldpare.androidApp.compose.ui.gray500
-import com.selfformat.goldpare.androidApp.compose.ui.headerDescriptionFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.headerFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.smallFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.topSectionHeight
+import com.selfformat.goldpare.androidApp.compose.theme.SearchView
+import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
+import com.selfformat.goldpare.androidApp.compose.theme.dp12
+import com.selfformat.goldpare.androidApp.compose.theme.dp16
+import com.selfformat.goldpare.androidApp.compose.theme.dp20
+import com.selfformat.goldpare.androidApp.compose.theme.dp4
+import com.selfformat.goldpare.androidApp.compose.theme.dp8
+import com.selfformat.goldpare.androidApp.compose.theme.fontWeight300
+import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
+import com.selfformat.goldpare.androidApp.compose.theme.gray500
+import com.selfformat.goldpare.androidApp.compose.theme.headerDescriptionFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.headerFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.smallFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.WeightRange
 
+@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 fun HomeView(viewModel: HomeViewModel) {
@@ -66,21 +67,18 @@ fun HomeView(viewModel: HomeViewModel) {
         xauPlnViewModel.loadXauPln()
         val xauPln: XauPln? = xauPlnViewModel.xaupln.observeAsState().value
 
-        xauPln.let { xau_to_pln ->
-            if (xauPln != null) {
-                Column {
-                    TopSection(xau_to_pln, viewModel)
-                    state.let {
-                        when (it) {
-                            is HomeViewModel.State.Loaded -> {
-                                HomeComponent(viewModel, it, xau_to_pln)
-                            }
-                            is HomeViewModel.State.Error -> {
-                                ErrorView(it.throwable)
-                            }
-                            is HomeViewModel.State.Loading -> {
-                                Loading()
-                            }
+        if (xauPln != null) {
+            Column {
+                state.let {
+                    when (it) {
+                        is HomeViewModel.State.Loaded -> {
+                            HomeLoaded(viewModel, it, xauPln)
+                        }
+                        is HomeViewModel.State.Error -> {
+                            ErrorView(it.throwable)
+                        }
+                        is HomeViewModel.State.Loading -> {
+                            Loading()
                         }
                     }
                 }
@@ -89,17 +87,15 @@ fun HomeView(viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalUnsignedTypes
+@ExperimentalFoundationApi
 @Composable
-private fun HomeComponent(
+private fun HomeLoaded(
     viewModel: HomeViewModel,
     it: HomeViewModel.State.Loaded,
-    xauPln: XauPln?,
+    xauPln: XauPln,
 ) {
-    Header(text = "Kategorie", Modifier.padding(start = dp16, end = dp16, bottom = dp16))
-    Categories(viewModel)
-    Header(text = "Najlepsza cena", Modifier.padding(start = dp16, end = dp16))
-    HeaderDescription("w przeliczeniu za uncję dla:")
-    FeaturedGoldList(list = it.goldItems, xauPln = xauPln!!)
+    FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
     Row(
         modifier = Modifier
             .height(gradientHeight)
@@ -142,38 +138,51 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
-private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: XauPln) {
+private fun HeaderSection(viewModel: HomeViewModel, xauToPln: XauPln?) {
+    TopSection(xauToPln, viewModel)
+    Header(text = "Kategorie", Modifier.padding(start = dp16, end = dp16, bottom = dp16))
+    Categories(viewModel)
+    Header(text = "Najlepsza cena", Modifier.padding(start = dp16, end = dp16))
+    HeaderDescription("w przeliczeniu za uncję dla:")
+}
+
+@ExperimentalUnsignedTypes
+@ExperimentalFoundationApi
+@Composable
+private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: XauPln, viewModel: HomeViewModel) {
     val context = AmbientContext.current
+
     LazyColumn {
-        list.forEachIndexed { index, pair ->
+        item {
+            HeaderSection(viewModel = viewModel, xauToPln = xauPln)
+        }
+        itemsIndexed(list) { index, pair ->
             if (index == 0) {
-                item {
-                    GoldCardWithLabel(
-                        pair.first,
-                        pair.second,
-                        xauPln,
-                        modifier = Modifier.padding(top = dp16)
-                    ) {
-                        openWebPage(
-                            pair.first.link,
-                            context = context
-                        )
-                    }
-                }
-            }
-            item {
-                GoldCardWithLabel(pair.first, pair.second, xauPln) {
+                GoldCardWithLabel(
+                    pair.first,
+                    pair.second,
+                    xauPln,
+                    modifier = Modifier.padding(top = dp16)
+                ) {
                     openWebPage(
                         pair.first.link,
                         context = context
                     )
                 }
             }
+            GoldCardWithLabel(pair.first, pair.second, xauPln, modifier = Modifier) {
+                openWebPage(
+                    pair.first.link,
+                    context = context
+                )
+            }
         }
     }
 }
 
+@ExperimentalUnsignedTypes
 @Composable
 private fun GoldCardWithLabel(
     item: GoldItem,
