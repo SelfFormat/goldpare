@@ -34,7 +34,7 @@ import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
-import com.selfformat.goldpare.androidApp.compose.theme.SearchView
+import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
@@ -128,7 +128,7 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
             Text("Kurs złota", fontWeight = FontWeight.Bold, style = TextStyle.Default.copy(fontSize = smallFontSize))
             Text("$formattedXauPln zł/oz", style = TextStyle.Default.copy(fontSize = smallFontSize))
         }
-        SearchView(
+        HomeSearchView(
             viewModel = viewModel,
             function = { searchedPhrase ->
                 viewModel.search(searchedPhrase)
