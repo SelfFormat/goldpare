@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp.compose.home
 
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +12,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.selfformat.goldpare.androidApp.compose.RootActivity
+import com.selfformat.goldpare.androidApp.compose.results.ResultsFragment
 import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
-import com.selfformat.goldpare.androidApp.compose.ui.HomeView
 
 class HomeFragment : Fragment() {
 
@@ -54,6 +55,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun showResults() {
-        (activity as HomeActivity).replaceFragment(fragment = ResultsFragment(), "ResultFragment")
+        (activity as RootActivity).replaceFragment(fragment = ResultsFragment(), "ResultFragment")
     }
 }

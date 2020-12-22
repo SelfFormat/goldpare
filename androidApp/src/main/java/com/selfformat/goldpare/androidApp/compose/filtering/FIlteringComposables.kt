@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.ui
+package com.selfformat.goldpare.androidApp.compose.filtering
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
-import com.selfformat.goldpare.androidApp.compose.ResultViewModel
+import com.selfformat.goldpare.androidApp.compose.results.ResultViewModel
 import com.selfformat.goldpare.shared.model.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldType
 import com.selfformat.goldpare.shared.model.Mint

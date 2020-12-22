@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp.compose.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

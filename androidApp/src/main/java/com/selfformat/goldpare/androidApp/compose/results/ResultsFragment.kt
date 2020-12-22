@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp.compose.results
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
-import com.selfformat.goldpare.androidApp.compose.ui.ResultsView
 
 class ResultsFragment : Fragment() {
 

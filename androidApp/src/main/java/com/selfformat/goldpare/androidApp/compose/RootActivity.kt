@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.home.HomeFragment
 
-class HomeActivity : AppCompatActivity() {
+class RootActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

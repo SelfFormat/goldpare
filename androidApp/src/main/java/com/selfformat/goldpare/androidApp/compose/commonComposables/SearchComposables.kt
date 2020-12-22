@@ -32,7 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.viewModel
-import com.selfformat.goldpare.androidApp.compose.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 
 @ExperimentalFoundationApi
 @Composable
