@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.fontFamily
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.ui.logoDescriptionFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.logoFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.logoDescriptionFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.logoFontSize
 
 @Composable
 private fun SplashWithLoading() {

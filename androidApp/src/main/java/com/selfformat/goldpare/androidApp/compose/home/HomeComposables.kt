@@ -34,27 +34,28 @@ import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
-import com.selfformat.goldpare.androidApp.compose.ui.SearchView
-import com.selfformat.goldpare.androidApp.compose.ui.categoryBoxMinSize
-import com.selfformat.goldpare.androidApp.compose.ui.categoryGradientBottom
-import com.selfformat.goldpare.androidApp.compose.ui.categoryGradientTop
-import com.selfformat.goldpare.androidApp.compose.ui.dp12
-import com.selfformat.goldpare.androidApp.compose.ui.dp16
-import com.selfformat.goldpare.androidApp.compose.ui.dp20
-import com.selfformat.goldpare.androidApp.compose.ui.dp4
-import com.selfformat.goldpare.androidApp.compose.ui.dp8
-import com.selfformat.goldpare.androidApp.compose.ui.fontWeight300
-import com.selfformat.goldpare.androidApp.compose.ui.gradientHeight
-import com.selfformat.goldpare.androidApp.compose.ui.gray500
-import com.selfformat.goldpare.androidApp.compose.ui.headerDescriptionFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.headerFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.smallFontSize
-import com.selfformat.goldpare.androidApp.compose.ui.topSectionHeight
+import com.selfformat.goldpare.androidApp.compose.theme.SearchView
+import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
+import com.selfformat.goldpare.androidApp.compose.theme.dp12
+import com.selfformat.goldpare.androidApp.compose.theme.dp16
+import com.selfformat.goldpare.androidApp.compose.theme.dp20
+import com.selfformat.goldpare.androidApp.compose.theme.dp4
+import com.selfformat.goldpare.androidApp.compose.theme.dp8
+import com.selfformat.goldpare.androidApp.compose.theme.fontWeight300
+import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
+import com.selfformat.goldpare.androidApp.compose.theme.gray500
+import com.selfformat.goldpare.androidApp.compose.theme.headerDescriptionFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.headerFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.smallFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 import com.selfformat.goldpare.shared.model.WeightRange
 
+@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 fun HomeView(viewModel: HomeViewModel) {
@@ -86,6 +87,7 @@ fun HomeView(viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 private fun HomeLoaded(
@@ -146,6 +148,7 @@ private fun HeaderSection(viewModel: HomeViewModel, xauToPln: XauPln?) {
     HeaderDescription("w przeliczeniu za uncję dla:")
 }
 
+@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: XauPln, viewModel: HomeViewModel) {
@@ -169,7 +172,7 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
                     )
                 }
             }
-            GoldCardWithLabel(pair.first, pair.second, xauPln) {
+            GoldCardWithLabel(pair.first, pair.second, xauPln, modifier = Modifier) {
                 openWebPage(
                     pair.first.link,
                     context = context
@@ -179,6 +182,7 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
     }
 }
 
+@ExperimentalUnsignedTypes
 @Composable
 private fun GoldCardWithLabel(
     item: GoldItem,

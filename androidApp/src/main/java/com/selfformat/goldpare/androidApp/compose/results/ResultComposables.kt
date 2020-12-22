@@ -22,11 +22,12 @@ import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
-import com.selfformat.goldpare.androidApp.compose.ui.gradientHeight
+import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 
+@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 fun ResultsView() {
@@ -78,6 +79,7 @@ fun ResultsView() {
     }
 }
 
+@ExperimentalUnsignedTypes
 @Composable
 private fun GoldList(list: List<GoldItem>, xauPln: XauPln) {
     val context = AmbientContext.current

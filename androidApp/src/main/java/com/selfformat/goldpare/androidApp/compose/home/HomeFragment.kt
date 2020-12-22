@@ -11,15 +11,15 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.selfformat.goldpare.androidApp.compose.RootActivity
 import com.selfformat.goldpare.androidApp.compose.results.ResultsFragment
-import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
+import com.selfformat.goldpare.androidApp.compose.theme.GoldpareTheme
 
 class HomeFragment : Fragment() {
 
     private val model: HomeViewModel by activityViewModels()
 
+    @ExperimentalUnsignedTypes
     @ExperimentalFoundationApi
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(model) {
-            showResults.observe(viewLifecycleOwner, Observer { state: HomeViewModel.FragState ->
+            showResults.observe(viewLifecycleOwner, { state: HomeViewModel.FragState ->
                 when (state) {
                     is HomeViewModel.FragState.Loaded -> {
                         if (state.showResult) {
