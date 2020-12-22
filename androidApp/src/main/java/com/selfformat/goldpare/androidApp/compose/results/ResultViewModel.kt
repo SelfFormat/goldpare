@@ -106,7 +106,7 @@ internal class ResultViewModel(application: Application) : AndroidViewModel(appl
 
     private fun loadedStateWithSortingAndFiltering() =
         State.Loaded(
-            data.searchFor(currentSearchPhrase)
+            goldItems = data.searchFor(currentSearchPhrase)
                 .filterGoldType(currentGoldTypeFilter)
                 .filterByCoinType(currentCoinTypeFilter)
                 .filterByWeight(currentWeightFilter)
@@ -114,11 +114,12 @@ internal class ResultViewModel(application: Application) : AndroidViewModel(appl
                 .filterByMint(currentMint)
                 .filterPriceFrom(priceFromFilter)
                 .filterPriceTo(priceToFilter)
-                .sortBy(currentSortingType)
+                .sortBy(currentSortingType),
+            title = "Złoto" // TODO title based on args with desired filtering
         )
 
     sealed class State {
-        data class Loaded(val goldItems: List<GoldItem>) : State()
+        data class Loaded(val goldItems: List<GoldItem>, val title: String) : State()
         data class Error(val throwable: Throwable) : State()
         object Loading : State()
     }

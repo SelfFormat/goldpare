@@ -11,7 +11,8 @@ val blue200 = Color(0xFF34a4eb)
 val categoryGradientTop = Color(0xFFF9D299)
 val categoryGradientBottom = Color(0xFFE6C087)
 
-val searchBackground = Color(0xFFEEEEEE)
+val homeSearchBackgroundColor = Color(0xFFEEEEEE)
+val resultSearchBackgroundColor = Color(0x00000000)
 val dividerColor = Color(0xFFF2F2F2)
 val lightBackground = Color.White
 val darkBackground = Color.Black

@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.theme
+package com.selfformat.goldpare.androidApp.compose.commonComposables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -28,15 +28,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.theme.dp32
+import com.selfformat.goldpare.androidApp.compose.theme.dp4
+import com.selfformat.goldpare.androidApp.compose.theme.dp6
+import com.selfformat.goldpare.androidApp.compose.theme.dp8
+import com.selfformat.goldpare.androidApp.compose.theme.homeSearchBackgroundColor
+import com.selfformat.goldpare.androidApp.compose.theme.resultSearchBackgroundColor
+import com.selfformat.goldpare.androidApp.compose.theme.searchHeight
 
 @ExperimentalFoundationApi
 @Composable
-fun SearchView(
+fun HomeSearchView(
     viewModel: HomeViewModel,
     function: (String) -> Unit,
     placeholderText: String
@@ -57,10 +65,40 @@ fun SearchView(
             text.value = it
             function(it.text)
         },
-        placeholderText = placeholderText
+        placeholderText = placeholderText,
+        backgroundColor = homeSearchBackgroundColor
     )
 }
 
+@ExperimentalFoundationApi
+@Composable
+fun ResultsSearchView(
+    viewModel: HomeViewModel,
+    function: (String) -> Unit,
+    placeholderText: String
+) {
+    val text = remember { mutableStateOf(TextFieldValue()) }
+
+    val textFieldFocusState = remember { mutableStateOf(false) }
+
+    CustomSearchView(
+        viewModel = viewModel,
+        textFieldValue = text.value,
+        onTextFieldFocused = { focused ->
+            textFieldFocusState.value = focused
+        },
+        focusState = textFieldFocusState.value,
+        onTextChanged = {
+            text.value = it
+            function(it.text)
+        },
+        placeholderText = placeholderText,
+        backgroundColor = resultSearchBackgroundColor,
+        showIconOnRowEnd = true
+    )
+}
+
+@SuppressWarnings("LongParameterList", "LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun CustomSearchView(
@@ -69,7 +107,9 @@ private fun CustomSearchView(
     textFieldValue: TextFieldValue,
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
-    placeholderText: String
+    placeholderText: String,
+    backgroundColor: Color,
+    showIconOnRowEnd: Boolean = false
 ) {
     Row(
         modifier = Modifier.clickable(onClick = { viewModel.search() }),
@@ -80,21 +120,24 @@ private fun CustomSearchView(
                 modifier = Modifier
                     .preferredHeight(searchHeight)
                     .background(
-                        searchBackground,
+                        backgroundColor,
                         shape = CircleShape
                     ),
             ) {
-                Icon(
-                    Icons.Filled.Search,
-                    Modifier.align(Alignment.CenterStart).padding(start = dp6)
-                )
+                if (!showIconOnRowEnd) {
+                    Icon(
+                        Icons.Filled.Search,
+                        Modifier.align(Alignment.CenterStart).padding(start = dp6)
+                    )
+                }
                 val lastFocusState = remember { mutableStateOf(FocusState.Inactive) }
+                val startPadding = if (showIconOnRowEnd) dp4 else dp32
                 BasicTextField(
                     value = textFieldValue,
                     onValueChange = { onTextChanged(it) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = dp32, end = dp8)
+                        .padding(start = startPadding, end = dp8)
                         .align(Alignment.CenterStart)
                         .onFocusChanged { state ->
                             if (lastFocusState.value != state) {
@@ -118,9 +161,15 @@ private fun CustomSearchView(
                     Text(
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .padding(start = dp32, end = dp8),
+                            .padding(start = startPadding, end = dp8),
                         text = placeholderText,
                         style = MaterialTheme.typography.body1.copy(color = disableContentColor)
+                    )
+                }
+                if (showIconOnRowEnd) {
+                    Icon(
+                        Icons.Filled.Search,
+                        Modifier.align(Alignment.CenterEnd).padding(end = dp6)
                     )
                 }
             }
@@ -133,5 +182,5 @@ private fun CustomSearchView(
 @Composable
 fun SearchPreview() {
     val viewModel: HomeViewModel = viewModel()
-    SearchView(viewModel = viewModel, function = {}, placeholderText = "Szukaj frazy")
+    HomeSearchView(viewModel = viewModel, function = {}, placeholderText = "Szukaj frazy")
 }
