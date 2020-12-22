@@ -28,7 +28,6 @@ import com.selfformat.goldpare.androidApp.compose.ui.dividerColor
 import com.selfformat.goldpare.androidApp.compose.ui.dividerThickness
 import com.selfformat.goldpare.androidApp.compose.ui.dp12
 import com.selfformat.goldpare.androidApp.compose.ui.dp16
-import com.selfformat.goldpare.androidApp.compose.ui.dp4
 import com.selfformat.goldpare.androidApp.compose.ui.dp8
 import com.selfformat.goldpare.androidApp.compose.ui.imageWidth
 import com.selfformat.goldpare.shared.api.XauPln
@@ -60,7 +59,7 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
         elevation = cardElevation,
         shape = RoundedCornerShape(cardCorners),
         modifier = Modifier
-            .padding(top = dp4, bottom = dp4, start = dp16, end = dp16)
+            .padding(top = dp8, bottom = dp8, start = dp16, end = dp16)
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
@@ -74,7 +73,7 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
                 if (item.image != null) {
                     ImageFromUrl(
                         item.image!!,
-                        modifier = Modifier.width(imageWidth)
+                        modifier = Modifier.width(imageWidth) // TODO make corners rounded
                     )
                 }
             }
