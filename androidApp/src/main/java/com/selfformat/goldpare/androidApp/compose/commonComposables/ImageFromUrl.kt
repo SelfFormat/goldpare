@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp.compose.commonComposables
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("LongParameterList")
 @Composable
-fun GlideSuperImage(
+fun ImageFromUrl(
     model: Any,
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Fit,

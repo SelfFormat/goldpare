@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp.compose.results
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import com.selfformat.goldpare.androidApp.compose.ui.GoldpareTheme
 
-class HomeFragment : Fragment() {
+class ResultsFragment : Fragment() {
 
     @ExperimentalFoundationApi
     override fun onCreateView(
@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
             setContent {
                 GoldpareTheme {
                     Surface(color = MaterialTheme.colors.background) {
-                        HomeView()
+                        ResultsView()
                     }
                 }
             }
