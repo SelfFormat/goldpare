@@ -66,21 +66,18 @@ fun HomeView(viewModel: HomeViewModel) {
         xauPlnViewModel.loadXauPln()
         val xauPln: XauPln? = xauPlnViewModel.xaupln.observeAsState().value
 
-        xauPln.let { xau_to_pln ->
-            if (xauPln != null) {
-                Column {
-                    TopSection(xau_to_pln, viewModel)
-                    state.let {
-                        when (it) {
-                            is HomeViewModel.State.Loaded -> {
-                                HomeComponent(viewModel, it, xau_to_pln)
-                            }
-                            is HomeViewModel.State.Error -> {
-                                ErrorView(it.throwable)
-                            }
-                            is HomeViewModel.State.Loading -> {
-                                Loading()
-                            }
+        if (xauPln != null) {
+            Column {
+                state.let {
+                    when (it) {
+                        is HomeViewModel.State.Loaded -> {
+                            HomeLoaded(viewModel, it, xauPln)
+                        }
+                        is HomeViewModel.State.Error -> {
+                            ErrorView(it.throwable)
+                        }
+                        is HomeViewModel.State.Loading -> {
+                            Loading()
                         }
                     }
                 }
@@ -89,17 +86,14 @@ fun HomeView(viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
-private fun HomeComponent(
+private fun HomeLoaded(
     viewModel: HomeViewModel,
     it: HomeViewModel.State.Loaded,
-    xauPln: XauPln?,
+    xauPln: XauPln,
 ) {
-    Header(text = "Kategorie", Modifier.padding(start = dp16, end = dp16, bottom = dp16))
-    Categories(viewModel)
-    Header(text = "Najlepsza cena", Modifier.padding(start = dp16, end = dp16))
-    HeaderDescription("w przeliczeniu za uncję dla:")
-    FeaturedGoldList(list = it.goldItems, xauPln = xauPln!!)
+    FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
     Row(
         modifier = Modifier
             .height(gradientHeight)
@@ -142,33 +136,44 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalFoundationApi
 @Composable
-private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: XauPln) {
+private fun HeaderSection(viewModel: HomeViewModel, xauToPln: XauPln?) {
+    TopSection(xauToPln, viewModel)
+    Header(text = "Kategorie", Modifier.padding(start = dp16, end = dp16, bottom = dp16))
+    Categories(viewModel)
+    Header(text = "Najlepsza cena", Modifier.padding(start = dp16, end = dp16))
+    HeaderDescription("w przeliczeniu za uncję dla:")
+}
+
+@ExperimentalFoundationApi
+@Composable
+private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: XauPln, viewModel: HomeViewModel) {
     val context = AmbientContext.current
+
     LazyColumn {
-        list.forEachIndexed { index, pair ->
+        item {
+            HeaderSection(viewModel = viewModel, xauToPln = xauPln)
+        }
+        itemsIndexed(list) { index, pair ->
             if (index == 0) {
-                item {
-                    GoldCardWithLabel(
-                        pair.first,
-                        pair.second,
-                        xauPln,
-                        modifier = Modifier.padding(top = dp16)
-                    ) {
-                        openWebPage(
-                            pair.first.link,
-                            context = context
-                        )
-                    }
-                }
-            }
-            item {
-                GoldCardWithLabel(pair.first, pair.second, xauPln) {
+                GoldCardWithLabel(
+                    pair.first,
+                    pair.second,
+                    xauPln,
+                    modifier = Modifier.padding(top = dp16)
+                ) {
                     openWebPage(
                         pair.first.link,
                         context = context
                     )
                 }
+            }
+            GoldCardWithLabel(pair.first, pair.second, xauPln) {
+                openWebPage(
+                    pair.first.link,
+                    context = context
+                )
             }
         }
     }
