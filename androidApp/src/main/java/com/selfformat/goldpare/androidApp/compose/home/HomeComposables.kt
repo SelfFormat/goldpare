@@ -31,10 +31,11 @@ import androidx.compose.ui.viewinterop.viewModel
 import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
+import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
-import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
+import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
@@ -44,7 +45,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.dp20
 import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.fontWeight300
-import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
 import com.selfformat.goldpare.androidApp.compose.theme.gray500
 import com.selfformat.goldpare.androidApp.compose.theme.headerDescriptionFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.headerFontSize
@@ -96,21 +96,7 @@ private fun HomeLoaded(
     xauPln: XauPln,
 ) {
     FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
-    Row(
-        modifier = Modifier
-            .height(gradientHeight)
-            .fillMaxWidth()
-            .background(
-                brush = Brush.verticalGradient(
-                    0.0f to Color.Transparent,
-                    1.0f to Color.White // TODO Fix darkmode
-                )
-            ),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        // This is gradient overlay effect from the bottom of the screen
-    }
+    BottomGradient()
 }
 
 @ExperimentalFoundationApi
