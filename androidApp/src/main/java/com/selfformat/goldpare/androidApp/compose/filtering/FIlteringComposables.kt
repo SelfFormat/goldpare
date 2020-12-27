@@ -15,14 +15,13 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
-import com.selfformat.goldpare.androidApp.compose.results.ResultViewModel
+import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.shared.model.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldType
 import com.selfformat.goldpare.shared.model.Mint
@@ -31,17 +30,15 @@ import com.selfformat.goldpare.shared.model.WeightRange
 
 @ExperimentalFoundationApi
 @Composable
-fun FilteringView() {
+fun FilteringView(homeViewModel: HomeViewModel) {
     Box(Modifier.fillMaxSize()) {
-        val viewModel: ResultViewModel = viewModel()
-        val state = viewModel.state.observeAsState().value
         Column {
             SortingMenu()
             FilteringCoinTypeMenu()
             FilteringGoldTypeMenu()
             FilteringMintMenu()
             FilterGoldSetsSwitch()
-            PriceFiltering(viewModel)
+            PriceFiltering(homeViewModel)
             FilteringWeightMenu()
         }
     }
@@ -49,7 +46,7 @@ fun FilteringView() {
 
 @Composable
 private fun SortingMenu() {
-    val viewModel: ResultViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(0) }
 
@@ -83,7 +80,7 @@ private fun SortingMenu() {
 
 @Composable
 private fun FilteringCoinTypeMenu() {
-    val viewModel: ResultViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(0) }
 
@@ -117,7 +114,7 @@ private fun FilteringCoinTypeMenu() {
 
 @Composable
 private fun FilteringWeightMenu() {
-    val viewModel: ResultViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(0) }
 
@@ -152,7 +149,7 @@ private fun FilteringWeightMenu() {
 @Composable
 private fun FilterGoldSetsSwitch() {
     val showSets = remember { mutableStateOf(true) }
-    val viewModel: ResultViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     Row {
         Text("show sets: ")
         Switch(
@@ -167,7 +164,7 @@ private fun FilterGoldSetsSwitch() {
 
 @Composable
 private fun FilteringMintMenu() {
-    val viewModel: ResultViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(0) }
 
@@ -201,14 +198,14 @@ private fun FilteringMintMenu() {
 
 @Composable
 private fun FilteringGoldTypeMenu() {
-    val viewModel: ResultViewModel = viewModel()
+    val viewModel: HomeViewModel = viewModel()
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(0) }
 
     DropdownMenu(
         toggle = {
             Text(
-                text = GoldType.values()[selectedIndex.value].typeName,
+                text = GoldType.values()[selectedIndex.value].typeCode,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -234,7 +231,7 @@ private fun FilteringGoldTypeMenu() {
 }
 
 @Composable
-private fun PriceFiltering(viewModel: ResultViewModel) {
+private fun PriceFiltering(viewModel: HomeViewModel) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {

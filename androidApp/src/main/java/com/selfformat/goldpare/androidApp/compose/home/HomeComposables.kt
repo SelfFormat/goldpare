@@ -49,14 +49,16 @@ import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.model.GoldType
 import com.selfformat.goldpare.shared.model.WeightRange
+import java.util.Locale
 
 @ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 internal fun HomeLoaded(
     viewModel: HomeViewModel,
-    it: HomeViewModel.State.Loaded,
+    it: HomeViewModel.State.Home,
     xauPln: XauPln,
 ) {
     FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
@@ -80,9 +82,7 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         }
         HomeSearchView(
             viewModel = viewModel,
-            function = { searchedPhrase ->
-                viewModel.search(searchedPhrase)
-            },
+            function = { viewModel.updateGoldTypeFiltering(GoldType.ALL) },
             placeholderText = "Szukaj"
         )
     }
@@ -167,11 +167,20 @@ private fun Categories(viewModel: HomeViewModel) {
         modifier = Modifier.fillMaxWidth().padding(bottom = dp16)
     ) {
         Spacer(modifier = Modifier.preferredWidth(dp16))
-        CategoryBox(modifier = Modifier.weight(1f), text = "ALL") { viewModel.search("All") }
+        CategoryBox(
+            modifier = Modifier.weight(1f),
+            text = GoldType.ALL.typeName.toUpperCase(Locale.getDefault())
+        ) { viewModel.updateGoldTypeFiltering(GoldType.ALL) }
         Spacer(modifier = Modifier.preferredWidth(dp8))
-        CategoryBox(modifier = Modifier.weight(1f), text = "MONETY") { viewModel.search("Monety") }
+        CategoryBox(
+            modifier = Modifier.weight(1f),
+            text = GoldType.COIN.typeName.toUpperCase(Locale.getDefault())
+        ) { viewModel.updateGoldTypeFiltering(GoldType.COIN) }
         Spacer(modifier = Modifier.preferredWidth(dp8))
-        CategoryBox(modifier = Modifier.weight(1f), text = "SZTABKI") { viewModel.search("Sztabki") }
+        CategoryBox(
+            modifier = Modifier.weight(1f),
+            text = GoldType.BAR.typeName.toUpperCase(Locale.getDefault())
+        ) { viewModel.updateGoldTypeFiltering(GoldType.BAR) }
         Spacer(modifier = Modifier.preferredWidth(dp16))
     }
 }

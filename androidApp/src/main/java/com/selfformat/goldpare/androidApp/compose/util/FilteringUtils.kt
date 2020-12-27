@@ -56,7 +56,7 @@ internal fun List<GoldItem>.sortBy(sortingType: SortingType): List<GoldItem> {
 
 internal fun List<GoldItem>.filterGoldType(type: GoldType): List<GoldItem> {
     if (type == GoldType.ALL) return this
-    return this.filter { it.type == type.typeName }
+    return this.filter { it.type == type.typeCode }
 }
 
 internal fun List<GoldItem>.filterByWeight(weight: WeightRange): List<GoldItem> {

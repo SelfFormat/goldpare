@@ -17,7 +17,7 @@ import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.home.HomeLoaded
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
-import com.selfformat.goldpare.androidApp.compose.results.ResultsView
+import com.selfformat.goldpare.androidApp.compose.results.ResultsLoaded
 import com.selfformat.goldpare.androidApp.compose.theme.GoldpareTheme
 import com.selfformat.goldpare.shared.api.XauPln
 
@@ -52,7 +52,7 @@ class RootActivity : AppCompatActivity() {
                 Column {
                     state.let {
                         when (it) {
-                            is HomeViewModel.State.Loaded -> {
+                            is HomeViewModel.State.Home -> {
                                 HomeLoaded(homeViewModel, it, xauPln)
                             }
                             is HomeViewModel.State.Error -> {
@@ -62,7 +62,7 @@ class RootActivity : AppCompatActivity() {
                                 Loading()
                             }
                             is HomeViewModel.State.ShowResults -> {
-                                ResultsView()
+                                ResultsLoaded(homeViewModel, it, xauPln)
                             }
                             null -> TODO()
                         }
