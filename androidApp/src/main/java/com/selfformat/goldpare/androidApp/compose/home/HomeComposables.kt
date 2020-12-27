@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSizeConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,10 +33,11 @@ import androidx.compose.ui.viewinterop.viewModel
 import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
+import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
-import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
+import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
@@ -44,7 +47,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.dp20
 import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.fontWeight300
-import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
 import com.selfformat.goldpare.androidApp.compose.theme.gray500
 import com.selfformat.goldpare.androidApp.compose.theme.headerDescriptionFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.headerFontSize
@@ -96,21 +98,7 @@ private fun HomeLoaded(
     xauPln: XauPln,
 ) {
     FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
-    Row(
-        modifier = Modifier
-            .height(gradientHeight)
-            .fillMaxWidth()
-            .background(
-                brush = Brush.verticalGradient(
-                    0.0f to Color.Transparent,
-                    1.0f to Color.White // TODO Fix darkmode
-                )
-            ),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Bottom
-    ) {
-        // This is gradient overlay effect from the bottom of the screen
-    }
+    BottomGradient()
 }
 
 @ExperimentalFoundationApi
@@ -216,16 +204,20 @@ private fun Categories(viewModel: HomeViewModel) {
         horizontalArrangement = Arrangement.SpaceAround,
         modifier = Modifier.fillMaxWidth().padding(bottom = dp16)
     ) {
-        CategoryBox("ALL") { viewModel.search("All") }
-        CategoryBox("MONETY") { viewModel.search("Monety") }
-        CategoryBox("SZTABKI") { viewModel.search("Sztabki") }
+        Spacer(modifier = Modifier.preferredWidth(dp16))
+        CategoryBox(modifier = Modifier.weight(1f), text = "ALL") { viewModel.search("All") }
+        Spacer(modifier = Modifier.preferredWidth(dp8))
+        CategoryBox(modifier = Modifier.weight(1f), text = "MONETY") { viewModel.search("Monety") }
+        Spacer(modifier = Modifier.preferredWidth(dp8))
+        CategoryBox(modifier = Modifier.weight(1f), text = "SZTABKI") { viewModel.search("Sztabki") }
+        Spacer(modifier = Modifier.preferredWidth(dp16))
     }
 }
 
 @Composable
-private fun CategoryBox(text: String, onClick: (() -> Unit)) {
-    Box(
-        Modifier.background(
+private fun CategoryBox(text: String, modifier: Modifier, onClick: (() -> Unit)) {
+    Column(
+        modifier.background(
             brush = Brush.verticalGradient(
                 0.0f to categoryGradientTop,
                 1.0f to categoryGradientBottom // TODO add another color set for darkmode
@@ -233,7 +225,7 @@ private fun CategoryBox(text: String, onClick: (() -> Unit)) {
             RoundedCornerShape(dp4),
         ).clickable(onClick = onClick).defaultMinSizeConstraints(categoryBoxMinSize)
     ) {
-        Text(text = text, Modifier.padding(dp20).wrapContentSize().align(Alignment.BottomCenter))
+        Text(text = text, Modifier.padding(dp20).wrapContentSize().align(Alignment.CenterHorizontally))
     }
 }
 

@@ -56,7 +56,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             .filterByWeight(weightRange)
             .showCoinSets(false)
             .filter { it.priceDouble != null }
-            .maxByOrNull { it.priceDouble!! }
+            .minByOrNull { it.priceDouble!! }
         return if (goldItem == null) {
             null
         } else {

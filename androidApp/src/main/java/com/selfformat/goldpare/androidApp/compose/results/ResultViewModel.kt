@@ -118,6 +118,10 @@ internal class ResultViewModel(application: Application) : AndroidViewModel(appl
             title = "Złoto" // TODO title based on args with desired filtering
         )
 
+    fun goToFiltersScreen() {
+        TODO("Not yet implemented")
+    }
+
     sealed class State {
         data class Loaded(val goldItems: List<GoldItem>, val title: String) : State()
         data class Error(val throwable: Throwable) : State()
