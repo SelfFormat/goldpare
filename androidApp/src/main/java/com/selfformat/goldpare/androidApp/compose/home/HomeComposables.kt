@@ -82,7 +82,10 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         }
         HomeSearchView(
             viewModel = viewModel,
-            function = { viewModel.updateGoldTypeFiltering(GoldType.ALL) },
+            function = {
+                viewModel.clearFilters()
+                viewModel.updateGoldTypeFiltering(GoldType.ALL)
+            },
             placeholderText = "Szukaj"
         )
     }
@@ -170,17 +173,26 @@ private fun Categories(viewModel: HomeViewModel) {
         CategoryBox(
             modifier = Modifier.weight(1f),
             text = GoldType.ALL.typeName.toUpperCase(Locale.getDefault())
-        ) { viewModel.updateGoldTypeFiltering(GoldType.ALL) }
+        ) {
+            viewModel.clearFilters()
+            viewModel.updateGoldTypeFiltering(GoldType.ALL)
+        }
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
             text = GoldType.COIN.typeName.toUpperCase(Locale.getDefault())
-        ) { viewModel.updateGoldTypeFiltering(GoldType.COIN) }
+        ) {
+            viewModel.clearFilters()
+            viewModel.updateGoldTypeFiltering(GoldType.COIN)
+        }
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
             text = GoldType.BAR.typeName.toUpperCase(Locale.getDefault())
-        ) { viewModel.updateGoldTypeFiltering(GoldType.BAR) }
+        ) {
+            viewModel.clearFilters()
+            viewModel.updateGoldTypeFiltering(GoldType.BAR)
+        }
         Spacer(modifier = Modifier.preferredWidth(dp16))
     }
 }

@@ -103,6 +103,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _state.value = searchResultsWithSortingAndFiltering()
     }
 
+    fun clearFilters() {
+        currentCoinTypeFilter = GoldCoinType.ALL
+        currentSortingType = SortingType.NONE
+        showGoldSets = SHOW_GOLD_SETS
+        priceFromFilter = NO_PRICE_FILTERING
+        priceToFilter = NO_PRICE_FILTERING
+        currentGoldTypeFilter = GoldType.ALL
+        currentMint = Mint.ALL
+        currentWeightFilter = WeightRange.ALL
+        currentSearchPhrase = null
+    }
+
     private fun searchResultsWithSortingAndFiltering() =
         State.ShowResults(
             goldItems = data.searchFor(currentSearchPhrase)
