@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSizeConstraints
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,7 +19,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,15 +27,11 @@ import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.viewinterop.viewModel
 import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
 import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
-import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
-import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
@@ -55,46 +49,16 @@ import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.model.GoldType
 import com.selfformat.goldpare.shared.model.WeightRange
+import java.util.Locale
 
 @ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
-fun HomeView(viewModel: HomeViewModel) {
-    Box(Modifier.fillMaxSize()) {
-        viewModel.loadFeaturedGoldItems()
-        val state = viewModel.state.observeAsState().value
-
-        val xauPlnViewModel: XauPlnViewModel = viewModel()
-        xauPlnViewModel.loadXauPln()
-        val xauPln: XauPln? = xauPlnViewModel.xaupln.observeAsState().value
-
-        if (xauPln != null) {
-            Column {
-                state.let {
-                    when (it) {
-                        is HomeViewModel.State.Loaded -> {
-                            HomeLoaded(viewModel, it, xauPln)
-                        }
-                        is HomeViewModel.State.Error -> {
-                            ErrorView(it.throwable)
-                        }
-                        is HomeViewModel.State.Loading -> {
-                            Loading()
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@ExperimentalUnsignedTypes
-@ExperimentalFoundationApi
-@Composable
-private fun HomeLoaded(
+internal fun HomeLoaded(
     viewModel: HomeViewModel,
-    it: HomeViewModel.State.Loaded,
+    it: HomeViewModel.State.Home,
     xauPln: XauPln,
 ) {
     FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
@@ -118,8 +82,9 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         }
         HomeSearchView(
             viewModel = viewModel,
-            function = { searchedPhrase ->
-                viewModel.search(searchedPhrase)
+            function = {
+                viewModel.clearFilters()
+                viewModel.updateGoldTypeFiltering(GoldType.ALL)
             },
             placeholderText = "Szukaj"
         )
@@ -205,11 +170,29 @@ private fun Categories(viewModel: HomeViewModel) {
         modifier = Modifier.fillMaxWidth().padding(bottom = dp16)
     ) {
         Spacer(modifier = Modifier.preferredWidth(dp16))
-        CategoryBox(modifier = Modifier.weight(1f), text = "ALL") { viewModel.search("All") }
+        CategoryBox(
+            modifier = Modifier.weight(1f),
+            text = GoldType.ALL.typeName.toUpperCase(Locale.getDefault())
+        ) {
+            viewModel.clearFilters()
+            viewModel.updateGoldTypeFiltering(GoldType.ALL)
+        }
         Spacer(modifier = Modifier.preferredWidth(dp8))
-        CategoryBox(modifier = Modifier.weight(1f), text = "MONETY") { viewModel.search("Monety") }
+        CategoryBox(
+            modifier = Modifier.weight(1f),
+            text = GoldType.COIN.typeName.toUpperCase(Locale.getDefault())
+        ) {
+            viewModel.clearFilters()
+            viewModel.updateGoldTypeFiltering(GoldType.COIN)
+        }
         Spacer(modifier = Modifier.preferredWidth(dp8))
-        CategoryBox(modifier = Modifier.weight(1f), text = "SZTABKI") { viewModel.search("Sztabki") }
+        CategoryBox(
+            modifier = Modifier.weight(1f),
+            text = GoldType.BAR.typeName.toUpperCase(Locale.getDefault())
+        ) {
+            viewModel.clearFilters()
+            viewModel.updateGoldTypeFiltering(GoldType.BAR)
+        }
         Spacer(modifier = Modifier.preferredWidth(dp16))
     }
 }

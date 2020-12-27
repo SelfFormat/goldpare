@@ -1,7 +1,7 @@
 package com.selfformat.goldpare.shared.model
 
-enum class GoldType(val typeName: String) {
-    ALL("Monety i sztabki"),
-    COIN("coin"),
-    BAR("bar")
+enum class GoldType(val typeCode: String, val typeName: String) {
+    ALL("all", "All"),
+    COIN("coin", "Monety"),
+    BAR("bar", "Sztabki")
 }

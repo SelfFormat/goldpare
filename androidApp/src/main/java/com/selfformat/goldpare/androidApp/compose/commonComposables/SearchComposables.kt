@@ -46,7 +46,7 @@ import com.selfformat.goldpare.androidApp.compose.theme.searchHeight
 @Composable
 fun HomeSearchView(
     viewModel: HomeViewModel,
-    function: (String) -> Unit,
+    function: () -> Unit,
     placeholderText: String
 ) {
     val text = remember { mutableStateOf(TextFieldValue()) }
@@ -58,13 +58,12 @@ fun HomeSearchView(
         viewModel = viewModel,
         textFieldValue = text.value,
         onTextFieldFocused = { focused ->
-            textFieldFocusState.value = focused
+            if (focused) {
+                function()
+            }
         },
         focusState = textFieldFocusState.value,
-        onTextChanged = {
-            text.value = it
-            function(it.text)
-        },
+        onTextChanged = { function() },
         placeholderText = placeholderText,
         backgroundColor = homeSearchBackgroundColor
     )
@@ -74,7 +73,6 @@ fun HomeSearchView(
 @Composable
 fun ResultsSearchView(
     viewModel: HomeViewModel,
-    function: (String) -> Unit,
     placeholderText: String
 ) {
     val text = remember { mutableStateOf(TextFieldValue()) }
@@ -90,7 +88,10 @@ fun ResultsSearchView(
         focusState = textFieldFocusState.value,
         onTextChanged = {
             text.value = it
-            function(it.text)
+            if (viewModel.state.value is HomeViewModel.State.ShowResults) {
+                // ensure you can call this
+                viewModel.updateSearchKeyword(it.text)
+            }
         },
         placeholderText = placeholderText,
         backgroundColor = resultSearchBackgroundColor,
@@ -112,7 +113,7 @@ private fun CustomSearchView(
     showIconOnRowEnd: Boolean = false
 ) {
     Row(
-        modifier = Modifier.clickable(onClick = { viewModel.search() }),
+        modifier = Modifier.clickable(onClick = { viewModel.updateSearchKeyword(textFieldValue.text) }),
         horizontalArrangement = Arrangement.Center
     ) {
         Surface {
