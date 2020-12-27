@@ -24,13 +24,13 @@ import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.XauPlnViewModel
 import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ErrorView
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.Loading
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ResultsSearchView
-import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
@@ -43,7 +43,6 @@ import com.selfformat.goldpare.shared.model.GoldItem
 fun ResultsView() {
     Box(Modifier.fillMaxSize()) {
         val viewModel: ResultViewModel = viewModel()
-        viewModel.loadGoldItems()
         val state = viewModel.state.observeAsState().value
 
         val xauPlnViewModel: XauPlnViewModel = viewModel()

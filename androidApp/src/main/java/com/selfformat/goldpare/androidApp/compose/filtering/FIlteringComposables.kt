@@ -34,7 +34,6 @@ import com.selfformat.goldpare.shared.model.WeightRange
 fun FilteringView() {
     Box(Modifier.fillMaxSize()) {
         val viewModel: ResultViewModel = viewModel()
-        viewModel.loadGoldItems()
         val state = viewModel.state.observeAsState().value
         Column {
             SortingMenu()

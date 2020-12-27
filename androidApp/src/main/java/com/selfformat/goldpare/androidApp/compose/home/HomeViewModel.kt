@@ -21,10 +21,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private lateinit var data: List<GoldItem>
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> = _state
-    private val _showResults = MutableLiveData<FragState>()
-    val showResults: LiveData<FragState> = _showResults
 
-    fun loadFeaturedGoldItems() {
+    init {
         _state.value = State.Loading
         viewModelScope.launch {
             kotlin.runCatching {
@@ -65,16 +63,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun search(searchedPhrase: String? = null) {
-        _showResults.value = FragState.Loaded(true)
+        _state.value = State.ShowResults(true)
     }
 
     sealed class State {
         data class Loaded(val goldItems: List<Pair<GoldItem, WeightRange>>) : State()
         data class Error(val throwable: Throwable) : State()
+        data class ShowResults(val showResult: Boolean) : State()
         object Loading : State()
-    }
-
-    sealed class FragState {
-        data class Loaded(val showResult: Boolean) : FragState()
     }
 }

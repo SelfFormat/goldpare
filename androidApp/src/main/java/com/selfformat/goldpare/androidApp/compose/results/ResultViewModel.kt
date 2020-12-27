@@ -45,7 +45,7 @@ internal class ResultViewModel(application: Application) : AndroidViewModel(appl
     private var currentWeightFilter = WeightRange.ALL
     private var currentSearchPhrase: String? = null
 
-    fun loadGoldItems() {
+    init {
         _state.value = State.Loading
         viewModelScope.launch {
             kotlin.runCatching {
