@@ -127,7 +127,6 @@ private fun TopBar(title: String) {
 @Composable
 private fun SortFilterCTA(viewModel: HomeViewModel) {
     OutlinedButton(onClick = {
-        viewModel.clearFilters()
         viewModel.showFiltering()
         }, border = null) {
         Image(
