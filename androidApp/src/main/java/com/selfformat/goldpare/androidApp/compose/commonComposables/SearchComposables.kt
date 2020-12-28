@@ -155,23 +155,31 @@ private fun CustomSearchView(
                     cursorColor = AmbientContentColor.current,
                     textStyle = AmbientTextStyle.current.copy(color = AmbientContentColor.current)
                 )
-
-                val disableContentColor =
-                    MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-                if (textFieldValue.text.isEmpty() && !focusState) {
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = startPadding, end = dp8),
-                        text = placeholderText,
-                        style = MaterialTheme.typography.body1.copy(color = disableContentColor)
-                    )
-                }
                 if (showIconOnRowEnd) {
                     Icon(
                         Icons.Filled.Search,
                         Modifier.align(Alignment.CenterEnd).padding(end = dp6)
                     )
+                    if (textFieldValue.text.isEmpty() && !focusState) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = startPadding, end = dp8),
+                            text = placeholderText,
+                            style = MaterialTheme.typography.h6
+                        )
+                    }
+                } else {
+                    val disableContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+                    if (textFieldValue.text.isEmpty() && !focusState) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = startPadding, end = dp8),
+                            text = placeholderText,
+                            style = MaterialTheme.typography.body1.copy(color = disableContentColor)
+                        )
+                    }
                 }
             }
         }
