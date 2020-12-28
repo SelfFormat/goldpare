@@ -14,9 +14,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,21 +51,55 @@ import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 
 @Composable
-fun BottomGradient() {
+internal fun BottomNavigationBar() {
     Row(
         modifier = Modifier
-            .height(gradientHeight)
-            .fillMaxWidth()
-            .background(
-                brush = Brush.verticalGradient(
-                    0.0f to Color.Transparent,
-                    1.0f to Color.White // TODO Fix darkmode
-                )
-            ),
+            .fillMaxSize(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
-        // This is gradient overlay effect from the bottom of the screen
+        androidx.compose.material.BottomNavigation(
+            modifier = Modifier.fillMaxWidth(),
+            backgroundColor = Color.White,
+            contentColor = Color.Gray
+        ) {
+            BottomNavigationItem(icon = {
+                Icon(Icons.Filled.Home)
+            }, selected = true, onClick = { /*TODO*/ })
+            BottomNavigationItem(icon = {
+                Icon(Icons.Filled.FilterList)
+            }, selected = true, onClick = { /*TODO*/ })
+            BottomNavigationItem(icon = {
+                Icon(Icons.Filled.Notifications)
+            }, selected = true, onClick = { /*TODO*/ })
+            BottomNavigationItem(icon = {
+                Icon(Icons.Filled.Settings)
+            }, selected = true, onClick = { /*TODO*/ })
+        }
+    }
+}
+
+@Composable
+internal fun BottomGradient() {
+    Row(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.Bottom
+    ) {
+        Row(
+            modifier = Modifier
+                .height(gradientHeight)
+                .fillMaxWidth()
+                .background(
+                    brush = Brush.verticalGradient(
+                        0.0f to Color.Transparent,
+                        1.0f to Color.White // TODO Fix darkmode
+                    )
+                ),
+        ) {
+            // This is gradient overlay effect from the bottom of the screen
+        }
     }
 }
 

@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ResultsSearchView
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
@@ -56,7 +55,6 @@ fun ResultsLoaded(homeViewModel: HomeViewModel, state: HomeViewModel.State.ShowR
                 model = homeViewModel,
                 title = state.title
             )
-            BottomGradient()
         }
     }
 }
