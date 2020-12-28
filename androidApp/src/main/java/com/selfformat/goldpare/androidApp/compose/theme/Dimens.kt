@@ -5,7 +5,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 val gradientHeight = 150.dp
-val cardElevation = 34.dp
 val cardCorners = 10.dp
 val dp4 = 4.dp
 val dp6 = 6.dp
@@ -19,6 +18,7 @@ val dividerThickness = 1.dp
 val topSectionHeight = 60.dp
 val searchHeight = 48.dp
 val categoryBoxMinSize = 100.dp
+val bottomNavigationHeight = 56.dp
 
 // font dimens
 val logoFontSize = 42.sp
@@ -31,3 +31,4 @@ val logoDescriptionFontSize = smallFontSize
 val noElevation = 0.dp
 
 const val SHADOW_ALPHA = 0.10f
+const val CHIP_ICON_SCALE = 0.5f

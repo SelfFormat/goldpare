@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.defaultMinSizeConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,6 +33,7 @@ import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
+import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
@@ -131,6 +133,9 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
                     context = context
                 )
             }
+        }
+        item {
+            Spacer(modifier = Modifier.preferredHeight(bottomNavigationHeight))
         }
     }
 }

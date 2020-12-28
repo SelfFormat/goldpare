@@ -2,12 +2,17 @@ package com.selfformat.goldpare.androidApp.compose.results
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedButton
@@ -15,8 +20,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.vectorResource
@@ -26,6 +33,11 @@ import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradie
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ResultsSearchView
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.theme.CHIP_ICON_SCALE
+import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
+import com.selfformat.goldpare.androidApp.compose.theme.dp12
+import com.selfformat.goldpare.androidApp.compose.theme.dp16
+import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
@@ -63,7 +75,7 @@ private fun GoldResults(
         item {
             TopBar(title)
             SortFilterCTA(model)
-            ListOfAppliedFilters()
+            ListOfAppliedFilters("2 oz", "krugerrand", model)
         }
         items(list) {
             GoldCard(it, xauPln) {
@@ -72,6 +84,9 @@ private fun GoldResults(
                     context = context
                 )
             }
+        }
+        item {
+            Spacer(modifier = Modifier.preferredHeight(bottomNavigationHeight))
         }
     }
 }
@@ -102,8 +117,10 @@ private fun TopBar(title: String) {
 
 @Composable
 private fun SortFilterCTA(viewModel: HomeViewModel) {
-
-    OutlinedButton(onClick = { viewModel.goToFiltersScreen() }, border = null) {
+    OutlinedButton(onClick = {
+        viewModel.clearFilters()
+        viewModel.showFiltering()
+        }, border = null) {
         Image(
             vectorResource(id = R.drawable.ic_filter_sort),
             modifier = Modifier.padding(end = dp8)
@@ -113,6 +130,33 @@ private fun SortFilterCTA(viewModel: HomeViewModel) {
 }
 
 @Composable
-private fun ListOfAppliedFilters() {
-    Row {}
+private fun ListOfAppliedFilters(textFilter: String, coinFilter: String, viewModel: HomeViewModel) {
+    Row(modifier = Modifier.padding(start = dp16, bottom = dp16)) {
+        ChipX(textFilter, viewModel)
+        ChipX(coinFilter, viewModel)
+    }
+}
+
+@Composable
+private fun ChipX(textFilter: String, viewModel: HomeViewModel) {
+    Row(
+        modifier = Modifier.padding(
+            top = dp12,
+            end = dp12
+        ).clickable(onClick = { viewModel.showFiltering() }
+        ).background(
+            color = Color.LightGray,
+            shape = CircleShape
+        ),
+    ) {
+        Text(
+            text = textFilter,
+            color = Color.Black,
+            modifier = Modifier.padding(end = dp4, start = dp12)
+        )
+        Icon(
+            imageVector = Icons.Filled.Close,
+            modifier = Modifier.scale(CHIP_ICON_SCALE)
+        )
+    }
 }

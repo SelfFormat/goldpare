@@ -58,6 +58,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun backToHome() {
+        _state.value = loadedStateWithSortingAndFiltering()
+    }
+
+    fun showFiltering() {
+        _state.value = State.Filtering
+    }
+
     fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
         currentCoinTypeFilter = goldCoinType
         _state.value = searchResultsWithSortingAndFiltering()
@@ -126,12 +134,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 .filterPriceFrom(priceFromFilter)
                 .filterPriceTo(priceToFilter)
                 .sortBy(currentSortingType),
-            title = if (currentGoldTypeFilter == GoldType.ALL) "Wyniki wyszukiwanie" else currentGoldTypeFilter.typeName
+            title = if (currentGoldTypeFilter == GoldType.ALL) "Wyniki wyszukiwania" else currentGoldTypeFilter.typeName
         )
-
-    fun goToFiltersScreen() {
-        TODO("Not yet implemented")
-    }
 
     private fun loadedStateWithSortingAndFiltering() = State.Home(listOfFeaturedItems())
 
@@ -159,14 +163,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun backToHome() {
-        _state.value = loadedStateWithSortingAndFiltering()
+    fun showResults() {
+        TODO("Not yet implemented")
     }
 
     sealed class State {
         data class Home(val goldItems: List<Pair<GoldItem, WeightRange>>) : State()
         data class Error(val throwable: Throwable) : State()
         data class ShowResults(val goldItems: List<GoldItem>, val title: String) : State()
+        object Filtering : State()
         object Loading : State()
     }
 }
