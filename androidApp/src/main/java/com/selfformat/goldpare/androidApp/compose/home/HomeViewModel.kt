@@ -28,21 +28,33 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
+    data class Filters(
+        var coinTypeFilter: GoldCoinType = GoldCoinType.ALL,
+        var sortingType: SortingType = SortingType.NONE,
+        var showGoldSets: Boolean = SHOW_GOLD_SETS,
+        var priceFromFilter: Double = NO_PRICE_FILTERING,
+        var priceToFilter: Double = NO_PRICE_FILTERING,
+        var goldTypeFilter: GoldType = GoldType.ALL,
+        var mint: Mint = Mint.ALL,
+        var weightFilter: WeightRange = WeightRange.ALL,
+        var searchPhrase: String? = null
+    ) {
+        val isSortingApplied = sortingType != SortingType.NONE
+        val isGoldTypeApplied = goldTypeFilter != GoldType.ALL
+        val isCoinTypeApplied = coinTypeFilter != GoldCoinType.ALL
+        val isWeightTypeApplied = weightFilter != WeightRange.ALL
+        val isMintTypeApplied = mint != Mint.ALL
+        val isPriceFromApplied = priceFromFilter != NO_PRICE_FILTERING
+        val isPriceToApplied = priceToFilter != NO_PRICE_FILTERING
+        val bothPricesApplied = isPriceFromApplied && isPriceToApplied
+    }
 
+    private val _appliedFilters = MutableLiveData(Filters())
+    val appliedFilters: LiveData<Filters> = _appliedFilters
     private val sdk = GoldSDK(DatabaseDriverFactory(context = application))
     private lateinit var data: List<GoldItem>
     private val _state = MutableLiveData<State>()
     val state: LiveData<State> = _state
-
-    private var currentCoinTypeFilter = GoldCoinType.ALL
-    private var currentSortingType = SortingType.NONE
-    private var showGoldSets = SHOW_GOLD_SETS
-    private var priceFromFilter = NO_PRICE_FILTERING
-    private var priceToFilter = NO_PRICE_FILTERING
-    private var currentGoldTypeFilter = GoldType.ALL
-    private var currentMint = Mint.ALL
-    private var currentWeightFilter = WeightRange.ALL
-    private var currentSearchPhrase: String? = null
 
     init {
         _state.value = State.Loading
@@ -67,74 +79,106 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun updateCoinTypeFiltering(goldCoinType: GoldCoinType) {
-        currentCoinTypeFilter = goldCoinType
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(coinTypeFilter = goldCoinType)
     }
 
-    fun updateSortingType(sortingType: SortingType) {
-        currentSortingType = sortingType
-        _state.value = searchResultsWithSortingAndFiltering()
+    fun updateSortingType(sorting: SortingType) {
+        _appliedFilters.value = appliedFilters.value?.copy(sortingType = sorting)
     }
 
     fun updateGoldTypeFiltering(goldType: GoldType) {
-        currentGoldTypeFilter = goldType
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(goldTypeFilter = goldType)
     }
 
     fun updateMintFiltering(mint: Mint) {
-        currentMint = mint
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(mint = mint)
     }
 
     fun updateDisplayingGoldSets(show: Boolean) {
-        showGoldSets = show
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(showGoldSets = show)
     }
 
     fun updatePriceToFiltering(priceTo: Double) {
-        priceToFilter = priceTo
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(priceToFilter = priceTo)
     }
 
     fun updatePriceFromFiltering(priceFrom: Double) {
-        priceFromFilter = priceFrom
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(priceFromFilter = priceFrom)
     }
 
     fun updateWeightFiltering(weight: WeightRange) {
-        currentWeightFilter = weight
-        _state.value = searchResultsWithSortingAndFiltering()
+        _appliedFilters.value = appliedFilters.value?.copy(weightFilter = weight)
     }
 
     fun updateSearchKeyword(searchedPhrase: String) {
-        currentSearchPhrase = searchedPhrase
+        _appliedFilters.value = appliedFilters.value?.copy(searchPhrase = searchedPhrase)
+    }
+
+    fun clearCoinTypeFiltering() {
+        _appliedFilters.value = appliedFilters.value?.copy(coinTypeFilter = GoldCoinType.ALL)
+        showResults()
+    }
+
+    fun clearSortingType() {
+        _appliedFilters.value = appliedFilters.value?.copy(sortingType = SortingType.NONE)
+        showResults()
+    }
+
+    fun clearGoldTypeFiltering() {
+        _appliedFilters.value = appliedFilters.value?.copy(goldTypeFilter = GoldType.ALL)
+        showResults()
+    }
+
+    fun clearMintFiltering() {
+        _appliedFilters.value = appliedFilters.value?.copy(mint = Mint.ALL)
+        showResults()
+    }
+
+    fun clearDisplayingGoldSets() {
+        _appliedFilters.value = appliedFilters.value?.copy(showGoldSets = SHOW_GOLD_SETS)
+        showResults()
+    }
+
+    fun clearPriceToFiltering() {
+        _appliedFilters.value = appliedFilters.value?.copy(priceToFilter = NO_PRICE_FILTERING)
+        showResults()
+    }
+
+    fun clearPriceFromFiltering() {
+        _appliedFilters.value = appliedFilters.value?.copy(priceFromFilter = NO_PRICE_FILTERING)
+        showResults()
+    }
+
+    fun clearWeightFiltering() {
+        _appliedFilters.value = appliedFilters.value?.copy(weightFilter = WeightRange.ALL)
+        showResults()
+    }
+
+    fun clearSearchKeyword() {
+        _appliedFilters.value = appliedFilters.value?.copy(searchPhrase = null)
+        showResults()
+    }
+
+    fun showResults() {
         _state.value = searchResultsWithSortingAndFiltering()
     }
 
     fun clearFilters() {
-        currentCoinTypeFilter = GoldCoinType.ALL
-        currentSortingType = SortingType.NONE
-        showGoldSets = SHOW_GOLD_SETS
-        priceFromFilter = NO_PRICE_FILTERING
-        priceToFilter = NO_PRICE_FILTERING
-        currentGoldTypeFilter = GoldType.ALL
-        currentMint = Mint.ALL
-        currentWeightFilter = WeightRange.ALL
-        currentSearchPhrase = null
+        _appliedFilters.value = Filters()
     }
 
     private fun searchResultsWithSortingAndFiltering() =
         State.ShowResults(
-            goldItems = data.searchFor(currentSearchPhrase)
-                .filterGoldType(currentGoldTypeFilter)
-                .filterByCoinType(currentCoinTypeFilter)
-                .filterByWeight(currentWeightFilter)
-                .showCoinSets(showGoldSets)
-                .filterByMint(currentMint)
-                .filterPriceFrom(priceFromFilter)
-                .filterPriceTo(priceToFilter)
-                .sortBy(currentSortingType),
-            title = if (currentGoldTypeFilter == GoldType.ALL) "Wyniki wyszukiwania" else currentGoldTypeFilter.typeName
+            goldItems = data.searchFor(appliedFilters.value!!.searchPhrase)
+                .filterGoldType(appliedFilters.value!!.goldTypeFilter)
+                .filterByCoinType(appliedFilters.value!!.coinTypeFilter)
+                .filterByWeight(appliedFilters.value!!.weightFilter)
+                .showCoinSets(appliedFilters.value!!.showGoldSets)
+                .filterByMint(appliedFilters.value!!.mint)
+                .filterPriceFrom(appliedFilters.value!!.priceFromFilter)
+                .filterPriceTo(appliedFilters.value!!.priceToFilter)
+                .sortBy(appliedFilters.value!!.sortingType),
+            title = appliedFilters.value!!.searchPhrase ?: "Wyniki wyszukiwania"
         )
 
     private fun loadedStateWithSortingAndFiltering() = State.Home(listOfFeaturedItems())
@@ -161,10 +205,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         } else {
             goldItem to weightRange
         }
-    }
-
-    fun showResults() {
-        TODO("Not yet implemented")
     }
 
     sealed class State {

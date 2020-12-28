@@ -81,10 +81,9 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
             Text("$formattedXauPln zł/oz", style = TextStyle.Default.copy(fontSize = smallFontSize))
         }
         HomeSearchView(
-            viewModel = viewModel,
             function = {
                 viewModel.clearFilters()
-                viewModel.updateGoldTypeFiltering(GoldType.ALL)
+                viewModel.showResults()
             },
             placeholderText = "Szukaj"
         )
@@ -179,6 +178,7 @@ private fun Categories(viewModel: HomeViewModel) {
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.ALL)
+            viewModel.showResults()
         }
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
@@ -187,6 +187,7 @@ private fun Categories(viewModel: HomeViewModel) {
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.COIN)
+            viewModel.showResults()
         }
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
@@ -195,6 +196,7 @@ private fun Categories(viewModel: HomeViewModel) {
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.BAR)
+            viewModel.showResults()
         }
         Spacer(modifier = Modifier.preferredWidth(dp16))
     }
