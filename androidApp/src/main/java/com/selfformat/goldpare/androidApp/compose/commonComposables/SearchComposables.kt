@@ -22,17 +22,20 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.dp32
 import com.selfformat.goldpare.androidApp.compose.theme.dp4
@@ -45,7 +48,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.searchHeight
 @ExperimentalFoundationApi
 @Composable
 fun HomeSearchView(
-    viewModel: HomeViewModel,
     function: () -> Unit,
     placeholderText: String
 ) {
@@ -55,7 +57,6 @@ fun HomeSearchView(
     val textFieldFocusState = remember { mutableStateOf(false) }
 
     CustomSearchView(
-        viewModel = viewModel,
         textFieldValue = text.value,
         onTextFieldFocused = { focused ->
             if (focused) {
@@ -65,7 +66,10 @@ fun HomeSearchView(
         focusState = textFieldFocusState.value,
         onTextChanged = { function() },
         placeholderText = placeholderText,
-        backgroundColor = homeSearchBackgroundColor
+        backgroundColor = homeSearchBackgroundColor,
+        keyboardShown = false,
+        onImeAction = {},
+        searchIconAction = {}
     )
 }
 
@@ -73,14 +77,14 @@ fun HomeSearchView(
 @Composable
 fun ResultsSearchView(
     viewModel: HomeViewModel,
-    placeholderText: String
+    placeholderText: String,
+    keyboardShown: Boolean,
 ) {
     val text = remember { mutableStateOf(TextFieldValue()) }
 
     val textFieldFocusState = remember { mutableStateOf(false) }
 
     CustomSearchView(
-        viewModel = viewModel,
         textFieldValue = text.value,
         onTextFieldFocused = { focused ->
             textFieldFocusState.value = focused
@@ -88,32 +92,58 @@ fun ResultsSearchView(
         focusState = textFieldFocusState.value,
         onTextChanged = {
             text.value = it
-            if (viewModel.state.value is HomeViewModel.State.ShowResults) {
-                // ensure you can call this
-                viewModel.updateSearchKeyword(it.text)
-            }
         },
         placeholderText = placeholderText,
         backgroundColor = resultSearchBackgroundColor,
-        showIconOnRowEnd = true
+        showIconOnRowEnd = true,
+        keyboardShown = keyboardShown,
+        onImeAction = { performSearch(viewModel, text, textFieldFocusState) },
+        searchIconAction = { performSearch(viewModel, text, textFieldFocusState) }
     )
+}
+
+private fun performSearch(
+    viewModel: HomeViewModel,
+    text: MutableState<TextFieldValue>,
+    textFieldFocusState: MutableState<Boolean>
+) {
+    if (viewModel.state.value is HomeViewModel.State.ShowResults) {
+        // ensure you can call this
+        viewModel.updateSearchKeyword(text.value.text)
+    }
+    if (textFieldFocusState.value) {
+        viewModel.showResults()
+    }
 }
 
 @SuppressWarnings("LongParameterList", "LongMethod")
 @ExperimentalFoundationApi
 @Composable
 private fun CustomSearchView(
-    viewModel: HomeViewModel,
     onTextChanged: (TextFieldValue) -> Unit,
     textFieldValue: TextFieldValue,
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
     placeholderText: String,
     backgroundColor: Color,
-    showIconOnRowEnd: Boolean = false
+    showIconOnRowEnd: Boolean = false,
+    keyboardShown: Boolean,
+    onImeAction: () -> Unit,
+    searchIconAction: () -> Unit
 ) {
+    // Grab a reference to the keyboard controller whenever text input starts
+    val keyboardController = remember { mutableStateOf<SoftwareKeyboardController?>(null) }
+
+    // Show or hide the keyboard
+    onCommit(keyboardController, keyboardShown) { // Guard side-effects against failed commits
+        keyboardController.let {
+            if (it.value != null) {
+                if (keyboardShown) it.value?.showSoftwareKeyboard() else it.value?.hideSoftwareKeyboard()
+            }
+        }
+    }
+
     Row(
-        modifier = Modifier.clickable(onClick = { viewModel.updateSearchKeyword(textFieldValue.text) }),
         horizontalArrangement = Arrangement.Center
     ) {
         Surface {
@@ -148,17 +178,23 @@ private fun CustomSearchView(
                         },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Search
                     ),
-                    onTextInputStarted = { },
+                    onTextInputStarted = { keyboardController.value = it },
+                    onImeActionPerformed = {
+                        keyboardController.value?.hideSoftwareKeyboard()
+                        onImeAction()
+                    },
                     maxLines = 1,
                     singleLine = true,
                     cursorColor = AmbientContentColor.current,
                     textStyle = AmbientTextStyle.current.copy(color = AmbientContentColor.current)
                 )
                 if (showIconOnRowEnd) {
+                    val iconModifier = if (focusState) Modifier.clickable(onClick = searchIconAction) else Modifier
                     Icon(
                         Icons.Filled.Search,
-                        Modifier.align(Alignment.CenterEnd).padding(end = dp6)
+                        iconModifier.align(Alignment.CenterEnd).padding(end = dp6)
                     )
                     if (textFieldValue.text.isEmpty() && !focusState) {
                         Text(
@@ -190,6 +226,5 @@ private fun CustomSearchView(
 @Preview
 @Composable
 fun SearchPreview() {
-    val viewModel: HomeViewModel = viewModel()
-    HomeSearchView(viewModel = viewModel, function = {}, placeholderText = "Szukaj frazy")
+    HomeSearchView(function = {}, placeholderText = "Szukaj frazy")
 }
