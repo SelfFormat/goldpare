@@ -2,8 +2,8 @@ package com.selfformat.goldpare.shared.model
 
 enum class SortingType(val sortingName: String = "") {
     NONE("Brak sortowania"),
-    PRICE_ASC("Ascending by price"),
-    PRICE_DESC("Descending by price"),
-    PRICE_PER_OZ_ASC("Ascending by ounce price"),
-    PRICE_PER_OZ_DESC("Descending by ounce price")
+    PRICE_ASC("Cena rosnąco"),
+    PRICE_DESC("Cena malejąco"),
+    PRICE_PER_OZ_ASC("Cena za uncję rosnąco"),
+    PRICE_PER_OZ_DESC("Cena za uncję malejąco")
 }

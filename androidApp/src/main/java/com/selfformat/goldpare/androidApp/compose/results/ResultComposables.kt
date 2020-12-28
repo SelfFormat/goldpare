@@ -1,16 +1,21 @@
 package com.selfformat.goldpare.androidApp.compose.results
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -22,7 +27,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
@@ -42,7 +49,9 @@ import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.model.GoldType
 
+@ExperimentalAnimationApi
 @ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
@@ -59,6 +68,7 @@ fun ResultsLoaded(homeViewModel: HomeViewModel, state: HomeViewModel.State.ShowR
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @ExperimentalUnsignedTypes
 @Composable
@@ -73,7 +83,7 @@ private fun GoldResults(
         item {
             TopBar(title)
             SortFilterCTA(model)
-            ListOfAppliedFilters("2 oz", "krugerrand", model)
+            ListOfAppliedFilters(model)
         }
         items(list) {
             GoldCard(it, xauPln) {
@@ -97,7 +107,8 @@ private fun TopBar(title: String) {
         title = {
             ResultsSearchView(
                 viewModel = homeViewModel,
-                placeholderText = title
+                placeholderText = title,
+                keyboardShown = false
             )
         },
         backgroundColor = Color.White,
@@ -127,28 +138,85 @@ private fun SortFilterCTA(viewModel: HomeViewModel) {
     }
 }
 
+@ExperimentalAnimationApi
+@Suppress("LongMethod")
 @Composable
-private fun ListOfAppliedFilters(textFilter: String, coinFilter: String, viewModel: HomeViewModel) {
-    Row(modifier = Modifier.padding(start = dp16, bottom = dp16)) {
-        ChipX(textFilter, viewModel)
-        ChipX(coinFilter, viewModel)
+private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
+    val appliedFilters: HomeViewModel.Filters? = viewModel.appliedFilters.observeAsState().value
+    if (appliedFilters != null) {
+        ScrollableRow(contentPadding = PaddingValues(start = dp16, bottom = dp16)) {
+            AnimatedVisibility(visible = appliedFilters.isSortingApplied) {
+                Chip(appliedFilters.sortingType.sortingName) {
+                    viewModel.clearSortingType()
+                }
+            }
+            appliedFilters.searchPhrase?.let {
+                Chip(it) { viewModel.clearSearchKeyword() }
+            }
+            AnimatedVisibility(visible = appliedFilters.isGoldTypeApplied) {
+                Chip(appliedFilters.goldTypeFilter.typeName) {
+                    viewModel.clearGoldTypeFiltering()
+                }
+            }
+            AnimatedVisibility(visible = appliedFilters.isCoinTypeApplied) {
+                if (appliedFilters.goldTypeFilter != GoldType.BAR) {
+                    Chip(appliedFilters.coinTypeFilter.coinName) {
+                        viewModel.clearCoinTypeFiltering()
+                    }
+                }
+            }
+            AnimatedVisibility(visible = appliedFilters.isWeightTypeApplied) {
+                Chip(appliedFilters.weightFilter.labelRangeName) {
+                    viewModel.clearWeightFiltering()
+                }
+            }
+            AnimatedVisibility(visible = appliedFilters.isWeightTypeApplied) {
+                Chip(appliedFilters.weightFilter.labelRangeName) {
+                    viewModel.clearWeightFiltering()
+                }
+            }
+            AnimatedVisibility(visible = appliedFilters.isMintTypeApplied) {
+                Chip(appliedFilters.mint.fullName) {
+                    viewModel.clearMintFiltering()
+                }
+            }
+            if (appliedFilters.bothPricesApplied) {
+                AnimatedVisibility(visible = appliedFilters.bothPricesApplied) {
+                    Chip("cena: ${appliedFilters.priceFromFilter.toFloat()}zł - " +
+                            "${appliedFilters.priceToFilter.toFloat()}zł") {
+                        viewModel.clearPriceToFiltering()
+                    }
+                }
+            } else {
+                AnimatedVisibility(visible = appliedFilters.isPriceFromApplied) {
+                    Chip("cena od: ${appliedFilters.priceFromFilter.toFloat()}zł") {
+                        viewModel.clearPriceFromFiltering()
+                    }
+                }
+                AnimatedVisibility(visible = appliedFilters.isPriceToApplied) {
+                    Chip("cena do: ${appliedFilters.priceToFilter.toFloat()}zł") {
+                        viewModel.clearPriceToFiltering()
+                    }
+                }
+            }
+        }
     }
 }
 
 @Composable
-private fun ChipX(textFilter: String, viewModel: HomeViewModel) {
+private fun Chip(text: String, onClick: (() -> Unit)) {
     Row(
         modifier = Modifier.padding(
             top = dp12,
             end = dp12
-        ).clickable(onClick = { viewModel.showFiltering() }
+        ).clickable(onClick = onClick
         ).background(
             color = Color.LightGray,
             shape = CircleShape
-        ),
+        ).wrapContentWidth().clipToBounds(),
     ) {
         Text(
-            text = textFilter,
+            text = text,
             color = Color.Black,
             modifier = Modifier.padding(end = dp4, start = dp12)
         )
