@@ -8,20 +8,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.theme.dp12
+import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.shared.model.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldType
 import com.selfformat.goldpare.shared.model.Mint
@@ -31,8 +44,9 @@ import com.selfformat.goldpare.shared.model.WeightRange
 @ExperimentalFoundationApi
 @Composable
 fun FilteringView(homeViewModel: HomeViewModel) {
-    Box(Modifier.fillMaxSize()) {
+    Box {
         Column {
+            TopBar()
             SortingMenu()
             FilteringCoinTypeMenu()
             FilteringGoldTypeMenu()
@@ -41,7 +55,47 @@ fun FilteringView(homeViewModel: HomeViewModel) {
             PriceFiltering(homeViewModel)
             FilteringWeightMenu()
         }
+        Row(Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            TextButton(
+                modifier = Modifier.fillMaxWidth().padding(
+                    start = dp12,
+                    end = dp12,
+                    top = dp8,
+                    bottom = dp8
+                ),
+                onClick = { homeViewModel.showResults() },
+                colors = ButtonDefaults.textButtonColors(backgroundColor = Color.Gray)
+            ) {
+                Text(text = "Pokaż wyniki")
+            }
+        }
     }
+}
+
+@Composable
+private fun TopBar() {
+    val homeViewModel = viewModel<HomeViewModel>()
+    TopAppBar(
+        title = {
+            Text(text = "Filtrowanie", modifier = Modifier.padding(start = 0.dp))
+        },
+        backgroundColor = Color.White,
+        navigationIcon = {
+            IconButton(
+                onClick = { homeViewModel.backToHome() },
+                content = {
+                    Icon(Icons.Filled.ArrowBack)
+                }
+            )
+        },
+        elevation = 1.dp,
+        actions = {
+            Text(text = "Wyczyść filtry", modifier = Modifier.padding(end = dp12))
+        }
+    )
 }
 
 @Composable
