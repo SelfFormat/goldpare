@@ -30,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.commonComposables.BottomGradient
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
@@ -64,7 +63,6 @@ internal fun HomeLoaded(
     xauPln: XauPln,
 ) {
     FeaturedGoldList(list = it.goldItems, xauPln = xauPln, viewModel = viewModel)
-    BottomGradient()
 }
 
 @ExperimentalFoundationApi
