@@ -2,6 +2,7 @@ package com.selfformat.goldpare.androidApp.compose
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import com.selfformat.goldpare.shared.api.XauPln
 
 class RootActivity : AppCompatActivity() {
 
+    @ExperimentalAnimationApi
     @ExperimentalUnsignedTypes
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,7 @@ class RootActivity : AppCompatActivity() {
         }
     }
 
+    @ExperimentalAnimationApi
     @ExperimentalUnsignedTypes
     @ExperimentalFoundationApi
     @Composable
