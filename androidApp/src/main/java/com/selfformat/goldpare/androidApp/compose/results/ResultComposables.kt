@@ -146,7 +146,7 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
     if (appliedFilters != null) {
         ScrollableRow(contentPadding = PaddingValues(start = dp16, bottom = dp16)) {
             AnimatedVisibility(visible = appliedFilters.isSortingApplied) {
-                Chip(appliedFilters.sortingType.sortingName) {
+                Chip(stringResource(appliedFilters.sortingType.sortingName)) {
                     viewModel.clearSortingType()
                 }
             }

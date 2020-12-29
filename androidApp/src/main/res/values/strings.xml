@@ -45,5 +45,10 @@
     <string name="ounce_1_4" tools:ignore="TypographyFractions">1/4 uncji</string>
     <string name="oz_1_10">1/10 oz</string>
     <string name="ounce_1_10">1/10 uncji lub mniej</string>
+    <string name="no_sorting">Brak sortowania</string>
+    <string name="sort_price_ascending">Cena rosnąco</string>
+    <string name="sort_price_descending">Cena malejąco</string>
+    <string name="sort_price_per_oz_ascending">Cena za uncję rosnąco</string>
+    <string name="sort_price_per_oz_descending">Cena za uncję malejąco</string>
 
 </resources>

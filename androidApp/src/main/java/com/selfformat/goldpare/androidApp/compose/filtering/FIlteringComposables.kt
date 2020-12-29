@@ -126,7 +126,7 @@ private fun SortingMenu(appliedFilters: HomeViewModel.Filters?) {
     DropdownMenu(
         toggle = {
             Text(
-                text = SortingType.values()[selectedIndex.value].sortingName,
+                text = stringResource(SortingType.values()[selectedIndex.value].sortingName),
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -145,7 +145,7 @@ private fun SortingMenu(appliedFilters: HomeViewModel.Filters?) {
                     viewModel.updateSortingType(value)
                 }
             ) {
-                Text(text = value.sortingName)
+                Text(text = stringResource(value.sortingName))
             }
         }
     }
