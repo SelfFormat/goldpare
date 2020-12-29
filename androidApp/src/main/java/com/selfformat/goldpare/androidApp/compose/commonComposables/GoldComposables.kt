@@ -29,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -48,6 +50,7 @@ import com.selfformat.goldpare.androidApp.compose.theme.imageWidth
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.theme.shadowColor
 import com.selfformat.goldpare.androidApp.compose.util.drawColoredShadow
+import com.selfformat.goldpare.androidApp.compose.util.mintFullName
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 
@@ -108,7 +111,7 @@ internal fun BottomGradient() {
 fun ErrorView(throwable: Throwable) {
     Text(
         modifier = Modifier.fillMaxSize(),
-        text = "Error: $throwable",
+        text = stringResource(R.string.error) + throwable,
         textAlign = TextAlign.Center
     )
 }
@@ -120,7 +123,7 @@ fun Loading() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Loading...")
+        Text(stringResource(R.string.loading))
     }
 }
 
@@ -131,11 +134,11 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
     val modifier = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         // TODO fix too high api needed for this
         Modifier.padding(
-                top = dp6,
-                bottom = dp8,
-                start = dp16,
-                end = dp16
-            )
+            top = dp6,
+            bottom = dp8,
+            start = dp16,
+            end = dp16
+        )
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .drawColoredShadow(
@@ -145,11 +148,11 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
             )
     } else {
         Modifier.padding(
-                top = dp6,
-                bottom = dp8,
-                start = dp16,
-                end = dp16
-            )
+            top = dp6,
+            bottom = dp8,
+            start = dp16,
+            end = dp16
+        )
             .fillMaxWidth()
             .clickable(onClick = onClick)
     }
@@ -159,11 +162,6 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
         shape = RoundedCornerShape(cardCorners),
         modifier = modifier
     ) {
-        val formattedWeightInGrams = "%.2f".format(item.weightInGrams)
-        val formattedPriceDouble = "%.2f".format(item.priceDouble)
-        val formattedPricePerOunce = "%.2f".format(item.pricePerOunce)
-        val formattedPriceMarkup = "%.2f".format(item.priceMarkupInPercentage(xauPln.price))
-
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.padding(dp12)) {
                 if (item.image != null) {
@@ -177,25 +175,33 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
                 Text(text = item.title, fontWeight = FontWeight.Bold)
                 Divider(color = dividerColor, thickness = dividerThickness)
                 Row {
-                    Text(
-                        text = "$formattedPriceDouble zł",
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(end = dp16)
-                    )
-                    Text(
-                        text = "($formattedPricePerOunce/oz)",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    item.priceDouble?.let {
+                        Text(
+                            text = stringResource(R.string.price_in_zloty, it),
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(end = dp16)
+                        )
+                    }
+                    item.pricePerOunce?.let {
+                        Text(
+                            text = stringResource(R.string.price_per_oz, it),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Image(vectorResource(id = R.drawable.ic_gram), modifier = Modifier.padding(end = dp8))
-                    Text(text = "$formattedWeightInGrams g", Modifier.padding(end = dp16))
-                    Text(text = "marża: $formattedPriceMarkup%")
+                    item.weightInGrams?.let {
+                        Text(text = stringResource(R.string.weight_in_grams, it), Modifier.padding(end = dp16))
+                    }
+                    item.priceMarkupInPercentage(xauPln.price)?.let {
+                        Text(text = stringResource(R.string.price_markup, it))
+                    }
                 }
-                Text(text = "Mennica: ${item.mintFullName}")
+                Text(text = stringResource(R.string.mint, mintFullName(item.website, AmbientContext.current)))
                 if (item.quantity > 1) {
-                    Text(text = "sztuk w zestawie: ${item.quantity}")
+                    Text(text = stringResource(R.string.items_included, item.quantity))
                 }
             }
         }

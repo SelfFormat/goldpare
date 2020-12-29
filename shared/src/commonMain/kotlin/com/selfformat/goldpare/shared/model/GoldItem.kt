@@ -11,7 +11,6 @@ data class GoldItem(
     val quantity: Long,
     val type: String,
     val priceDouble: Double?,
-    val mintFullName: String,
     val weightInGrams: Double?,
     val pricePerGram: Double?,
     val pricePerOunce: Double?
@@ -35,7 +34,6 @@ data class GoldItem(
             quantity = 1,
             type = "coin",
             priceDouble = 3000.0,
-            mintFullName = "Gold Mint",
             weightInGrams = 15.55,
             pricePerGram = 100.0,
             pricePerOunce = 6000.0

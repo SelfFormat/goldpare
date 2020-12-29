@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 import com.selfformat.goldpare.androidApp.compose.util.SHOW_GOLD_SETS
 import com.selfformat.goldpare.androidApp.compose.util.filterByCoinType
@@ -18,12 +19,12 @@ import com.selfformat.goldpare.androidApp.compose.util.showCoinSets
 import com.selfformat.goldpare.androidApp.compose.util.sortBy
 import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
-import com.selfformat.goldpare.shared.model.GoldCoinType
+import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.GoldType
-import com.selfformat.goldpare.shared.model.Mint
-import com.selfformat.goldpare.shared.model.SortingType
-import com.selfformat.goldpare.shared.model.WeightRange
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.SortingType
+import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -175,8 +176,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _appliedFilters.value = Filters()
     }
 
-    private fun searchResultsWithSortingAndFiltering() =
-        State.ShowResults(
+    @Suppress("MaxLineLength")
+    private fun searchResultsWithSortingAndFiltering(): State.ShowResults {
+        return State.ShowResults(
             goldItems = data.searchFor(appliedFilters.value!!.searchPhrase)
                 .filterGoldType(appliedFilters.value!!.goldTypeFilter)
                 .filterByCoinType(appliedFilters.value!!.coinTypeFilter)
@@ -186,8 +188,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 .filterPriceFrom(appliedFilters.value!!.priceFromFilter)
                 .filterPriceTo(appliedFilters.value!!.priceToFilter)
                 .sortBy(appliedFilters.value!!.sortingType),
-            title = appliedFilters.value!!.searchPhrase ?: "Wyniki wyszukiwania"
+            title = appliedFilters.value!!.searchPhrase ?: getApplication<Application>().resources.getString(R.string.search_results)
         )
+    }
 
     private fun loadedStateWithSortingAndFiltering() = State.Home(listOfFeaturedItems())
 

@@ -1,4 +1,65 @@
-<resources>
-    <string name="app_name">Goldpare</string>
-    <string name="app_description">compare gold prices</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Goldpare</string>
+    <string name="app_description" translatable="false">compare gold prices</string>
+    <string name="error" translatable="false">Error: </string>
+    <string name="loading" translatable="false">Loading…</string>
+    <string name="weight_in_grams" translatable="false">%,.2f g</string>
+    <string name="price_in_zloty" translatable="false">%,.2f zł</string>
+    <string name="price_per_oz" translatable="false">(%,.2f/oz)</string>
+    <string name="xau_pln_exchange_rate" translatable="false">%,.2f zł/oz</string>
+
+    <string name="show_results">Show results</string>
+    <string name="filtering">Filtering</string>
+    <string name="clear_filters">Clear filters</string>
+    <string name="show_sets">Show sets: </string>
+    <string name="prices">Prices</string>
+    <string name="price_from">from</string>
+    <string name="price_to">to</string>
+    <string name="mint">Mint: %s</string>
+    <string name="items_included">items included: %d</string>
+    <string name="price_markup">markup: %,.2f %%</string>
+    <string name="best_oz_price_category_description">per ounce for:</string>
+    <string name="best_price_category_title">Best price</string>
+    <string name="categories_title">Categories</string>
+    <string name="search">Search</string>
+    <string name="gold_exchange_rate_title">Gold exchange rate</string>
+    <string name="search_results">Search results</string>
+    <string name="gold">Gold</string>
+    <string name="coins">Coins</string>
+    <string name="bars">Bars</string>
+    <string name="filter_sort_label">FILTER / SORT</string>
+    <string name="hide_sets">Hide sets</string>
+    <string name="price_from_to_chip">price: %,.2fzł - %,.2fzł</string>
+    <string name="price_from_chip">price from: %,.2fzł</string>
+    <string name="price_to_chip">price to: %,.2fzł</string>
+    <string name="unknown_provider">Uknown provider</string>
+    <string name="all">ALL</string>
+
+    <string name="oz_2">2 oz</string>
+    <string name="ounce_2">2 ounce</string>
+    <string name="oz_1">1 oz</string>
+    <string name="ounce_1">1 ounce</string>
+    <string name="oz_1_2" tools:ignore="TypographyFractions">1/2 oz</string>
+    <string name="ounce_1_2" tools:ignore="TypographyFractions">1/2 ounce</string>
+    <string name="oz_1_4" tools:ignore="TypographyFractions">1/4 oz</string>
+    <string name="ounce_1_4" tools:ignore="TypographyFractions">1/4 ounce</string>
+    <string name="oz_1_10">1/10 oz</string>
+    <string name="ounce_1_10">1/10 ounce or less</string>
+    <string name="no_sorting">No sorting</string>
+    <string name="sort_price_ascending">Price ascending</string>
+    <string name="sort_price_descending">Price descending</string>
+    <string name="sort_price_per_oz_ascending">Price per ounce ascending</string>
+    <string name="sort_price_per_oz_descending">Price per ounce descending</string>
+    <string name="all_coins_type">All coin types</string>
+    <string name="krugerrand">Krugerrand</string>
+    <string name="ducats">Ducats</string>
+    <string name="britannia">Britannia</string>
+    <string name="maple_leaf">Maple Leaf</string>
+    <string name="australian_kangaroo">Australian Kangaroo</string>
+    <string name="chinese_panda">Chinese Panda</string>
+    <string name="american_buffalo">American Buffalo</string>
+    <string name="american_eagle">American Eagle</string>
+    <string name="vienna_philharmonic">Vienna Philharmonic</string>
+    <string name="queens_bests">Queen\'s Beasts</string>
+
 </resources>

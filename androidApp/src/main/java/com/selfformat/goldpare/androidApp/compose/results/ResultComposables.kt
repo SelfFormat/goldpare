@@ -33,11 +33,13 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ResultsSearchView
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.CHIP_ICON_SCALE
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
@@ -49,7 +51,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.GoldType
 
 @ExperimentalAnimationApi
 @ExperimentalUnsignedTypes
@@ -76,7 +77,7 @@ private fun GoldResults(
     list: List<GoldItem>,
     xauPln: XauPln,
     model: HomeViewModel,
-    title: String = "Złoto"
+    title: String = stringResource(R.string.gold)
 ) {
     val context = AmbientContext.current
     LazyColumn {
@@ -133,7 +134,7 @@ private fun SortFilterCTA(viewModel: HomeViewModel) {
             vectorResource(id = R.drawable.ic_filter_sort),
             modifier = Modifier.padding(end = dp8)
         )
-        Text(text = "FILTRUJ / SORTUJ", color = Color.Black)
+        Text(text = stringResource(R.string.filter_sort_label), color = Color.Black)
     }
 }
 
@@ -145,7 +146,7 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
     if (appliedFilters != null) {
         ScrollableRow(contentPadding = PaddingValues(start = dp16, bottom = dp16)) {
             AnimatedVisibility(visible = appliedFilters.isSortingApplied) {
-                Chip(appliedFilters.sortingType.sortingName) {
+                Chip(stringResource(appliedFilters.sortingType.sortingName)) {
                     viewModel.clearSortingType()
                 }
             }
@@ -153,24 +154,19 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
                 Chip(it) { viewModel.clearSearchKeyword() }
             }
             AnimatedVisibility(visible = appliedFilters.isGoldTypeApplied) {
-                Chip(appliedFilters.goldTypeFilter.typeName) {
+                Chip(stringResource(appliedFilters.goldTypeFilter.typeName)) {
                     viewModel.clearGoldTypeFiltering()
                 }
             }
             AnimatedVisibility(visible = appliedFilters.isCoinTypeApplied) {
                 if (appliedFilters.goldTypeFilter != GoldType.BAR) {
-                    Chip(appliedFilters.coinTypeFilter.coinName) {
+                    Chip(stringResource(appliedFilters.coinTypeFilter.coinName)) {
                         viewModel.clearCoinTypeFiltering()
                     }
                 }
             }
             AnimatedVisibility(visible = appliedFilters.isWeightTypeApplied) {
-                Chip(appliedFilters.weightFilter.labelRangeName) {
-                    viewModel.clearWeightFiltering()
-                }
-            }
-            AnimatedVisibility(visible = appliedFilters.isWeightTypeApplied) {
-                Chip(appliedFilters.weightFilter.labelRangeName) {
+                Chip(stringResource(appliedFilters.weightFilter.labelRangeName)) {
                     viewModel.clearWeightFiltering()
                 }
             }
@@ -181,25 +177,28 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
             }
             if (appliedFilters.bothPricesApplied) {
                 AnimatedVisibility(visible = appliedFilters.bothPricesApplied) {
-                    Chip("cena: ${appliedFilters.priceFromFilter.toFloat()}zł - " +
-                            "${appliedFilters.priceToFilter.toFloat()}zł") {
+                    Chip(stringResource(
+                        R.string.price_from_to_chip,
+                        appliedFilters.priceFromFilter.toFloat(),
+                        appliedFilters.priceToFilter.toFloat()
+                    )) {
                         viewModel.clearPriceToFiltering()
                     }
                 }
             } else {
                 AnimatedVisibility(visible = appliedFilters.isPriceFromApplied) {
-                    Chip("cena od: ${appliedFilters.priceFromFilter.toFloat()}zł") {
+                    Chip(stringResource(R.string.price_from_chip, appliedFilters.priceFromFilter.toFloat())) {
                         viewModel.clearPriceFromFiltering()
                     }
                 }
                 AnimatedVisibility(visible = appliedFilters.isPriceToApplied) {
-                    Chip("cena do: ${appliedFilters.priceToFilter.toFloat()}zł") {
+                    Chip(stringResource(R.string.price_to_chip, appliedFilters.priceToFilter.toFloat())) {
                         viewModel.clearPriceToFiltering()
                     }
                 }
             }
             AnimatedVisibility(visible = !appliedFilters.showGoldSets) {
-                Chip("Ukryj zestawy") {
+                Chip(stringResource(R.string.hide_sets)) {
                     viewModel.clearDisplayingGoldSets()
                 }
             }

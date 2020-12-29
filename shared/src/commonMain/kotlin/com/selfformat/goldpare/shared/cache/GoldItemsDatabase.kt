@@ -27,7 +27,6 @@ internal class GoldItemsDatabase(databaseDriverFactory: DatabaseDriverFactory) {
                 quantity = it.quantity,
                 type = it.type,
                 priceDouble = mapper.priceDouble(it.price),
-                mintFullName = mapper.mintFullName(it.website),
                 weightInGrams = mapper.weightInGrams(it.weight),
                 pricePerGram = mapper.pricePerGram(
                     weightInGrams = mapper.weightInGrams(it.weight),

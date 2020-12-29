@@ -30,6 +30,6 @@ fun SplashWithLoading() {
             fontSize = logoFontSize,
             fontFamily = fontFamily(Typeface.SERIF)
         )
-        Text("Loading...", color = Color.White, fontSize = logoDescriptionFontSize)
+        Text(stringResource(R.string.loading), color = Color.White, fontSize = logoDescriptionFontSize)
     }
 }

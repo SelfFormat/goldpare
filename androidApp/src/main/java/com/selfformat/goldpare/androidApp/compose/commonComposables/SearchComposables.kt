@@ -31,11 +31,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.dp32
 import com.selfformat.goldpare.androidApp.compose.theme.dp4
@@ -224,5 +226,5 @@ private fun CustomSearchView(
 @Preview
 @Composable
 fun SearchPreview() {
-    HomeSearchView(function = {}, placeholderText = "Szukaj frazy")
+    HomeSearchView(function = {}, placeholderText = stringResource(R.string.search))
 }
