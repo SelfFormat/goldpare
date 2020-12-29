@@ -98,7 +98,7 @@ internal fun BottomGradient() {
                 .background(
                     brush = Brush.verticalGradient(
                         0.0f to Color.Transparent,
-                        1.0f to MaterialTheme.colors.background // TODO Fix darkmode
+                        1.0f to MaterialTheme.colors.background
                     )
                 ),
         ) {

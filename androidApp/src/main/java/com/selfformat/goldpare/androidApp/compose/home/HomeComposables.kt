@@ -229,7 +229,7 @@ private fun CategoryBox(text: String, modifier: Modifier, onClick: (() -> Unit))
         modifier.clip(shapes.small).background(
             brush = Brush.verticalGradient(
                 0.0f to gradientTopColor,
-                1.0f to gradientBottomColor // TODO add another color set for darkmode
+                1.0f to gradientBottomColor
             )
         ).clickable(onClick = onClick).defaultMinSizeConstraints(categoryBoxMinSize)
     ) {
