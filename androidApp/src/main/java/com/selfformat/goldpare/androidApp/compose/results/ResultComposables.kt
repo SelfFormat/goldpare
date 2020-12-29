@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -32,7 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -113,7 +114,7 @@ private fun TopBar(title: String) {
                 keyboardShown = false
             )
         },
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colors.background,
         navigationIcon = {
             IconButton(
                 onClick = { homeViewModel.backToHome() },
@@ -133,9 +134,9 @@ private fun SortFilterCTA(viewModel: HomeViewModel) {
         }, border = null) {
         Image(
             vectorResource(id = R.drawable.ic_filter_sort),
-            modifier = Modifier.padding(end = dp8)
+            modifier = Modifier.padding(end = dp8), colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground)
         )
-        Text(text = stringResource(R.string.filter_sort_label), color = Color.Black)
+        Text(text = stringResource(R.string.filter_sort_label), color = MaterialTheme.colors.onBackground)
     }
 }
 
@@ -214,12 +215,12 @@ private fun Chip(text: String, onClick: (() -> Unit)) {
             top = dp12,
             end = dp12
         ).clip(CircleShape).clickable(onClick = onClick).background(
-            color = Color.LightGray
+            color = MaterialTheme.colors.primaryVariant
         ).wrapContentWidth().clipToBounds(),
     ) {
         Text(
             text = text,
-            color = Color.Black,
+            color = MaterialTheme.colors.onBackground,
             modifier = Modifier.padding(end = dp4, start = dp12)
         )
         Icon(
