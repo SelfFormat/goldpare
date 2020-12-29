@@ -1,15 +1,18 @@
 package com.selfformat.goldpare.androidApp.compose.enums
 
-enum class GoldCoinType(val coinName: String = "") {
+import com.selfformat.goldpare.androidApp.R
+
+enum class GoldCoinType(val coinName: Int, val regex: Regex) {
     // TODO Change each coinName to be regexp based on results
-    ALL("Wszystkie typy monet"),
-    KRUGERRAND("Krugerrand"),
-    DUKAT("Dukat"),
-    BRITANNIA("Britannia"),
-    LISC_KLONOWY("Klonowy"),
-    AUSTRALIJSKI_KANGUR("Kangur"),
-    CHINSKA_PANDA("Panda"),
-    AMERYKANSKI_BIZON("Bizon"),
-    AMERYKANSKI_ORZEL("Orzeł"),
-    FILCHARMONICY_WIEDENSCY("Filharmonik")
+    ALL(R.string.all_coins_type, Regex("")),
+    KRUGERRAND(R.string.krugerrand, Regex("")),
+    DUKAT(R.string.ducats, Regex("")),
+    BRITANNIA(R.string.britannia, Regex("")),
+    LISC_KLONOWY(R.string.maple_leaf, Regex("")),
+    AUSTRALIJSKI_KANGUR(R.string.australian_kangaroo, Regex("")),
+    CHINSKA_PANDA(R.string.chinese_panda, Regex("")),
+    AMERYKANSKI_BIZON(R.string.american_buffalo, Regex("")),
+    AMERYKANSKI_ORZEL(R.string.american_eagle, Regex("")),
+    FILCHARMONICY_WIEDENSCY(R.string.vienna_philharmonic, Regex("")),
+    BESTIE_KROLOWEJ(R.string.queens_bests, Regex(""))
 }

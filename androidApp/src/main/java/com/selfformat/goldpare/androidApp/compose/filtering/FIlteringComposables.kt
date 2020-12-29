@@ -162,7 +162,7 @@ private fun FilteringCoinTypeMenu(appliedFilters: HomeViewModel.Filters?) {
     DropdownMenu(
         toggle = {
             Text(
-                text = GoldCoinType.values()[selectedIndex.value].coinName,
+                text = stringResource(GoldCoinType.values()[selectedIndex.value].coinName),
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -181,7 +181,7 @@ private fun FilteringCoinTypeMenu(appliedFilters: HomeViewModel.Filters?) {
                     viewModel.updateCoinTypeFiltering(value)
                 }
             ) {
-                Text(text = value.coinName)
+                Text(text = stringResource(value.coinName))
             }
         }
     }

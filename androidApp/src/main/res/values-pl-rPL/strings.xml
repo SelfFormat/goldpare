@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="show_results">Show results</string>
+    <string name="filtering">Filtering</string>
+    <string name="clear_filters">Wyczyść filtry</string>
+    <string name="show_sets">show sets: </string>
+    <string name="prices">Ceny</string>
+    <string name="price_from">od</string>
+    <string name="price_to">do</string>
+    <string name="mint">Mennica: %s</string>
+    <string name="items_included">sztuk w zestawie: %d</string>
+    <string name="price_markup">marża: %,.2f %%</string>
+    <string name="best_oz_price_category_description">w przeliczeniu za uncję dla:</string>
+    <string name="best_price_category_title">Najlepsza cena</string>
+    <string name="categories_title">Kategorie</string>
+    <string name="search">Szukaj</string>
+    <string name="gold_exchange_rate_title">Kurs złota</string>
+    <string name="search_results">Wyniki wyszukiwania</string>
+    <string name="gold">Złoto</string>
+    <string name="coins">Monety</string>
+    <string name="bars">Sztabki</string>
+    <string name="filter_sort_label">FILTRUJ / SORTUJ</string>
+    <string name="hide_sets">Ukryj zestawy</string>
+    <string name="price_from_to_chip">cena: %,.2fzł - %,.2fzł</string>
+    <string name="price_from_chip">cena od: %,.2fzł</string>
+    <string name="price_to_chip">cena do: %,.2fzł</string>
+    <string name="unknown_provider">Nieznany dostawca</string>
+    <string name="all">Wszytko</string>
+
+    <string name="oz_2">2 oz</string>
+    <string name="ounce_2">2 uncje</string>
+    <string name="oz_1">1 oz</string>
+    <string name="ounce_1">1 uncja</string>
+    <string name="oz_1_2" tools:ignore="TypographyFractions">1/2 oz</string>
+    <string name="ounce_1_2" tools:ignore="TypographyFractions">1/2 uncji</string>
+    <string name="oz_1_4" tools:ignore="TypographyFractions">1/4 oz</string>
+    <string name="ounce_1_4" tools:ignore="TypographyFractions">1/4 uncji</string>
+    <string name="oz_1_10">1/10 oz</string>
+    <string name="ounce_1_10">1/10 uncji lub mniej</string>
+    <string name="no_sorting">Brak sortowania</string>
+    <string name="sort_price_ascending">Cena rosnąco</string>
+    <string name="sort_price_descending">Cena malejąco</string>
+    <string name="sort_price_per_oz_ascending">Cena za uncję rosnąco</string>
+    <string name="sort_price_per_oz_descending">Cena za uncję malejąco</string>
+
+    <string name="all_coins_type">Wszystkie typy monet</string>
+    <string name="krugerrand">Krugerrand</string>
+    <string name="ducats">Dukat Austriacki</string>
+    <string name="britannia">Britannia</string>
+    <string name="maple_leaf">Kanadyjski Liść Klonowy</string>
+    <string name="australian_kangaroo">Australijski Kangur</string>
+    <string name="chinese_panda">Chińska Panda</string>
+    <string name="american_buffalo">Amerykański Bizon</string>
+    <string name="american_eagle">Amerykański Orzeł</string>
+    <string name="vienna_philharmonic">Filharmonicy Wiedeńscy</string>
+    <string name="queens_bests">Bestie Królowej</string>
+
+</resources>

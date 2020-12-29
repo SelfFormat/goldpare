@@ -160,7 +160,7 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
             }
             AnimatedVisibility(visible = appliedFilters.isCoinTypeApplied) {
                 if (appliedFilters.goldTypeFilter != GoldType.BAR) {
-                    Chip(appliedFilters.coinTypeFilter.coinName) {
+                    Chip(stringResource(appliedFilters.coinTypeFilter.coinName)) {
                         viewModel.clearCoinTypeFiltering()
                     }
                 }
