@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.DropdownMenu
@@ -23,6 +25,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,8 +36,12 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.theme.buttonFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.buttonHeight
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
+import com.selfformat.goldpare.androidApp.compose.theme.roundCorner10dp
+import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 import com.selfformat.goldpare.shared.model.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldType
 import com.selfformat.goldpare.shared.model.Mint
@@ -44,32 +51,35 @@ import com.selfformat.goldpare.shared.model.WeightRange
 @ExperimentalFoundationApi
 @Composable
 fun FilteringView(homeViewModel: HomeViewModel) {
+    val appliedFilters: HomeViewModel.Filters? = homeViewModel.appliedFilters.observeAsState().value
+
     Box {
         Column {
             TopBar()
-            SortingMenu()
-            FilteringCoinTypeMenu()
-            FilteringGoldTypeMenu()
-            FilteringMintMenu()
-            FilterGoldSetsSwitch()
-            PriceFiltering(homeViewModel)
-            FilteringWeightMenu()
+            SortingMenu(appliedFilters)
+            FilteringGoldTypeMenu(appliedFilters)
+            FilteringCoinTypeMenu(appliedFilters)
+            FilteringMintMenu(appliedFilters)
+            FilterGoldSetsSwitch(appliedFilters)
+            PriceFiltering(homeViewModel, appliedFilters)
+            FilteringWeightMenu(appliedFilters)
         }
         Row(Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.Bottom,
+            verticalAlignment = Alignment.Bottom
         ) {
             TextButton(
-                modifier = Modifier.fillMaxWidth().padding(
+                modifier = Modifier.fillMaxWidth().height(buttonHeight).padding(
                     start = dp12,
                     end = dp12,
                     top = dp8,
                     bottom = dp8
                 ),
+                shape = RoundedCornerShape(roundCorner10dp),
                 onClick = { homeViewModel.showResults() },
-                colors = ButtonDefaults.textButtonColors(backgroundColor = Color.Gray)
+                colors = ButtonDefaults.textButtonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
             ) {
-                Text(text = "Pokaż wyniki")
+                Text(text = "Pokaż wyniki", fontSize = buttonFontSize)
             }
         }
     }
@@ -93,16 +103,23 @@ private fun TopBar() {
         },
         elevation = 1.dp,
         actions = {
-            Text(text = "Wyczyść filtry", modifier = Modifier.padding(end = dp12))
+            Text(
+                text = "Wyczyść filtry",
+                modifier = Modifier.padding(end = dp12).clickable(onClick = {
+                    homeViewModel.clearFilters()
+                })
+            )
         }
     )
 }
 
 @Composable
-private fun SortingMenu() {
+private fun SortingMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
+    val currentSorting = appliedFilters?.sortingType
+    val baseIndex = SortingType.values().indexOf(currentSorting)
     val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableStateOf(baseIndex) }
 
     DropdownMenu(
         toggle = {
@@ -116,7 +133,7 @@ private fun SortingMenu() {
         expanded = showMenu.value,
         onDismissRequest = { showMenu.value = false },
         toggleModifier = Modifier.fillMaxWidth(),
-        dropdownModifier = Modifier.fillMaxWidth()
+        dropdownModifier = Modifier.fillMaxWidth(),
     ) {
         SortingType.values().forEachIndexed { index, value ->
             DropdownMenuItem(
@@ -133,10 +150,12 @@ private fun SortingMenu() {
 }
 
 @Composable
-private fun FilteringCoinTypeMenu() {
+private fun FilteringCoinTypeMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
+    val currentFilter = appliedFilters?.coinTypeFilter
+    val baseIndex = GoldCoinType.values().indexOf(currentFilter)
     val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableStateOf(baseIndex) }
 
     DropdownMenu(
         toggle = {
@@ -167,10 +186,12 @@ private fun FilteringCoinTypeMenu() {
 }
 
 @Composable
-private fun FilteringWeightMenu() {
+private fun FilteringWeightMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
+    val currentFilter = appliedFilters?.weightFilter
+    val baseIndex = WeightRange.values().indexOf(currentFilter)
     val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableStateOf(baseIndex) }
 
     DropdownMenu(
         toggle = {
@@ -201,8 +222,9 @@ private fun FilteringWeightMenu() {
 }
 
 @Composable
-private fun FilterGoldSetsSwitch() {
-    val showSets = remember { mutableStateOf(true) }
+private fun FilterGoldSetsSwitch(appliedFilters: HomeViewModel.Filters?) {
+    val currentFilter = appliedFilters?.showGoldSets ?: true
+    val showSets = remember { mutableStateOf(currentFilter) }
     val viewModel: HomeViewModel = viewModel()
     Row {
         Text("show sets: ")
@@ -217,10 +239,12 @@ private fun FilterGoldSetsSwitch() {
 }
 
 @Composable
-private fun FilteringMintMenu() {
+private fun FilteringMintMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
+    val currentFilter = appliedFilters?.mint
+    val baseIndex = Mint.values().indexOf(currentFilter)
     val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableStateOf(baseIndex) }
 
     DropdownMenu(
         toggle = {
@@ -251,15 +275,17 @@ private fun FilteringMintMenu() {
 }
 
 @Composable
-private fun FilteringGoldTypeMenu() {
+private fun FilteringGoldTypeMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
+    val currentFilter = appliedFilters?.goldTypeFilter
+    val baseIndex = GoldType.values().indexOf(currentFilter)
     val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(0) }
+    val selectedIndex = remember { mutableStateOf(baseIndex) }
 
     DropdownMenu(
         toggle = {
             Text(
-                text = GoldType.values()[selectedIndex.value].typeCode,
+                text = GoldType.values()[selectedIndex.value].typeName,
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -285,15 +311,20 @@ private fun FilteringGoldTypeMenu() {
 }
 
 @Composable
-private fun PriceFiltering(viewModel: HomeViewModel) {
+private fun PriceFiltering(viewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
+    val currentPriceFromFilter = appliedFilters?.priceFromFilter
+    val currentPriceToFilter = appliedFilters?.priceToFilter
+    val textFrom = if (currentPriceFromFilter == NO_PRICE_FILTERING) "od" else "$currentPriceFromFilter"
+    val textTo = if (currentPriceToFilter == NO_PRICE_FILTERING) "do" else "$currentPriceToFilter"
+
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Text("Ceny")
-        PriceEditText("OD") { priceFrom ->
+        PriceEditText(textFrom) { priceFrom ->
             viewModel.updatePriceFromFiltering(priceFrom)
         }
-        PriceEditText("DO") { priceTo ->
+        PriceEditText(textTo) { priceTo ->
             viewModel.updatePriceToFiltering(priceTo)
         }
     }

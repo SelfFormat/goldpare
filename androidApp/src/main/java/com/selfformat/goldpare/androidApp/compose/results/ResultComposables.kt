@@ -127,7 +127,6 @@ private fun TopBar(title: String) {
 @Composable
 private fun SortFilterCTA(viewModel: HomeViewModel) {
     OutlinedButton(onClick = {
-        viewModel.clearFilters()
         viewModel.showFiltering()
         }, border = null) {
         Image(
@@ -197,6 +196,11 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
                     Chip("cena do: ${appliedFilters.priceToFilter.toFloat()}zł") {
                         viewModel.clearPriceToFiltering()
                     }
+                }
+            }
+            AnimatedVisibility(visible = !appliedFilters.showGoldSets) {
+                Chip("Ukryj zestawy") {
+                    viewModel.clearDisplayingGoldSets()
                 }
             }
         }
