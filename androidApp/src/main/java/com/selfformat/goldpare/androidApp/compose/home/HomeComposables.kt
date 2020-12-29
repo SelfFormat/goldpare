@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -50,8 +51,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.GoldType
-import com.selfformat.goldpare.shared.model.WeightRange
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import java.util.Locale
 
 @ExperimentalUnsignedTypes
@@ -73,19 +74,27 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         modifier = Modifier.height(topSectionHeight).padding(start = dp16, end = dp16, top = dp12, bottom = dp12)
     ) {
         Image(vectorResource(id = R.drawable.ic_temp_mini_logo), modifier = Modifier.padding(end = dp16))
-        val formattedXauPln = "%.2f".format(xauToPln!!.price)
         Column(
             modifier = Modifier.padding(end = dp16)
         ) {
-            Text("Kurs złota", fontWeight = FontWeight.Bold, style = TextStyle.Default.copy(fontSize = smallFontSize))
-            Text("$formattedXauPln zł/oz", style = TextStyle.Default.copy(fontSize = smallFontSize))
+            Text(
+                stringResource(R.string.gold_exchange_rate_title),
+                fontWeight = FontWeight.Bold,
+                style = TextStyle.Default.copy(fontSize = smallFontSize)
+            )
+            xauToPln?.let {
+                Text(
+                    stringResource(R.string.xau_pln_exchange_rate, it.price),
+                    style = TextStyle.Default.copy(fontSize = smallFontSize)
+                )
+            }
         }
         HomeSearchView(
             function = {
                 viewModel.clearFilters()
                 viewModel.showResults()
             },
-            placeholderText = "Szukaj"
+            placeholderText = stringResource(R.string.search)
         )
     }
 }
@@ -94,10 +103,10 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
 @Composable
 private fun HeaderSection(viewModel: HomeViewModel, xauToPln: XauPln?) {
     TopSection(xauToPln, viewModel)
-    Header(text = "Kategorie", Modifier.padding(start = dp16, end = dp16, bottom = dp16))
+    Header(text = stringResource(R.string.categories_title), Modifier.padding(start = dp16, end = dp16, bottom = dp16))
     Categories(viewModel)
-    Header(text = "Najlepsza cena", Modifier.padding(start = dp16, end = dp16))
-    HeaderDescription("w przeliczeniu za uncję dla:")
+    Header(text = stringResource(R.string.best_price_category_title), Modifier.padding(start = dp16, end = dp16))
+    HeaderDescription(stringResource(R.string.best_oz_price_category_description))
 }
 
 @ExperimentalUnsignedTypes

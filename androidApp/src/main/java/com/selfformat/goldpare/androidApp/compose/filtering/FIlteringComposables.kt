@@ -31,10 +31,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
+import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.SortingType
+import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.buttonFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.buttonHeight
@@ -42,11 +49,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.roundCorner10dp
 import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
-import com.selfformat.goldpare.shared.model.GoldCoinType
-import com.selfformat.goldpare.shared.model.GoldType
-import com.selfformat.goldpare.shared.model.Mint
-import com.selfformat.goldpare.shared.model.SortingType
-import com.selfformat.goldpare.shared.model.WeightRange
 
 @ExperimentalFoundationApi
 @Composable
@@ -79,7 +81,7 @@ fun FilteringView(homeViewModel: HomeViewModel) {
                 onClick = { homeViewModel.showResults() },
                 colors = ButtonDefaults.textButtonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
             ) {
-                Text(text = "Pokaż wyniki", fontSize = buttonFontSize)
+                Text(text = stringResource(R.string.show_results), fontSize = buttonFontSize)
             }
         }
     }
@@ -90,7 +92,7 @@ private fun TopBar() {
     val homeViewModel = viewModel<HomeViewModel>()
     TopAppBar(
         title = {
-            Text(text = "Filtrowanie", modifier = Modifier.padding(start = 0.dp))
+            Text(text = stringResource(R.string.filtering), modifier = Modifier.padding(start = 0.dp))
         },
         backgroundColor = Color.White,
         navigationIcon = {
@@ -104,7 +106,7 @@ private fun TopBar() {
         elevation = 1.dp,
         actions = {
             Text(
-                text = "Wyczyść filtry",
+                text = stringResource(R.string.clear_filters),
                 modifier = Modifier.padding(end = dp12).clickable(onClick = {
                     homeViewModel.clearFilters()
                 })
@@ -227,7 +229,7 @@ private fun FilterGoldSetsSwitch(appliedFilters: HomeViewModel.Filters?) {
     val showSets = remember { mutableStateOf(currentFilter) }
     val viewModel: HomeViewModel = viewModel()
     Row {
-        Text("show sets: ")
+        Text(stringResource(R.string.show_sets))
         Switch(
             checked = showSets.value,
             onCheckedChange = {
@@ -314,13 +316,17 @@ private fun FilteringGoldTypeMenu(appliedFilters: HomeViewModel.Filters?) {
 private fun PriceFiltering(viewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
     val currentPriceFromFilter = appliedFilters?.priceFromFilter
     val currentPriceToFilter = appliedFilters?.priceToFilter
-    val textFrom = if (currentPriceFromFilter == NO_PRICE_FILTERING) "od" else "$currentPriceFromFilter"
-    val textTo = if (currentPriceToFilter == NO_PRICE_FILTERING) "do" else "$currentPriceToFilter"
+    val textFrom = if (currentPriceFromFilter == NO_PRICE_FILTERING) {
+        stringResource(R.string.price_from)
+    } else "$currentPriceFromFilter"
+    val textTo = if (currentPriceToFilter == NO_PRICE_FILTERING) {
+        stringResource(R.string.price_to)
+    } else "$currentPriceToFilter"
 
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text("Ceny")
+        Text(stringResource(R.string.prices))
         PriceEditText(textFrom) { priceFrom ->
             viewModel.updatePriceFromFiltering(priceFrom)
         }

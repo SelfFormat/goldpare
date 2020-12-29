@@ -1,4 +1,34 @@
 <resources>
-    <string name="app_name">Goldpare</string>
-    <string name="app_description">compare gold prices</string>
+    <string name="app_name" translatable="false">Goldpare</string>
+    <string name="app_description" translatable="false">compare gold prices</string>
+    <string name="error" translatable="false">Error: </string>
+    <string name="loading" translatable="false">Loading…</string>
+    <string name="weight_in_grams" translatable="false">%,.2f g</string>
+    <string name="price_in_zloty" translatable="false">%,.2f zł</string>
+    <string name="price_per_oz" translatable="false">(%,.2f/oz)</string>
+    <string name="xau_pln_exchange_rate" translatable="false">%,.2f zł/oz</string>
+
+    <string name="show_results">Show results</string>
+    <string name="filtering">Filtering</string>
+    <string name="clear_filters">Wyczyść filtry</string>
+    <string name="show_sets">show sets: </string>
+    <string name="prices">Ceny</string>
+    <string name="price_from">od</string>
+    <string name="price_to">do</string>
+    <string name="mint">Mennica: %s</string>
+    <string name="items_included">sztuk w zestawie: %d</string>
+    <string name="price_markup">marża: %,.2f %%</string>
+    <string name="best_oz_price_category_description">w przeliczeniu za uncję dla:</string>
+    <string name="best_price_category_title">Najlepsza cena</string>
+    <string name="categories_title">Kategorie</string>
+    <string name="search">Szukaj</string>
+    <string name="gold_exchange_rate_title">Kurs złota</string>
+    <string name="search_results">Wyniki wyszukiwania</string>
+    <string name="gold">Złoto</string>
+    <string name="filter_sort_label">FILTRUJ / SORTUJ</string>
+    <string name="hide_sets">Ukryj zestawy</string>
+    <string name="price_from_to_chip">cena: %,.2fzł - %,.2fzł</string>
+    <string name="price_from_chip">cena od: %,.2fzł</string>
+    <string name="price_to_chip">cena do: %,.2fzł</string>
+    <string name="unknown_provider">Uknown provider</string>
 </resources>

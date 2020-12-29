@@ -1,11 +1,11 @@
 package com.selfformat.goldpare.androidApp.compose.util
 
-import com.selfformat.goldpare.shared.model.GoldCoinType
+import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.SortingType
+import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.GoldType
-import com.selfformat.goldpare.shared.model.Mint
-import com.selfformat.goldpare.shared.model.SortingType
-import com.selfformat.goldpare.shared.model.WeightRange
 
 internal const val NO_PRICE_FILTERING = -1.0
 internal const val SHOW_GOLD_SETS = true
