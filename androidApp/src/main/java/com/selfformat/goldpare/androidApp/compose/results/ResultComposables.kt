@@ -198,6 +198,11 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
                     }
                 }
             }
+            AnimatedVisibility(visible = !appliedFilters.showGoldSets) {
+                Chip("Ukryj zestawy") {
+                    viewModel.clearDisplayingGoldSets()
+                }
+            }
         }
     }
 }
