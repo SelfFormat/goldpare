@@ -74,6 +74,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _state.value = loadedStateWithSortingAndFiltering()
     }
 
+    fun goToSettings() {
+        _state.value = State.Settings
+    }
+
+    fun goToBookmarks() {
+        _state.value = State.Bookmarks
+    }
+
     fun showFiltering() {
         _state.value = State.Filtering
     }
@@ -213,5 +221,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         data class ShowResults(val goldItems: List<GoldItem>, val title: String) : State()
         object Filtering : State()
         object Loading : State()
+        object Bookmarks : State()
+        object Settings : State()
     }
 }

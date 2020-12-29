@@ -123,12 +123,13 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
                         context = context
                     )
                 }
-            }
-            GoldCardWithLabel(pair.first, pair.second, xauPln, modifier = Modifier) {
-                openWebPage(
-                    pair.first.link,
-                    context = context
-                )
+            } else {
+                GoldCardWithLabel(pair.first, pair.second, xauPln, modifier = Modifier) {
+                    openWebPage(
+                        pair.first.link,
+                        context = context
+                    )
+                }
             }
         }
         item {
