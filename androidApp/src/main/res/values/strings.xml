@@ -25,6 +25,8 @@
     <string name="gold_exchange_rate_title">Kurs złota</string>
     <string name="search_results">Wyniki wyszukiwania</string>
     <string name="gold">Złoto</string>
+    <string name="coins">Monety</string>
+    <string name="bars">Sztabki</string>
     <string name="filter_sort_label">FILTRUJ / SORTUJ</string>
     <string name="hide_sets">Ukryj zestawy</string>
     <string name="price_from_to_chip">cena: %,.2fzł - %,.2fzł</string>

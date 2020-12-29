@@ -287,7 +287,7 @@ private fun FilteringGoldTypeMenu(appliedFilters: HomeViewModel.Filters?) {
     DropdownMenu(
         toggle = {
             Text(
-                text = GoldType.values()[selectedIndex.value].typeName,
+                text = stringResource(GoldType.values()[selectedIndex.value].typeName),
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -306,7 +306,7 @@ private fun FilteringGoldTypeMenu(appliedFilters: HomeViewModel.Filters?) {
                     viewModel.updateGoldTypeFiltering(value)
                 }
             ) {
-                Text(text = value.typeName)
+                Text(text = stringResource(value.typeName))
             }
         }
     }

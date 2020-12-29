@@ -154,7 +154,7 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
                 Chip(it) { viewModel.clearSearchKeyword() }
             }
             AnimatedVisibility(visible = appliedFilters.isGoldTypeApplied) {
-                Chip(appliedFilters.goldTypeFilter.typeName) {
+                Chip(stringResource(appliedFilters.goldTypeFilter.typeName)) {
                     viewModel.clearGoldTypeFiltering()
                 }
             }

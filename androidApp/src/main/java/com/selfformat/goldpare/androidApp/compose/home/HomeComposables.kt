@@ -184,7 +184,7 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp16))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = GoldType.ALL.typeName.toUpperCase(Locale.getDefault())
+            text = stringResource(GoldType.ALL.typeName).toUpperCase(Locale.getDefault())
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.ALL)
@@ -193,7 +193,7 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = GoldType.COIN.typeName.toUpperCase(Locale.getDefault())
+            text = stringResource(GoldType.COIN.typeName).toUpperCase(Locale.getDefault())
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.COIN)
@@ -202,7 +202,7 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = GoldType.BAR.typeName.toUpperCase(Locale.getDefault())
+            text = stringResource(GoldType.BAR.typeName).toUpperCase(Locale.getDefault())
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.BAR)
