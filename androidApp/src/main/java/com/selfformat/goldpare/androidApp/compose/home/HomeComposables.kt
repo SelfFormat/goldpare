@@ -17,11 +17,11 @@ import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
@@ -42,12 +42,12 @@ import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp16
 import com.selfformat.goldpare.androidApp.compose.theme.dp20
-import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.fontWeight300
 import com.selfformat.goldpare.androidApp.compose.theme.gray500
 import com.selfformat.goldpare.androidApp.compose.theme.headerDescriptionFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.headerFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.theme.smallFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
@@ -215,12 +215,11 @@ private fun Categories(viewModel: HomeViewModel) {
 @Composable
 private fun CategoryBox(text: String, modifier: Modifier, onClick: (() -> Unit)) {
     Column(
-        modifier.background(
+        modifier.clip(shapes.small).background(
             brush = Brush.verticalGradient(
                 0.0f to categoryGradientTop,
                 1.0f to categoryGradientBottom // TODO add another color set for darkmode
-            ),
-            RoundedCornerShape(dp4),
+            )
         ).clickable(onClick = onClick).defaultMinSizeConstraints(categoryBoxMinSize)
     ) {
         Text(text = text, Modifier.padding(dp20).wrapContentSize().align(Alignment.CenterHorizontally))
