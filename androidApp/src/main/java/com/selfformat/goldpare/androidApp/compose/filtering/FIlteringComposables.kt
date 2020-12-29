@@ -1,7 +1,6 @@
 package com.selfformat.goldpare.androidApp.compose.filtering
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,11 +34,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.theme.buttonFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.buttonHeight
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
+import com.selfformat.goldpare.androidApp.compose.theme.roundCorner10dp
 import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 import com.selfformat.goldpare.shared.model.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldType
@@ -68,17 +69,17 @@ fun FilteringView(homeViewModel: HomeViewModel) {
             verticalAlignment = Alignment.Bottom
         ) {
             TextButton(
-                modifier = Modifier.fillMaxWidth().height(60.dp).padding(
+                modifier = Modifier.fillMaxWidth().height(buttonHeight).padding(
                     start = dp12,
                     end = dp12,
                     top = dp8,
                     bottom = dp8
                 ),
-                shape = RoundedCornerShape(10.dp),
+                shape = RoundedCornerShape(roundCorner10dp),
                 onClick = { homeViewModel.showResults() },
                 colors = ButtonDefaults.textButtonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
             ) {
-                Text(text = "Pokaż wyniki",fontSize = 18.sp)
+                Text(text = "Pokaż wyniki", fontSize = buttonFontSize)
             }
         }
     }

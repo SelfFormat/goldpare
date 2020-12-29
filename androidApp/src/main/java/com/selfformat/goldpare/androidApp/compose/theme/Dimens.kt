@@ -19,6 +19,8 @@ val topSectionHeight = 60.dp
 val searchHeight = 48.dp
 val categoryBoxMinSize = 100.dp
 val bottomNavigationHeight = 56.dp
+val buttonHeight = 60.dp
+val roundCorner10dp = 10.dp
 
 // font dimens
 val logoFontSize = 42.sp
@@ -26,6 +28,7 @@ val smallFontSize = 11.sp
 val headerFontSize = 20.sp
 val headerDescriptionFontSize = 18.sp
 val fontWeight300 = FontWeight(300)
+val buttonFontSize = 18.sp
 
 val logoDescriptionFontSize = smallFontSize
 val noElevation = 0.dp
