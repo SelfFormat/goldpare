@@ -33,6 +33,8 @@ import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
@@ -51,8 +53,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.androidApp.compose.enums.GoldType
-import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import java.util.Locale
 
 @ExperimentalUnsignedTypes
@@ -157,7 +157,7 @@ private fun GoldCardWithLabel(
     onClick: (() -> Unit)
 ) {
     Box(modifier = modifier) {
-        WeightLabel(weight.labelRangeName)
+        WeightLabel(stringResource(weight.labelRangeName))
         GoldCard(item, xauPln, onClick)
     }
 }

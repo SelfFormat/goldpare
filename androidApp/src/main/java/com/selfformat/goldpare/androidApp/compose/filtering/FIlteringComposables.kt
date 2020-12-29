@@ -198,7 +198,7 @@ private fun FilteringWeightMenu(appliedFilters: HomeViewModel.Filters?) {
     DropdownMenu(
         toggle = {
             Text(
-                text = WeightRange.values()[selectedIndex.value].rangeName,
+                text = stringResource(WeightRange.values()[selectedIndex.value].rangeName),
                 modifier = Modifier.fillMaxWidth().clickable(
                     onClick = { showMenu.value = true }
                 )
@@ -217,7 +217,7 @@ private fun FilteringWeightMenu(appliedFilters: HomeViewModel.Filters?) {
                     viewModel.updateWeightFiltering(value)
                 }
             ) {
-                Text(text = value.rangeName)
+                Text(text = stringResource(value.rangeName))
             }
         }
     }

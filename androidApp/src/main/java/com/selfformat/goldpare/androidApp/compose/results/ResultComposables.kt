@@ -39,6 +39,7 @@ import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.ResultsSearchView
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.CHIP_ICON_SCALE
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
@@ -50,7 +51,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.util.openWebPage
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 
 @ExperimentalAnimationApi
 @ExperimentalUnsignedTypes
@@ -166,12 +166,7 @@ private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
                 }
             }
             AnimatedVisibility(visible = appliedFilters.isWeightTypeApplied) {
-                Chip(appliedFilters.weightFilter.labelRangeName) {
-                    viewModel.clearWeightFiltering()
-                }
-            }
-            AnimatedVisibility(visible = appliedFilters.isWeightTypeApplied) {
-                Chip(appliedFilters.weightFilter.labelRangeName) {
+                Chip(stringResource(appliedFilters.weightFilter.labelRangeName)) {
                     viewModel.clearWeightFiltering()
                 }
             }
