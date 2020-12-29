@@ -1,21 +1,11 @@
 package com.selfformat.goldpare.shared.cache
 
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.shared.model.Mint
 
 internal class GoldItemMapper {
     fun priceDouble(price: String?): Double? {
         return price?.replace("\\s".toRegex(), "")?.replace("zł", "")?.replace("PLN", "")
             ?.replace("/szt.", "")?.replace(",", ".")?.toDoubleOrNull()
-    }
-
-    fun mintFullName(website: String): String {
-        Mint.values().forEach {
-            if (website == it.name) {
-                return it.fullName
-            }
-        }
-        return "Uknown provider"
     }
 
     fun pricePerGram(
