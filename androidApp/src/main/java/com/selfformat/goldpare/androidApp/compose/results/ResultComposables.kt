@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
@@ -212,10 +213,8 @@ private fun Chip(text: String, onClick: (() -> Unit)) {
         modifier = Modifier.padding(
             top = dp12,
             end = dp12
-        ).clickable(onClick = onClick
-        ).background(
-            color = Color.LightGray,
-            shape = CircleShape
+        ).clip(CircleShape).clickable(onClick = onClick).background(
+            color = Color.LightGray
         ).wrapContentWidth().clipToBounds(),
     ) {
         Text(

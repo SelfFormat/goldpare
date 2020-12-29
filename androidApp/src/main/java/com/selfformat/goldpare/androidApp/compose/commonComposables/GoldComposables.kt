@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -27,6 +26,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
@@ -38,17 +38,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.SHADOW_ALPHA
-import com.selfformat.goldpare.androidApp.compose.theme.cardCorners
 import com.selfformat.goldpare.androidApp.compose.theme.dividerColor
 import com.selfformat.goldpare.androidApp.compose.theme.dividerThickness
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp16
+import com.selfformat.goldpare.androidApp.compose.theme.dp32
 import com.selfformat.goldpare.androidApp.compose.theme.dp6
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
+import com.selfformat.goldpare.androidApp.compose.theme.imageCornersShape
 import com.selfformat.goldpare.androidApp.compose.theme.imageWidth
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.theme.shadowColor
+import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.util.drawColoredShadow
 import com.selfformat.goldpare.androidApp.compose.util.mintFullName
 import com.selfformat.goldpare.shared.api.XauPln
@@ -133,18 +135,16 @@ fun Loading() {
 fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
     val modifier = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         // TODO fix too high api needed for this
-        Modifier.padding(
-            top = dp6,
-            bottom = dp8,
-            start = dp16,
-            end = dp16
-        )
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
+        Modifier
             .drawColoredShadow(
                 shadowColor,
                 alpha = SHADOW_ALPHA,
-                shadowRadius = dp16
+                shadowRadius = dp32
+            ).padding(
+                top = dp6,
+                bottom = dp8,
+                start = dp16,
+                end = dp16
             )
     } else {
         Modifier.padding(
@@ -153,22 +153,18 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
             start = dp16,
             end = dp16
         )
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
     }
 
     Card(
         elevation = noElevation,
-        shape = RoundedCornerShape(cardCorners),
-        modifier = modifier
+        modifier = modifier.fillMaxWidth().clip(shapes.medium).clickable(onClick = onClick)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.padding(dp12)) {
                 if (item.image != null) {
                     ImageFromUrl(
                         item.image!!,
-                        modifier = Modifier.width(imageWidth) // TODO make corners rounded
-                    )
+                        modifier = Modifier.width(imageWidth).clip(imageCornersShape))
                 }
             }
             Column(Modifier.padding(dp16)) {
