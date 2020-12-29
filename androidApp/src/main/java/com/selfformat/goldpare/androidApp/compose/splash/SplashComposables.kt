@@ -18,7 +18,7 @@ import com.selfformat.goldpare.androidApp.compose.theme.logoDescriptionFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.logoFontSize
 
 @Composable
-private fun SplashWithLoading() {
+fun SplashWithLoading() {
     Column(
         modifier = Modifier.fillMaxSize().fillMaxHeight().background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally,

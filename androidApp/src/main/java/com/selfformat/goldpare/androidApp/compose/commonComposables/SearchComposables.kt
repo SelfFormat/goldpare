@@ -52,8 +52,6 @@ fun HomeSearchView(
     placeholderText: String
 ) {
     val text = remember { mutableStateOf(TextFieldValue()) }
-    // TODO(force input type to be digits - for now only keyboard is forced)
-
     val textFieldFocusState = remember { mutableStateOf(false) }
 
     CustomSearchView(

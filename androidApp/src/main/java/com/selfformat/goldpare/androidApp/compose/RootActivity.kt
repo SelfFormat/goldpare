@@ -22,6 +22,7 @@ import com.selfformat.goldpare.androidApp.compose.filtering.FilteringView
 import com.selfformat.goldpare.androidApp.compose.home.HomeLoaded
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.results.ResultsLoaded
+import com.selfformat.goldpare.androidApp.compose.splash.SplashWithLoading
 import com.selfformat.goldpare.androidApp.compose.theme.GoldpareTheme
 import com.selfformat.goldpare.shared.api.XauPln
 
@@ -73,12 +74,18 @@ class RootActivity : AppCompatActivity() {
                             is HomeViewModel.State.Filtering -> {
                                 FilteringView(homeViewModel)
                             }
+                            is HomeViewModel.State.Bookmarks -> {
+                                SplashWithLoading()
+                            }
+                            is HomeViewModel.State.Settings -> {
+                                SplashWithLoading()
+                            }
                         }
                     }
                 }
                 if (state !is HomeViewModel.State.Filtering) {
                     BottomGradient()
-                    BottomNavigationBar()
+                    BottomNavigationBar(homeViewModel)
                 }
             }
         }

@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.SHADOW_ALPHA
 import com.selfformat.goldpare.androidApp.compose.theme.cardCorners
 import com.selfformat.goldpare.androidApp.compose.theme.dividerColor
@@ -51,7 +52,7 @@ import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 
 @Composable
-internal fun BottomNavigationBar() {
+internal fun BottomNavigationBar(homeViewModel: HomeViewModel) {
     Row(
         modifier = Modifier
             .fillMaxSize(),
@@ -65,16 +66,16 @@ internal fun BottomNavigationBar() {
         ) {
             BottomNavigationItem(icon = {
                 Icon(Icons.Filled.Home)
-            }, selected = true, onClick = { /*TODO*/ })
+            }, selected = true, onClick = { homeViewModel.backToHome() })
             BottomNavigationItem(icon = {
                 Icon(Icons.Filled.FilterList)
-            }, selected = true, onClick = { /*TODO*/ })
+            }, selected = true, onClick = { homeViewModel.showFiltering() })
             BottomNavigationItem(icon = {
                 Icon(Icons.Filled.Notifications)
-            }, selected = true, onClick = { /*TODO*/ })
+            }, selected = true, onClick = { homeViewModel.goToBookmarks() })
             BottomNavigationItem(icon = {
                 Icon(Icons.Filled.Settings)
-            }, selected = true, onClick = { /*TODO*/ })
+            }, selected = true, onClick = { homeViewModel.goToSettings() })
         }
     }
 }
@@ -128,6 +129,7 @@ fun Loading() {
 @Composable
 fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
     val modifier = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        // TODO fix too high api needed for this
         Modifier.padding(
                 top = dp6,
                 bottom = dp8,
@@ -150,7 +152,7 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
             )
             .fillMaxWidth()
             .clickable(onClick = onClick)
-    } // TODO fix too high api needed for this
+    }
 
     Card(
         elevation = noElevation,
