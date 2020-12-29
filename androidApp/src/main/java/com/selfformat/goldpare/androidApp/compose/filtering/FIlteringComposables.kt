@@ -16,6 +16,7 @@ import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
@@ -93,7 +94,7 @@ private fun TopBar() {
         title = {
             Text(text = stringResource(R.string.filtering), modifier = Modifier.padding(start = 0.dp))
         },
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colors.background,
         navigationIcon = {
             IconButton(
                 onClick = { homeViewModel.backToHome() },

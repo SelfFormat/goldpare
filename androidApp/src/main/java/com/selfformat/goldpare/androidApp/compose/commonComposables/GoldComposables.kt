@@ -17,6 +17,7 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
@@ -49,7 +50,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
 import com.selfformat.goldpare.androidApp.compose.theme.imageCornersShape
 import com.selfformat.goldpare.androidApp.compose.theme.imageWidth
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
-import com.selfformat.goldpare.androidApp.compose.theme.shadowColor
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.util.drawColoredShadow
 import com.selfformat.goldpare.androidApp.compose.util.mintFullName
@@ -59,14 +59,13 @@ import com.selfformat.goldpare.shared.model.GoldItem
 @Composable
 internal fun BottomNavigationBar(homeViewModel: HomeViewModel) {
     Row(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
         androidx.compose.material.BottomNavigation(
             modifier = Modifier.fillMaxWidth(),
-            backgroundColor = Color.White,
+            backgroundColor = MaterialTheme.colors.background,
             contentColor = Color.Gray
         ) {
             BottomNavigationItem(icon = {
@@ -88,8 +87,7 @@ internal fun BottomNavigationBar(homeViewModel: HomeViewModel) {
 @Composable
 internal fun BottomGradient() {
     Row(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Bottom
     ) {
@@ -100,7 +98,7 @@ internal fun BottomGradient() {
                 .background(
                     brush = Brush.verticalGradient(
                         0.0f to Color.Transparent,
-                        1.0f to Color.White // TODO Fix darkmode
+                        1.0f to MaterialTheme.colors.background // TODO Fix darkmode
                     )
                 ),
         ) {
@@ -137,7 +135,7 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
         // TODO fix too high api needed for this
         Modifier
             .drawColoredShadow(
-                shadowColor,
+                MaterialTheme.colors.onBackground,
                 alpha = SHADOW_ALPHA,
                 shadowRadius = dp32
             ).padding(

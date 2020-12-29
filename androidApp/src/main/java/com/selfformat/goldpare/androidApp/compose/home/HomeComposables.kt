@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -37,8 +39,10 @@ import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
-import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottom
-import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTop
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottomDark
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottomLight
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTopDark
+import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTopLight
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp16
 import com.selfformat.goldpare.androidApp.compose.theme.dp20
@@ -73,7 +77,11 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.height(topSectionHeight).padding(start = dp16, end = dp16, top = dp12, bottom = dp12)
     ) {
-        Image(vectorResource(id = R.drawable.ic_temp_mini_logo), modifier = Modifier.padding(end = dp16))
+        Image(
+            vectorResource(id = R.drawable.ic_temp_mini_logo_black),
+            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+            modifier = Modifier.padding(end = dp16),
+        )
         Column(
             modifier = Modifier.padding(end = dp16)
         ) {
@@ -214,11 +222,14 @@ private fun Categories(viewModel: HomeViewModel) {
 
 @Composable
 private fun CategoryBox(text: String, modifier: Modifier, onClick: (() -> Unit)) {
+    val isLightTheme = MaterialTheme.colors.isLight
+    val gradientTopColor = if (isLightTheme) categoryGradientTopLight else categoryGradientTopDark
+    val gradientBottomColor = if (isLightTheme) categoryGradientBottomLight else categoryGradientBottomDark
     Column(
         modifier.clip(shapes.small).background(
             brush = Brush.verticalGradient(
-                0.0f to categoryGradientTop,
-                1.0f to categoryGradientBottom // TODO add another color set for darkmode
+                0.0f to gradientTopColor,
+                1.0f to gradientBottomColor // TODO add another color set for darkmode
             )
         ).clickable(onClick = onClick).defaultMinSizeConstraints(categoryBoxMinSize)
     ) {

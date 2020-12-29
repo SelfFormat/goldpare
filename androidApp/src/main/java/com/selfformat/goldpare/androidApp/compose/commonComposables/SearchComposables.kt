@@ -43,8 +43,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.dp32
 import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp6
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
-import com.selfformat.goldpare.androidApp.compose.theme.homeSearchBackgroundColor
-import com.selfformat.goldpare.androidApp.compose.theme.resultSearchBackgroundColor
 import com.selfformat.goldpare.androidApp.compose.theme.searchHeight
 
 @ExperimentalFoundationApi
@@ -66,7 +64,7 @@ fun HomeSearchView(
         focusState = textFieldFocusState.value,
         onTextChanged = { function() },
         placeholderText = placeholderText,
-        backgroundColor = homeSearchBackgroundColor,
+        backgroundColor = MaterialTheme.colors.primaryVariant,
         keyboardShown = false,
         onImeAction = {},
         searchIconAction = {}
@@ -94,7 +92,7 @@ fun ResultsSearchView(
             text.value = it
         },
         placeholderText = placeholderText,
-        backgroundColor = resultSearchBackgroundColor,
+        backgroundColor = MaterialTheme.colors.background,
         showIconOnRowEnd = true,
         keyboardShown = keyboardShown,
         onImeAction = { performSearch(viewModel, text, textFieldFocusState) },
