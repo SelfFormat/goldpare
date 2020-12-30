@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -49,7 +50,6 @@ import com.selfformat.goldpare.androidApp.compose.theme.buttonHeight
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
-import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 
 @ExperimentalFoundationApi
 @Composable
@@ -316,32 +316,33 @@ private fun FilteringGoldTypeMenu(appliedFilters: HomeViewModel.Filters?) {
 private fun PriceFiltering(viewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
     val currentPriceFromFilter = appliedFilters?.priceFromFilter
     val currentPriceToFilter = appliedFilters?.priceToFilter
-    val textFrom = if (currentPriceFromFilter == NO_PRICE_FILTERING) {
-        stringResource(R.string.price_from)
-    } else "$currentPriceFromFilter"
-    val textTo = if (currentPriceToFilter == NO_PRICE_FILTERING) {
-        stringResource(R.string.price_to)
-    } else "$currentPriceToFilter"
+    val textFrom = stringResource(R.string.price_from)
+    val textTo = stringResource(R.string.price_to)
 
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Text(stringResource(R.string.prices))
-        PriceEditText(textFrom) { priceFrom ->
+        PriceEditText(textFrom, currentPriceFromFilter.toString()) { priceFrom ->
             viewModel.updatePriceFromFiltering(priceFrom)
         }
-        PriceEditText(textTo) { priceTo ->
+        PriceEditText(textTo, currentPriceToFilter.toString()) { priceTo ->
             viewModel.updatePriceToFiltering(priceTo)
         }
     }
 }
 
 @Composable
-private fun PriceEditText(labelText: String, function: (Double) -> Unit) {
-    val text = remember { mutableStateOf(TextFieldValue()) }
+private fun PriceEditText(
+    labelText: String,
+    initialValue: String = "",
+    function: (Double) -> Unit
+) {
+    val text = remember { mutableStateOf(TextFieldValue(text = initialValue)) }
+    val isInputEmpty = text.value.text.isEmpty()
+    val errorState = if (!isInputEmpty) text.value.text.toDoubleOrNull() == null else false
 
     OutlinedTextField(
-        // TODO(force input type to be digits - for now only keyboard is forced)
         placeholder = {
             Text(labelText)
         },
@@ -352,10 +353,19 @@ private fun PriceEditText(labelText: String, function: (Double) -> Unit) {
         singleLine = true,
         onValueChange = {
             text.value = it
-            if (it.text.isNotEmpty()) {
-                function(it.text.toDouble())
-            }
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        isErrorValue = errorState,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
+        onImeActionPerformed = { action, softwareController ->
+            if (action == ImeAction.Done) {
+                softwareController?.hideSoftwareKeyboard()
+                if (action == ImeAction.Done) {
+                    if (!errorState && !isInputEmpty) function(text.value.text.toDouble())
+                }
+            }
+        }
     )
 }
