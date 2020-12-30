@@ -28,7 +28,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
@@ -37,6 +40,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
@@ -65,7 +69,8 @@ fun ResultsLoaded(homeViewModel: HomeViewModel, state: HomeViewModel.State.ShowR
                 list = state.goldItems,
                 xauPln = xauPln,
                 model = homeViewModel,
-                title = state.title
+                title = state.title,
+                forceFocus = state.forceFocus
             )
         }
     }
@@ -79,12 +84,13 @@ private fun GoldResults(
     list: List<GoldItem>,
     xauPln: XauPln,
     model: HomeViewModel,
-    title: String = stringResource(R.string.gold)
+    title: String = stringResource(R.string.gold),
+    forceFocus: Boolean
 ) {
     val context = AmbientContext.current
     LazyColumn {
         item {
-            TopBar(title)
+            TopBar(title, forceFocus)
             SortFilterCTA(model)
             ListOfAppliedFilters(model)
         }
@@ -104,15 +110,27 @@ private fun GoldResults(
 
 @ExperimentalFoundationApi
 @Composable
-private fun TopBar(title: String) {
+private fun TopBar(title: String, forceFocus: Boolean = false) {
     val homeViewModel = viewModel<HomeViewModel>()
+    val text = remember { mutableStateOf(TextFieldValue()) }
+    val textFieldFocusState = remember { mutableStateOf(false) }
+
     TopAppBar(
         title = {
             ResultsSearchView(
-                viewModel = homeViewModel,
+                textFieldValue = text.value,
+                onTextChanged = { text.value = it },
+                // Only show the keyboard if there's no input selector and text field has focus
+                keyboardShown = textFieldFocusState.value,
+                // Close extended selector if text field receives focus
+                onTextFieldFocused = { focused ->
+                    textFieldFocusState.value = focused
+                },
+                focusState = textFieldFocusState.value,
                 placeholderText = title,
-                keyboardShown = false
-            )
+                backgroundColor = MaterialTheme.colors.background,
+                searchAction = { performSearch(homeViewModel, text) },
+                forceFocus = forceFocus)
         },
         backgroundColor = MaterialTheme.colors.background,
         navigationIcon = {
@@ -125,6 +143,17 @@ private fun TopBar(title: String) {
         },
         elevation = noElevation
     )
+}
+
+private fun performSearch(
+    viewModel: HomeViewModel,
+    text: MutableState<TextFieldValue>,
+) {
+    if (viewModel.state.value is HomeViewModel.State.ShowResults) {
+        // ensure you can call this
+        viewModel.updateSearchKeyword(text.value.text)
+    }
+    viewModel.showResults()
 }
 
 @Composable

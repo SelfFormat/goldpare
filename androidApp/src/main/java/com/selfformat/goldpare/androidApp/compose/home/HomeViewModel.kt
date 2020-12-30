@@ -6,6 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
+import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.SortingType
+import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 import com.selfformat.goldpare.androidApp.compose.util.SHOW_GOLD_SETS
 import com.selfformat.goldpare.androidApp.compose.util.filterByCoinType
@@ -19,12 +24,7 @@ import com.selfformat.goldpare.androidApp.compose.util.showCoinSets
 import com.selfformat.goldpare.androidApp.compose.util.sortBy
 import com.selfformat.goldpare.shared.GoldSDK
 import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
-import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
 import com.selfformat.goldpare.shared.model.GoldItem
-import com.selfformat.goldpare.androidApp.compose.enums.GoldType
-import com.selfformat.goldpare.androidApp.compose.enums.Mint
-import com.selfformat.goldpare.androidApp.compose.enums.SortingType
-import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -168,8 +168,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         showResults()
     }
 
-    fun showResults() {
-        _state.value = searchResultsWithSortingAndFiltering()
+    fun showResults(forceFocus: Boolean = false) {
+        _state.value = searchResultsWithSortingAndFiltering(forceFocus)
     }
 
     fun clearFilters() {
@@ -177,7 +177,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     @Suppress("MaxLineLength")
-    private fun searchResultsWithSortingAndFiltering(): State.ShowResults {
+    private fun searchResultsWithSortingAndFiltering(forceFocus: Boolean): State.ShowResults {
         return State.ShowResults(
             goldItems = data.searchFor(appliedFilters.value!!.searchPhrase)
                 .filterGoldType(appliedFilters.value!!.goldTypeFilter)
@@ -188,7 +188,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 .filterPriceFrom(appliedFilters.value!!.priceFromFilter)
                 .filterPriceTo(appliedFilters.value!!.priceToFilter)
                 .sortBy(appliedFilters.value!!.sortingType),
-            title = appliedFilters.value!!.searchPhrase ?: getApplication<Application>().resources.getString(R.string.search_results)
+            title = appliedFilters.value!!.searchPhrase ?: getApplication<Application>().resources.getString(R.string.search_results),
+            forceFocus = forceFocus
         )
     }
 
@@ -221,7 +222,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     sealed class State {
         data class Home(val goldItems: List<Pair<GoldItem, WeightRange>>) : State()
         data class Error(val throwable: Throwable) : State()
-        data class ShowResults(val goldItems: List<GoldItem>, val title: String) : State()
+        data class ShowResults(
+            val goldItems: List<GoldItem>,
+            val title: String,
+            val forceFocus: Boolean = false
+        ) : State()
         object Filtering : State()
         object Loading : State()
         object Bookmarks : State()

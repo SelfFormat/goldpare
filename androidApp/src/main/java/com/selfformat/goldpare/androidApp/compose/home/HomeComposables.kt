@@ -34,7 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
-import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeSearchView
+import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeFakeSearchView
 import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
@@ -97,12 +97,11 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
                 )
             }
         }
-        HomeSearchView(
+        HomeFakeSearchView(
             function = {
                 viewModel.clearFilters()
-                viewModel.showResults()
-            },
-            placeholderText = stringResource(R.string.search)
+                viewModel.showResults(forceFocus = true)
+            }
         )
     }
 }
