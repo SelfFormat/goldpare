@@ -9,6 +9,8 @@ val gray500 = Color(0xFF828282)
 val gray900 = Color(0xFF212121)
 val blue200 = Color(0xFF34a4eb)
 
+val primaryGold = Color(0xFFD49A44)
+
 val categoryGradientTopLight = Color(0xFFF9D299)
 val categoryGradientBottomLight = Color(0xFFE6C087)
 val categoryGradientTopDark = Color(0xFF916018)
