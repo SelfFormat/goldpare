@@ -23,13 +23,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.onActive
 import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SoftwareKeyboardController
@@ -84,6 +87,7 @@ fun ResultsSearchView(
     backgroundColor: Color,
     keyboardShown: Boolean,
     searchAction: () -> Unit,
+    forceFocus: Boolean
 ) {
     // Grab a reference to the keyboard controller whenever text input starts
     val keyboardController = remember { mutableStateOf<SoftwareKeyboardController?>(null) }
@@ -97,9 +101,13 @@ fun ResultsSearchView(
         }
     }
 
+    val lastFocusState = remember { mutableStateOf(FocusState.Inactive) }
+    val focusRequester = FocusRequester()
+
     Row(
         horizontalArrangement = Arrangement.Center
     ) {
+        val focusRequesterModifier = if (forceFocus) Modifier.focusRequester(focusRequester) else Modifier
         Surface {
             Box(
                 modifier = Modifier
@@ -109,11 +117,10 @@ fun ResultsSearchView(
                         shape = CircleShape
                     ),
             ) {
-                val lastFocusState = remember { mutableStateOf(FocusState.Inactive) }
                 BasicTextField(
                     value = textFieldValue,
                     onValueChange = { onTextChanged(it) },
-                    modifier = Modifier
+                    modifier = focusRequesterModifier
                         .fillMaxWidth()
                         .padding(start = 0.dp, end = dp8)
                         .align(Alignment.CenterStart)
@@ -125,7 +132,7 @@ fun ResultsSearchView(
                         },
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search
+                        imeAction = ImeAction.Search,
                     ),
                     onTextInputStarted = { keyboardController.value = it },
                     onImeActionPerformed = {
@@ -137,7 +144,9 @@ fun ResultsSearchView(
                     cursorColor = AmbientContentColor.current,
                     textStyle = AmbientTextStyle.current.copy(color = AmbientContentColor.current)
                 )
-                val iconModifier = if (focusState) Modifier.clickable(onClick = searchAction) else Modifier
+                val iconModifier = if (textFieldValue.text.isNotEmpty()) {
+                    Modifier.clickable(onClick = searchAction)
+                } else Modifier
                 Icon(
                     Icons.Filled.Search,
                     iconModifier.align(Alignment.CenterEnd).padding(end = dp6)
@@ -152,6 +161,11 @@ fun ResultsSearchView(
                     )
                 }
             }
+        }
+    }
+    if (forceFocus) {
+        onActive {
+            focusRequester.requestFocus()
         }
     }
 }

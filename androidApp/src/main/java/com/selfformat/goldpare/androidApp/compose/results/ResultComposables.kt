@@ -69,7 +69,8 @@ fun ResultsLoaded(homeViewModel: HomeViewModel, state: HomeViewModel.State.ShowR
                 list = state.goldItems,
                 xauPln = xauPln,
                 model = homeViewModel,
-                title = state.title
+                title = state.title,
+                forceFocus = state.forceFocus
             )
         }
     }
@@ -83,12 +84,13 @@ private fun GoldResults(
     list: List<GoldItem>,
     xauPln: XauPln,
     model: HomeViewModel,
-    title: String = stringResource(R.string.gold)
+    title: String = stringResource(R.string.gold),
+    forceFocus: Boolean
 ) {
     val context = AmbientContext.current
     LazyColumn {
         item {
-            TopBar(title)
+            TopBar(title, forceFocus)
             SortFilterCTA(model)
             ListOfAppliedFilters(model)
         }
@@ -108,23 +110,27 @@ private fun GoldResults(
 
 @ExperimentalFoundationApi
 @Composable
-private fun TopBar(title: String) {
+private fun TopBar(title: String, forceFocus: Boolean = false) {
     val homeViewModel = viewModel<HomeViewModel>()
+    val text = remember { mutableStateOf(TextFieldValue()) }
+    val textFieldFocusState = remember { mutableStateOf(false) }
+
     TopAppBar(
         title = {
-            val text = remember { mutableStateOf(TextFieldValue()) }
-            val textFieldFocusState = remember { mutableStateOf(false) }
-
             ResultsSearchView(
                 textFieldValue = text.value,
-                onTextFieldFocused = { focused -> textFieldFocusState.value = focused },
-                focusState = textFieldFocusState.value,
                 onTextChanged = { text.value = it },
+                // Only show the keyboard if there's no input selector and text field has focus
+                keyboardShown = textFieldFocusState.value,
+                // Close extended selector if text field receives focus
+                onTextFieldFocused = { focused ->
+                    textFieldFocusState.value = focused
+                },
+                focusState = textFieldFocusState.value,
                 placeholderText = title,
                 backgroundColor = MaterialTheme.colors.background,
-                keyboardShown = false,
-                searchAction = { performSearch(homeViewModel, text, textFieldFocusState) }
-            )
+                searchAction = { performSearch(homeViewModel, text) },
+                forceFocus = forceFocus)
         },
         backgroundColor = MaterialTheme.colors.background,
         navigationIcon = {
@@ -142,15 +148,12 @@ private fun TopBar(title: String) {
 private fun performSearch(
     viewModel: HomeViewModel,
     text: MutableState<TextFieldValue>,
-    textFieldFocusState: MutableState<Boolean>
 ) {
     if (viewModel.state.value is HomeViewModel.State.ShowResults) {
         // ensure you can call this
         viewModel.updateSearchKeyword(text.value.text)
     }
-    if (textFieldFocusState.value) {
-        viewModel.showResults()
-    }
+    viewModel.showResults()
 }
 
 @Composable

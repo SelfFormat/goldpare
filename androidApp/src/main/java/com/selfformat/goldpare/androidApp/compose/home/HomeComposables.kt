@@ -100,7 +100,7 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         HomeFakeSearchView(
             function = {
                 viewModel.clearFilters()
-                viewModel.showResults()
+                viewModel.showResults(forceFocus = true)
             }
         )
     }
