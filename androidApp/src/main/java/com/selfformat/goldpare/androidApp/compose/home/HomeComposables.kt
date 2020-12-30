@@ -232,7 +232,12 @@ private fun CategoryBox(text: String, modifier: Modifier, onClick: (() -> Unit))
             )
         ).clickable(onClick = onClick).defaultMinSizeConstraints(categoryBoxMinSize)
     ) {
-        Text(text = text, Modifier.padding(dp20).wrapContentSize().align(Alignment.CenterHorizontally))
+        Text(text = text, Modifier.padding(
+            start = dp8,
+            end = dp8,
+            top = dp20,
+            bottom = dp20
+        ).wrapContentSize().align(Alignment.CenterHorizontally))
     }
 }
 
