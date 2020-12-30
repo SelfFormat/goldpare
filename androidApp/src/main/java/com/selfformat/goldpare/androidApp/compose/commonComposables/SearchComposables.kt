@@ -173,6 +173,25 @@ fun ResultsSearchView(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-fun SearchPreview() {
+fun HomeFakeSearchPreview() {
     HomeFakeSearchView(function = {})
+}
+
+@ExperimentalFoundationApi
+@Preview
+@Composable
+fun ResultSearchPreview() {
+    ResultsSearchView(
+        textFieldValue = TextFieldValue(text = "hello"),
+        onTextChanged = { },
+        // Only show the keyboard if there's no input selector and text field has focus
+        keyboardShown = false,
+        // Close extended selector if text field receives focus
+        onTextFieldFocused = { },
+        focusState = false,
+        placeholderText = "Placeholder text",
+        backgroundColor = MaterialTheme.colors.background,
+        searchAction = { },
+        forceFocus = false
+    )
 }
