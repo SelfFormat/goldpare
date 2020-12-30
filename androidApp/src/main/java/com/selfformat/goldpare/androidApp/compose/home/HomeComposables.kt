@@ -59,7 +59,6 @@ import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 import java.util.Locale
 
-@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 internal fun HomeLoaded(
@@ -116,7 +115,6 @@ private fun HeaderSection(viewModel: HomeViewModel, xauToPln: XauPln?) {
     HeaderDescription(stringResource(R.string.best_oz_price_category_description))
 }
 
-@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: XauPln, viewModel: HomeViewModel) {
@@ -154,7 +152,6 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
     }
 }
 
-@ExperimentalUnsignedTypes
 @Composable
 private fun GoldCardWithLabel(
     item: GoldItem,

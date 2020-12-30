@@ -29,7 +29,6 @@ import com.selfformat.goldpare.shared.api.XauPln
 class RootActivity : AppCompatActivity() {
 
     @ExperimentalAnimationApi
-    @ExperimentalUnsignedTypes
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +42,6 @@ class RootActivity : AppCompatActivity() {
     }
 
     @ExperimentalAnimationApi
-    @ExperimentalUnsignedTypes
     @ExperimentalFoundationApi
     @Composable
     fun HomeView() {
