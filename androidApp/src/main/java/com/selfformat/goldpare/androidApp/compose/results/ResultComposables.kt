@@ -59,7 +59,6 @@ import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 
 @ExperimentalAnimationApi
-@ExperimentalUnsignedTypes
 @ExperimentalFoundationApi
 @Composable
 fun ResultsLoaded(homeViewModel: HomeViewModel, state: HomeViewModel.State.ShowResults, xauPln: XauPln) {
@@ -78,7 +77,6 @@ fun ResultsLoaded(homeViewModel: HomeViewModel, state: HomeViewModel.State.ShowR
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
-@ExperimentalUnsignedTypes
 @Composable
 private fun GoldResults(
     list: List<GoldItem>,

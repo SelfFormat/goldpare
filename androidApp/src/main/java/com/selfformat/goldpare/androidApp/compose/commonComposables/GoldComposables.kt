@@ -1,6 +1,5 @@
 package com.selfformat.goldpare.androidApp.compose.commonComposables
 
-import android.os.Build
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -127,35 +126,24 @@ fun Loading() {
     }
 }
 
-@ExperimentalUnsignedTypes
 @SuppressWarnings("LongMethod")
 @Composable
 fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
-    val modifier = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        // TODO fix too high api needed for this
-        Modifier
+    Card(
+        elevation = noElevation,
+        modifier = Modifier
             .drawColoredShadow(
                 MaterialTheme.colors.onBackground,
                 alpha = SHADOW_ALPHA,
-                shadowRadius = dp32
-            ).padding(
+                shadowRadius = dp32)
+            .padding(
                 top = dp6,
                 bottom = dp8,
                 start = dp16,
-                end = dp16
-            )
-    } else {
-        Modifier.padding(
-            top = dp6,
-            bottom = dp8,
-            start = dp16,
-            end = dp16
-        )
-    }
-
-    Card(
-        elevation = noElevation,
-        modifier = modifier.fillMaxWidth().clip(shapes.medium).clickable(onClick = onClick)
+                end = dp16)
+            .fillMaxWidth()
+            .clip(shapes.medium)
+            .clickable(onClick = onClick)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.padding(dp12)) {
