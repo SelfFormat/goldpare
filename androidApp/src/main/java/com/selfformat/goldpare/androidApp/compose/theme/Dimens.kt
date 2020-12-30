@@ -22,7 +22,8 @@ val buttonHeight = 60.dp
 
 // font dimens
 val logoFontSize = 42.sp
-val smallFontSize = 11.sp
+val smallFontSize = 12.sp
+val mediumFontSize = 14.sp
 val headerFontSize = 20.sp
 val headerDescriptionFontSize = 18.sp
 val fontWeight300 = FontWeight(300)

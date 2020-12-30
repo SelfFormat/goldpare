@@ -43,11 +43,13 @@ import com.selfformat.goldpare.androidApp.compose.theme.dividerThickness
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
 import com.selfformat.goldpare.androidApp.compose.theme.dp16
 import com.selfformat.goldpare.androidApp.compose.theme.dp32
+import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp6
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
 import com.selfformat.goldpare.androidApp.compose.theme.imageCornersShape
 import com.selfformat.goldpare.androidApp.compose.theme.imageWidth
+import com.selfformat.goldpare.androidApp.compose.theme.mediumFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.util.drawColoredShadow
@@ -154,36 +156,58 @@ fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {
                 }
             }
             Column(Modifier.padding(dp16)) {
-                Text(text = item.title, fontWeight = FontWeight.Bold)
-                Divider(color = dividerColor, thickness = dividerThickness)
+                Text(text = item.title.trim(), fontWeight = FontWeight.Bold)
+                Divider(
+                    color = dividerColor,
+                    thickness = dividerThickness,
+                    modifier = Modifier.padding(top = dp8, bottom = dp8)
+                )
                 Row {
                     item.priceDouble?.let {
                         Text(
                             text = stringResource(R.string.price_in_zloty, it),
                             fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(end = dp16)
+                            modifier = Modifier.padding(end = dp4)
                         )
                     }
                     item.pricePerOunce?.let {
                         Text(
                             text = stringResource(R.string.price_per_oz, it),
                             maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colors.primary
                         )
                     }
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(vectorResource(id = R.drawable.ic_gram), modifier = Modifier.padding(end = dp8))
-                    item.weightInGrams?.let {
-                        Text(text = stringResource(R.string.weight_in_grams, it), Modifier.padding(end = dp16))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Image(vectorResource(id = R.drawable.ic_gram), modifier = Modifier.padding(end = dp8))
+                        item.weightInGrams?.let {
+                            Text(
+                                text = stringResource(R.string.weight_in_grams, it),
+                                Modifier.padding(end = dp16),
+                                color = MaterialTheme.colors.primary
+                            )
+                        }
                     }
                     item.priceMarkupInPercentage(xauPln.price)?.let {
-                        Text(text = stringResource(R.string.price_markup, it))
+                        Text(
+                            text = stringResource(R.string.price_markup, it),
+                            color = MaterialTheme.colors.primary
+                        )
                     }
                 }
-                Text(text = stringResource(R.string.mint, mintFullName(item.website, AmbientContext.current)))
+                Text(text = stringResource(R.string.mint, mintFullName(item.website, AmbientContext.current)),
+                    color = MaterialTheme.colors.primary,
+                    fontSize = mediumFontSize,
+                    modifier = Modifier.padding(top = dp8))
                 if (item.quantity > 1) {
-                    Text(text = stringResource(R.string.items_included, item.quantity))
+                    Text(text = stringResource(R.string.items_included, item.quantity),
+                        color = MaterialTheme.colors.primary,
+                        fontSize = mediumFontSize)
                 }
             }
         }
