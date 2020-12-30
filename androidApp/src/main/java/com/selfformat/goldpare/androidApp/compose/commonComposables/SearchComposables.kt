@@ -22,12 +22,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.onCommit
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusState
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -37,9 +37,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
-import com.selfformat.goldpare.androidApp.compose.theme.dp32
 import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp6
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
@@ -47,87 +46,44 @@ import com.selfformat.goldpare.androidApp.compose.theme.searchHeight
 
 @ExperimentalFoundationApi
 @Composable
-fun HomeSearchView(
+fun HomeFakeSearchView(
     function: () -> Unit,
-    placeholderText: String
 ) {
-    val text = remember { mutableStateOf(TextFieldValue()) }
-    val textFieldFocusState = remember { mutableStateOf(false) }
-
-    CustomSearchView(
-        textFieldValue = text.value,
-        onTextFieldFocused = { focused ->
-            if (focused) {
-                function()
-            }
-        },
-        focusState = textFieldFocusState.value,
-        onTextChanged = { function() },
-        placeholderText = placeholderText,
-        backgroundColor = MaterialTheme.colors.primaryVariant,
-        keyboardShown = false,
-        onImeAction = {},
-        searchIconAction = {}
-    )
-}
-
-@ExperimentalFoundationApi
-@Composable
-fun ResultsSearchView(
-    viewModel: HomeViewModel,
-    placeholderText: String,
-    keyboardShown: Boolean,
-) {
-    val text = remember { mutableStateOf(TextFieldValue()) }
-
-    val textFieldFocusState = remember { mutableStateOf(false) }
-
-    CustomSearchView(
-        textFieldValue = text.value,
-        onTextFieldFocused = { focused ->
-            textFieldFocusState.value = focused
-        },
-        focusState = textFieldFocusState.value,
-        onTextChanged = {
-            text.value = it
-        },
-        placeholderText = placeholderText,
-        backgroundColor = MaterialTheme.colors.background,
-        showIconOnRowEnd = true,
-        keyboardShown = keyboardShown,
-        onImeAction = { performSearch(viewModel, text, textFieldFocusState) },
-        searchIconAction = { performSearch(viewModel, text, textFieldFocusState) }
-    )
-}
-
-private fun performSearch(
-    viewModel: HomeViewModel,
-    text: MutableState<TextFieldValue>,
-    textFieldFocusState: MutableState<Boolean>
-) {
-    if (viewModel.state.value is HomeViewModel.State.ShowResults) {
-        // ensure you can call this
-        viewModel.updateSearchKeyword(text.value.text)
-    }
-    if (textFieldFocusState.value) {
-        viewModel.showResults()
+    Row(
+        Modifier
+            .background(MaterialTheme.colors.primaryVariant, shape = CircleShape)
+            .clip(CircleShape)
+            .clickable(onClick = { function() })
+            .fillMaxWidth()
+            .preferredHeight(searchHeight),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            Icons.Filled.Search,
+            Modifier.padding(start = dp6)
+        )
+        val disableContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
+        Text(
+            modifier = Modifier
+                .padding(start = dp4, end = dp8),
+            text = stringResource(R.string.search),
+            style = MaterialTheme.typography.body1.copy(color = disableContentColor)
+        )
     }
 }
 
 @SuppressWarnings("LongParameterList", "LongMethod")
 @ExperimentalFoundationApi
 @Composable
-private fun CustomSearchView(
+fun ResultsSearchView(
     onTextChanged: (TextFieldValue) -> Unit,
     textFieldValue: TextFieldValue,
     onTextFieldFocused: (Boolean) -> Unit,
     focusState: Boolean,
     placeholderText: String,
     backgroundColor: Color,
-    showIconOnRowEnd: Boolean = false,
     keyboardShown: Boolean,
-    onImeAction: () -> Unit,
-    searchIconAction: () -> Unit
+    searchAction: () -> Unit,
 ) {
     // Grab a reference to the keyboard controller whenever text input starts
     val keyboardController = remember { mutableStateOf<SoftwareKeyboardController?>(null) }
@@ -153,20 +109,13 @@ private fun CustomSearchView(
                         shape = CircleShape
                     ),
             ) {
-                if (!showIconOnRowEnd) {
-                    Icon(
-                        Icons.Filled.Search,
-                        Modifier.align(Alignment.CenterStart).padding(start = dp6)
-                    )
-                }
                 val lastFocusState = remember { mutableStateOf(FocusState.Inactive) }
-                val startPadding = if (showIconOnRowEnd) dp4 else dp32
                 BasicTextField(
                     value = textFieldValue,
                     onValueChange = { onTextChanged(it) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = startPadding, end = dp8)
+                        .padding(start = 0.dp, end = dp8)
                         .align(Alignment.CenterStart)
                         .onFocusChanged { state ->
                             if (lastFocusState.value != state) {
@@ -181,39 +130,26 @@ private fun CustomSearchView(
                     onTextInputStarted = { keyboardController.value = it },
                     onImeActionPerformed = {
                         keyboardController.value?.hideSoftwareKeyboard()
-                        onImeAction()
+                        searchAction()
                     },
                     maxLines = 1,
                     singleLine = true,
                     cursorColor = AmbientContentColor.current,
                     textStyle = AmbientTextStyle.current.copy(color = AmbientContentColor.current)
                 )
-                if (showIconOnRowEnd) {
-                    val iconModifier = if (focusState) Modifier.clickable(onClick = searchIconAction) else Modifier
-                    Icon(
-                        Icons.Filled.Search,
-                        iconModifier.align(Alignment.CenterEnd).padding(end = dp6)
+                val iconModifier = if (focusState) Modifier.clickable(onClick = searchAction) else Modifier
+                Icon(
+                    Icons.Filled.Search,
+                    iconModifier.align(Alignment.CenterEnd).padding(end = dp6)
+                )
+                if (textFieldValue.text.isEmpty() && !focusState) {
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 0.dp, end = dp8),
+                        text = placeholderText,
+                        style = MaterialTheme.typography.h6
                     )
-                    if (textFieldValue.text.isEmpty() && !focusState) {
-                        Text(
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .padding(start = startPadding, end = dp8),
-                            text = placeholderText,
-                            style = MaterialTheme.typography.h6
-                        )
-                    }
-                } else {
-                    val disableContentColor = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled)
-                    if (textFieldValue.text.isEmpty() && !focusState) {
-                        Text(
-                            modifier = Modifier
-                                .align(Alignment.CenterStart)
-                                .padding(start = startPadding, end = dp8),
-                            text = placeholderText,
-                            style = MaterialTheme.typography.body1.copy(color = disableContentColor)
-                        )
-                    }
                 }
             }
         }
@@ -224,5 +160,5 @@ private fun CustomSearchView(
 @Preview
 @Composable
 fun SearchPreview() {
-    HomeSearchView(function = {}, placeholderText = stringResource(R.string.search))
+    HomeFakeSearchView(function = {})
 }

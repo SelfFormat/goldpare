@@ -28,7 +28,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
@@ -37,6 +40,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
@@ -108,10 +112,18 @@ private fun TopBar(title: String) {
     val homeViewModel = viewModel<HomeViewModel>()
     TopAppBar(
         title = {
+            val text = remember { mutableStateOf(TextFieldValue()) }
+            val textFieldFocusState = remember { mutableStateOf(false) }
+
             ResultsSearchView(
-                viewModel = homeViewModel,
+                textFieldValue = text.value,
+                onTextFieldFocused = { focused -> textFieldFocusState.value = focused },
+                focusState = textFieldFocusState.value,
+                onTextChanged = { text.value = it },
                 placeholderText = title,
-                keyboardShown = false
+                backgroundColor = MaterialTheme.colors.background,
+                keyboardShown = false,
+                searchAction = { performSearch(homeViewModel, text, textFieldFocusState) }
             )
         },
         backgroundColor = MaterialTheme.colors.background,
@@ -125,6 +137,20 @@ private fun TopBar(title: String) {
         },
         elevation = noElevation
     )
+}
+
+private fun performSearch(
+    viewModel: HomeViewModel,
+    text: MutableState<TextFieldValue>,
+    textFieldFocusState: MutableState<Boolean>
+) {
+    if (viewModel.state.value is HomeViewModel.State.ShowResults) {
+        // ensure you can call this
+        viewModel.updateSearchKeyword(text.value.text)
+    }
+    if (textFieldFocusState.value) {
+        viewModel.showResults()
+    }
 }
 
 @Composable
