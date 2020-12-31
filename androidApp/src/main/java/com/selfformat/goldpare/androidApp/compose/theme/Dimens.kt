@@ -27,10 +27,12 @@ val mediumFontSize = 14.sp
 val headerFontSize = 20.sp
 val headerDescriptionFontSize = 18.sp
 val fontWeight300 = FontWeight(300)
+val fontWeight500 = FontWeight(500)
 val buttonFontSize = 18.sp
+val filteringLabelFontSize = 18.sp
 
 val logoDescriptionFontSize = smallFontSize
 val noElevation = 0.dp
 
 const val SHADOW_ALPHA = 0.10f
-const val CHIP_ICON_SCALE = 0.5f
+const val CHIP_CLOSE_ICON_SCALE = 0.75f
