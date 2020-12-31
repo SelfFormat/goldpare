@@ -194,7 +194,6 @@ fun ProductsFiltering(homeViewModel: HomeViewModel, appliedFilters: HomeViewMode
 @Composable
 fun ProductsChips(appliedFilters: HomeViewModel.Filters?, homeViewModel: HomeViewModel) {
     val currentFilter = appliedFilters?.goldTypeFilter
-    // TODO de-selecting is not working after selecting another item
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
