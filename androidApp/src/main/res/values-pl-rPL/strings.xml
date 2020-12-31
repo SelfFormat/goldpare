@@ -5,8 +5,8 @@
     <string name="clear_filters">Wyczyść filtry</string>
     <string name="show_sets">Pokaż zestawy</string>
     <string name="prices">Ceny</string>
-    <string name="price_from">od</string>
-    <string name="price_to">do</string>
+    <string name="from">od</string>
+    <string name="to">do</string>
     <string name="mint">Mennica: %s</string>
     <string name="items_included">sztuk w zestawie: %d</string>
     <string name="price_markup">marża: %,.2f %%</string>
@@ -60,5 +60,6 @@
     <string name="mints">Mennice</string>
     <string name="coin_type">Rodzaje monet</string>
     <string name="custom">Custom</string>
+    <string name="grams">gramów</string>
 
 </resources>

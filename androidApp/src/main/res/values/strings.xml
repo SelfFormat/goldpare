@@ -13,8 +13,8 @@
     <string name="clear_filters">Clear filters</string>
     <string name="show_sets">Show sets</string>
     <string name="prices">Prices</string>
-    <string name="price_from">from</string>
-    <string name="price_to">to</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
     <string name="mint">Mint: %s</string>
     <string name="items_included">items included: %d</string>
     <string name="price_markup">markup: %,.2f %%</string>
@@ -68,5 +68,7 @@
     <string name="mints">Mints</string>
     <string name="coin_type">Coin types</string>
     <string name="custom">Custom</string>
+    <string name="pln" translatable="false">PLN</string>
+    <string name="grams">gram</string>
 
 </resources>

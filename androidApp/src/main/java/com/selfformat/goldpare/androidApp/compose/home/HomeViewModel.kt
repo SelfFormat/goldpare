@@ -6,9 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.enums.CustomWeightRange
 import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
 import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.compose.enums.SortingType
 import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
@@ -37,13 +40,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         var priceToFilter: Double = NO_PRICE_FILTERING,
         var goldTypeFilter: GoldType = GoldType.ALL,
         var mint: Mint = Mint.ALL,
-        var weightFilter: WeightRange = WeightRange.ALL,
+        var weightRangeFilter: WeightRange = PredefinedWeightRange(PredefinedWeightRanges.ALL),
         var searchPhrase: String? = null
     ) {
         val isSortingApplied = sortingType != SortingType.NONE
         val isGoldTypeApplied = goldTypeFilter != GoldType.ALL
         val isCoinTypeApplied = coinTypeFilter != GoldCoinType.ALL
-        val isWeightTypeApplied = weightFilter != WeightRange.ALL
+        val isWeightTypeApplied = weightRangeFilter != PredefinedWeightRange(PredefinedWeightRanges.ALL)
         val isMintTypeApplied = mint != Mint.ALL
         val isPriceFromApplied = priceFromFilter != NO_PRICE_FILTERING
         val isPriceToApplied = priceToFilter != NO_PRICE_FILTERING
@@ -115,8 +118,26 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         _appliedFilters.value = appliedFilters.value?.copy(priceFromFilter = priceFrom)
     }
 
-    fun updateWeightFiltering(weight: WeightRange) {
-        _appliedFilters.value = appliedFilters.value?.copy(weightFilter = weight)
+    fun updateWeightFiltering(predefinedWeightRange: PredefinedWeightRange) {
+        _appliedFilters.value = appliedFilters.value?.copy(weightRangeFilter = predefinedWeightRange)
+    }
+
+    fun updateCustomWeightFromFiltering(weightFrom: Double) {
+        val currentWeightToFilter = appliedFilters.value?.weightRangeFilter?.weightTo
+        if (currentWeightToFilter != null) {
+            _appliedFilters.value = appliedFilters.value?.copy(
+                weightRangeFilter = CustomWeightRange(weightTo = currentWeightToFilter, weightFrom = weightFrom)
+            )
+        }
+    }
+
+    fun updateCustomWeightToFiltering(weightTo: Double) {
+        val currentWeightFromFilter = appliedFilters.value?.weightRangeFilter?.weightFrom
+        if (currentWeightFromFilter != null) {
+            _appliedFilters.value = appliedFilters.value?.copy(
+                weightRangeFilter = CustomWeightRange(weightTo = weightTo, weightFrom = currentWeightFromFilter)
+            )
+        }
     }
 
     fun updateSearchKeyword(searchedPhrase: String) {
@@ -159,7 +180,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun clearWeightFiltering() {
-        _appliedFilters.value = appliedFilters.value?.copy(weightFilter = WeightRange.ALL)
+        _appliedFilters.value = appliedFilters.value?.copy(
+            weightRangeFilter = PredefinedWeightRange(PredefinedWeightRanges.ALL)
+        )
         showResults()
     }
 
@@ -182,7 +205,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             goldItems = data.searchFor(appliedFilters.value!!.searchPhrase)
                 .filterGoldType(appliedFilters.value!!.goldTypeFilter)
                 .filterByCoinType(appliedFilters.value!!.coinTypeFilter)
-                .filterByWeight(appliedFilters.value!!.weightFilter)
+                .filterByWeight(appliedFilters.value!!.weightRangeFilter)
                 .showCoinSets(appliedFilters.value!!.showGoldSets)
                 .filterByMint(appliedFilters.value!!.mint)
                 .filterPriceFrom(appliedFilters.value!!.priceFromFilter)
@@ -197,11 +220,11 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun listOfFeaturedItems(): List<Pair<GoldItem, WeightRange>> {
         val nullableListOfFeaturedItems = listOfNotNull(
-            bestAmongWeightRange(WeightRange.OZ_2),
-            bestAmongWeightRange(WeightRange.OZ_1),
-            bestAmongWeightRange(WeightRange.OZ_1_4),
-            bestAmongWeightRange(WeightRange.OZ_1_2),
-            bestAmongWeightRange(WeightRange.OZ_1_10),
+            bestAmongWeightRange(PredefinedWeightRange(PredefinedWeightRanges.OZ_2)),
+            bestAmongWeightRange(PredefinedWeightRange(PredefinedWeightRanges.OZ_1)),
+            bestAmongWeightRange(PredefinedWeightRange(PredefinedWeightRanges.OZ_1_4)),
+            bestAmongWeightRange(PredefinedWeightRange(PredefinedWeightRanges.OZ_1_2)),
+            bestAmongWeightRange(PredefinedWeightRange(PredefinedWeightRanges.OZ_1_10)),
         )
         return if (nullableListOfFeaturedItems.isNullOrEmpty()) emptyList() else nullableListOfFeaturedItems
     }

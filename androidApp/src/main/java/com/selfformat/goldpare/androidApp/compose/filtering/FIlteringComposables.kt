@@ -1,21 +1,28 @@
 package com.selfformat.goldpare.androidApp.compose.filtering
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Divider
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Switch
@@ -24,6 +31,8 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.ArrowDropUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -33,23 +42,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.commonComposables.Chip
+import com.selfformat.goldpare.androidApp.compose.enums.CustomWeightRange
 import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
 import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.compose.enums.SortingType
-import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.theme.buttonFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.buttonHeight
+import com.selfformat.goldpare.androidApp.compose.theme.dividerColor
+import com.selfformat.goldpare.androidApp.compose.theme.dividerThickness
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
+import com.selfformat.goldpare.androidApp.compose.theme.dp16
+import com.selfformat.goldpare.androidApp.compose.theme.dp4
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
+import com.selfformat.goldpare.androidApp.compose.theme.filteringLabelFontSize
+import com.selfformat.goldpare.androidApp.compose.theme.fontWeight500
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
+import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 
 @ExperimentalFoundationApi
 @Composable
@@ -57,17 +77,25 @@ fun FilteringView(homeViewModel: HomeViewModel) {
     val appliedFilters: HomeViewModel.Filters? = homeViewModel.appliedFilters.observeAsState().value
 
     Box {
-        Column {
+        ScrollableColumn {
             TopBar()
-            SortingMenu(appliedFilters)
-            FilteringGoldTypeMenu(appliedFilters)
+            ProductsFiltering(homeViewModel, appliedFilters)
+            CollapsableSection(sectionName = stringResource(R.string.sorting)) { SortingMenu(appliedFilters) }
+            WeightSection(homeViewModel, appliedFilters)
+            ShowSetsSection(appliedFilters)
+
+            PriceSection(homeViewModel, appliedFilters)
+
+            FilteringLabel(text = stringResource(R.string.coin_type), modifier = Modifier.padding(dp16))
             FilteringCoinTypeMenu(appliedFilters)
+            FilteringSectionsDivider()
+
+            FilteringLabel(text = stringResource(R.string.mints), modifier = Modifier.padding(dp16))
             FilteringMintMenu(appliedFilters)
-            FilterGoldSetsSwitch(appliedFilters)
-            PriceFiltering(homeViewModel, appliedFilters)
-            FilteringWeightMenu(appliedFilters)
+            FilteringSectionsDivider()
         }
-        Row(Modifier.fillMaxSize(),
+        Row(
+            Modifier.fillMaxSize(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom
         ) {
@@ -82,6 +110,158 @@ fun FilteringView(homeViewModel: HomeViewModel) {
                 colors = ButtonDefaults.textButtonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
             ) {
                 Text(text = stringResource(R.string.show_results), fontSize = buttonFontSize)
+            }
+        }
+    }
+}
+
+@Composable
+private fun PriceSection(
+    homeViewModel: HomeViewModel,
+    appliedFilters: HomeViewModel.Filters?
+) {
+    FilteringLabel(text = stringResource(R.string.prices), modifier = Modifier.padding(dp16))
+    PriceFiltering(homeViewModel, appliedFilters)
+    FilteringSectionsDivider()
+}
+
+@Composable
+private fun WeightSection(homeViewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
+    FilteringLabel(text = stringResource(R.string.weights), modifier = Modifier.padding(dp16))
+    FilteringWeightMenu(appliedFilters)
+    WeightFiltering(homeViewModel, appliedFilters)
+    FilteringSectionsDivider()
+}
+
+@Composable
+private fun ShowSetsSection(appliedFilters: HomeViewModel.Filters?) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(start = dp16, top = dp16, end = dp16),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        FilteringLabel(
+            text = stringResource(R.string.show_sets),
+            modifier = Modifier.padding()
+        )
+        FilterGoldSetsSwitch(appliedFilters)
+    }
+    FilteringSectionsDivider()
+}
+
+@Composable
+private fun FilterGoldSetsSwitch(appliedFilters: HomeViewModel.Filters?) {
+    val currentFilter = appliedFilters?.showGoldSets ?: true
+    val showSets = remember { mutableStateOf(currentFilter) }
+    val viewModel: HomeViewModel = viewModel()
+    Switch(
+        checked = showSets.value,
+        onCheckedChange = {
+            showSets.value = !showSets.value
+            viewModel.updateDisplayingGoldSets(showSets.value)
+        }
+    )
+}
+
+@Composable
+private fun CollapsableSection(sectionName: String, composable: @Composable (() -> Unit)) {
+    val isCollapsed = remember { mutableStateOf(false) }
+    val padding = if (isCollapsed.value) PaddingValues(top = dp16, end = dp16, start = dp16) else PaddingValues(dp16)
+
+    CollapsableFilteringLabel(
+        text = sectionName,
+        modifier = Modifier.padding(padding),
+        collapsed = isCollapsed.value,
+        onClick = {
+            isCollapsed.value = !isCollapsed.value
+        }
+    )
+    if (!isCollapsed.value) {
+        composable()
+    }
+    FilteringSectionsDivider()
+}
+
+@Composable
+fun ProductsFiltering(homeViewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
+    Column {
+        FilteringLabel(text = stringResource(R.string.products), modifier = Modifier.padding(dp16))
+        ProductsChips(appliedFilters, homeViewModel)
+        FilteringSectionsDivider()
+    }
+}
+
+@Composable
+fun ProductsChips(appliedFilters: HomeViewModel.Filters?, homeViewModel: HomeViewModel) {
+    val currentFilter = appliedFilters?.goldTypeFilter
+    // TODO de-selecting is not working after selecting another item
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Spacer(modifier = Modifier.preferredWidth(dp16))
+        Chip(
+            text = stringResource(R.string.all),
+            selected = currentFilter == GoldType.ALL,
+            closeable = false,
+            modifier = Modifier.weight(1f),
+            onClick = { homeViewModel.updateGoldTypeFiltering(GoldType.ALL) }
+        )
+        Spacer(modifier = Modifier.preferredWidth(dp8))
+        Chip(
+            text = stringResource(R.string.coins),
+            leadingIcon = vectorResource(R.drawable.ic_coin_stack),
+            selected = currentFilter == GoldType.COIN,
+            closeable = false,
+            modifier = Modifier.weight(1f),
+            onClick = { homeViewModel.updateGoldTypeFiltering(GoldType.COIN) }
+        )
+        Spacer(modifier = Modifier.preferredWidth(dp8))
+        Chip(
+            text = stringResource(R.string.bars),
+            leadingIcon = vectorResource(R.drawable.ic_gold_bar),
+            selected = currentFilter == GoldType.BAR,
+            closeable = false,
+            modifier = Modifier.weight(1f),
+            onClick = { homeViewModel.updateGoldTypeFiltering(GoldType.BAR) }
+        )
+        Spacer(modifier = Modifier.preferredWidth(dp16))
+    }
+}
+
+@Composable
+private fun FilteringLabel(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.h6.copy(fontSize = filteringLabelFontSize, fontWeight = fontWeight500),
+        modifier = modifier
+    )
+}
+
+@Composable
+private fun CollapsableFilteringLabel(
+    text: String,
+    modifier: Modifier = Modifier,
+    collapsed: Boolean = false,
+    onClick: () -> Unit = {},
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        FilteringLabel(text, modifier)
+        IconToggleButton(
+            checked = collapsed,
+            onCheckedChange = { onClick() },
+            modifier = modifier.padding(end = dp16)
+        ) {
+            if (collapsed) {
+                Icon(imageVector = Icons.Filled.ArrowDropDown)
+            } else {
+                Icon(imageVector = Icons.Filled.ArrowDropUp)
             }
         }
     }
@@ -123,31 +303,18 @@ private fun SortingMenu(appliedFilters: HomeViewModel.Filters?) {
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(baseIndex) }
 
-    DropdownMenu(
-        toggle = {
-            Text(
-                text = stringResource(SortingType.values()[selectedIndex.value].sortingName),
-                modifier = Modifier.fillMaxWidth().clickable(
-                    onClick = { showMenu.value = true }
-                )
-            )
-        },
-        expanded = showMenu.value,
-        onDismissRequest = { showMenu.value = false },
-        toggleModifier = Modifier.fillMaxWidth(),
-        dropdownModifier = Modifier.fillMaxWidth(),
-    ) {
-        SortingType.values().forEachIndexed { index, value ->
-            DropdownMenuItem(
-                onClick = {
-                    selectedIndex.value = index
-                    showMenu.value = false
-                    viewModel.updateSortingType(value)
-                }
-            ) {
-                Text(text = stringResource(value.sortingName))
-            }
-        }
+    SortingType.values().forEachIndexed { index, value ->
+        Chip(
+            text = stringResource(value.sortingName),
+            onClick = {
+                selectedIndex.value = index
+                showMenu.value = false
+                viewModel.updateSortingType(value)
+            },
+            selected = currentSorting == value,
+            closeable = false,
+            modifier = Modifier.padding(start = dp16, bottom = dp8)
+        )
     }
 }
 
@@ -190,53 +357,28 @@ private fun FilteringCoinTypeMenu(appliedFilters: HomeViewModel.Filters?) {
 @Composable
 private fun FilteringWeightMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
-    val currentFilter = appliedFilters?.weightFilter
-    val baseIndex = WeightRange.values().indexOf(currentFilter)
-    val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(baseIndex) }
+    val currentFilter = appliedFilters?.weightRangeFilter
+    val isCustom = currentFilter != null && currentFilter is CustomWeightRange
+    if (!isCustom) {
+        val baseIndex = PredefinedWeightRanges.values().indexOf(currentFilter)
+        val showMenu = remember { mutableStateOf(false) }
+        val selectedIndex = remember { mutableStateOf(baseIndex) }
 
-    DropdownMenu(
-        toggle = {
-            Text(
-                text = stringResource(WeightRange.values()[selectedIndex.value].rangeName),
-                modifier = Modifier.fillMaxWidth().clickable(
-                    onClick = { showMenu.value = true }
+        ScrollableRow(contentPadding = PaddingValues(start = dp16, end = dp16)) {
+            PredefinedWeightRanges.values().forEachIndexed { index, value ->
+                Chip(
+                    text = stringResource(value.rangeName),
+                    onClick = {
+                        selectedIndex.value = index
+                        showMenu.value = false
+                        viewModel.updateWeightFiltering(PredefinedWeightRange(value))
+                    },
+                    selected = currentFilter == PredefinedWeightRange(value),
+                    closeable = false,
+                    modifier = Modifier.padding(end = dp8)
                 )
-            )
-        },
-        expanded = showMenu.value,
-        onDismissRequest = { showMenu.value = false },
-        toggleModifier = Modifier.fillMaxWidth(),
-        dropdownModifier = Modifier.fillMaxWidth()
-    ) {
-        WeightRange.values().forEachIndexed { index, value ->
-            DropdownMenuItem(
-                onClick = {
-                    selectedIndex.value = index
-                    showMenu.value = false
-                    viewModel.updateWeightFiltering(value)
-                }
-            ) {
-                Text(text = stringResource(value.rangeName))
             }
         }
-    }
-}
-
-@Composable
-private fun FilterGoldSetsSwitch(appliedFilters: HomeViewModel.Filters?) {
-    val currentFilter = appliedFilters?.showGoldSets ?: true
-    val showSets = remember { mutableStateOf(currentFilter) }
-    val viewModel: HomeViewModel = viewModel()
-    Row {
-        Text(stringResource(R.string.show_sets))
-        Switch(
-            checked = showSets.value,
-            onCheckedChange = {
-                showSets.value = !showSets.value
-                viewModel.updateDisplayingGoldSets(showSets.value)
-            }
-        )
     }
 }
 
@@ -277,65 +419,72 @@ private fun FilteringMintMenu(appliedFilters: HomeViewModel.Filters?) {
 }
 
 @Composable
-private fun FilteringGoldTypeMenu(appliedFilters: HomeViewModel.Filters?) {
-    val viewModel: HomeViewModel = viewModel()
-    val currentFilter = appliedFilters?.goldTypeFilter
-    val baseIndex = GoldType.values().indexOf(currentFilter)
-    val showMenu = remember { mutableStateOf(false) }
-    val selectedIndex = remember { mutableStateOf(baseIndex) }
-
-    DropdownMenu(
-        toggle = {
-            Text(
-                text = stringResource(GoldType.values()[selectedIndex.value].typeName),
-                modifier = Modifier.fillMaxWidth().clickable(
-                    onClick = { showMenu.value = true }
-                )
-            )
-        },
-        expanded = showMenu.value,
-        onDismissRequest = { showMenu.value = false },
-        toggleModifier = Modifier.fillMaxWidth(),
-        dropdownModifier = Modifier.fillMaxWidth()
-    ) {
-        GoldType.values().forEachIndexed { index, value ->
-            DropdownMenuItem(
-                onClick = {
-                    selectedIndex.value = index
-                    showMenu.value = false
-                    viewModel.updateGoldTypeFiltering(value)
-                }
-            ) {
-                Text(text = stringResource(value.typeName))
-            }
-        }
-    }
-}
-
-@Composable
 private fun PriceFiltering(viewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
     val currentPriceFromFilter = appliedFilters?.priceFromFilter
     val currentPriceToFilter = appliedFilters?.priceToFilter
-    val textFrom = stringResource(R.string.price_from)
-    val textTo = stringResource(R.string.price_to)
-
+    val textFrom = stringResource(R.string.from)
+    val textTo = stringResource(R.string.to)
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(start = dp16, end = dp16)
     ) {
-        Text(stringResource(R.string.prices))
-        PriceEditText(textFrom, currentPriceFromFilter.toString()) { priceFrom ->
+        FiltersEditText(
+            labelText = textFrom,
+            initialValue = if (currentPriceFromFilter == NO_PRICE_FILTERING) "" else currentPriceFromFilter.toString(),
+            modifier = Modifier.weight(1f)
+        ) { priceFrom ->
             viewModel.updatePriceFromFiltering(priceFrom)
         }
-        PriceEditText(textTo, currentPriceToFilter.toString()) { priceTo ->
+        Text(text = "-", modifier = Modifier.padding(dp4))
+        FiltersEditText(
+            labelText = textTo,
+            initialValue = if (currentPriceToFilter == NO_PRICE_FILTERING) "" else currentPriceToFilter.toString(),
+            modifier = Modifier.weight(1f)
+        ) { priceTo ->
             viewModel.updatePriceToFiltering(priceTo)
         }
+        Text(text = "PLN", modifier = Modifier.padding(dp4))
     }
 }
 
 @Composable
-private fun PriceEditText(
+private fun WeightFiltering(viewModel: HomeViewModel, appliedFilters: HomeViewModel.Filters?) {
+    val currentFilter = appliedFilters?.weightRangeFilter
+    val isCustom = currentFilter != null && currentFilter is CustomWeightRange
+    val currentWeightFromFilter = if (isCustom) appliedFilters?.weightRangeFilter?.weightFrom else null
+    val currentWeightToFilter = if (isCustom) appliedFilters?.weightRangeFilter?.weightTo else null
+    val textFrom = stringResource(R.string.from)
+    val textTo = stringResource(R.string.to)
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(start = dp16, end = dp16)
+    ) {
+        FiltersEditText(
+            labelText = textFrom,
+            initialValue = currentWeightFromFilter?.toString() ?: "",
+            modifier = Modifier.weight(1f)
+        ) { weightFrom ->
+            viewModel.updateCustomWeightFromFiltering(weightFrom)
+        }
+        Text(text = "-", modifier = Modifier.padding(dp4))
+        FiltersEditText(
+            labelText = textTo,
+            initialValue = currentWeightToFilter?.toString() ?: "",
+            modifier = Modifier.weight(1f)
+        ) { weightTo ->
+            viewModel.updateCustomWeightToFiltering(weightTo)
+        }
+        Text(text = stringResource(R.string.grams), modifier = Modifier.padding(dp4))
+    }
+}
+
+@Composable
+private fun FiltersEditText(
     labelText: String,
     initialValue: String = "",
+    modifier: Modifier,
     function: (Double) -> Unit
 ) {
     val text = remember { mutableStateOf(TextFieldValue(text = initialValue)) }
@@ -343,6 +492,7 @@ private fun PriceEditText(
     val errorState = if (!isInputEmpty) text.value.text.toDoubleOrNull() == null else false
 
     OutlinedTextField(
+        modifier = modifier,
         placeholder = {
             Text(labelText)
         },
@@ -367,5 +517,14 @@ private fun PriceEditText(
                 }
             }
         }
+    )
+}
+
+@Composable
+fun FilteringSectionsDivider() {
+    Divider(
+        color = dividerColor,
+        thickness = dividerThickness,
+        modifier = Modifier.padding(top = dp16, start = dp16, end = dp16)
     )
 }
