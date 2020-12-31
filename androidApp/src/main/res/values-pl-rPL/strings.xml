@@ -3,7 +3,7 @@
     <string name="show_results">Show results</string>
     <string name="filtering">Filtering</string>
     <string name="clear_filters">Wyczyść filtry</string>
-    <string name="show_sets">show sets: </string>
+    <string name="show_sets">Pokaż zestawy</string>
     <string name="prices">Ceny</string>
     <string name="price_from">od</string>
     <string name="price_to">do</string>
@@ -54,5 +54,11 @@
     <string name="american_eagle">Amerykański Orzeł</string>
     <string name="vienna_philharmonic">Filharmonicy Wiedeńscy</string>
     <string name="queens_bests">Bestie Królowej</string>
+    <string name="products">Produkty</string>
+    <string name="sorting">Sortowanie</string>
+    <string name="weights">Wagi</string>
+    <string name="mints">Mennice</string>
+    <string name="coin_type">Rodzaje monet</string>
+    <string name="custom">Custom</string>
 
 </resources>
