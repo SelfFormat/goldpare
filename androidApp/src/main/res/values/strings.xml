@@ -30,6 +30,7 @@
     <string name="filter_sort_label">FILTER / SORT</string>
     <string name="hide_sets">Hide sets</string>
     <string name="price_from_to_chip">price: %,.2fzł - %,.2fzł</string>
+    <string name="weight_from_to_chip" translatable="false">weight: %,.2fg - %,.2fg</string>
     <string name="price_from_chip">price from: %,.2fzł</string>
     <string name="price_to_chip">price to: %,.2fzł</string>
     <string name="unknown_provider">Unknown provider</string>
