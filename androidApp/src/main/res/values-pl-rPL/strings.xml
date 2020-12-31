@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="show_results">Show results</string>
+    <string name="show_results">Pokaż wyniki</string>
     <string name="filtering">Filtering</string>
     <string name="clear_filters">Wyczyść filtry</string>
     <string name="show_sets">Pokaż zestawy</string>
