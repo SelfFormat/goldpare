@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayout
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,12 +16,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.IconToggleButton
@@ -71,6 +72,7 @@ import com.selfformat.goldpare.androidApp.compose.theme.fontWeight500
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
 
+@ExperimentalLayout
 @ExperimentalFoundationApi
 @Composable
 fun FilteringView(homeViewModel: HomeViewModel) {
@@ -83,16 +85,16 @@ fun FilteringView(homeViewModel: HomeViewModel) {
             CollapsableSection(sectionName = stringResource(R.string.sorting)) { SortingMenu(appliedFilters) }
             WeightSection(homeViewModel, appliedFilters)
             ShowSetsSection(appliedFilters)
-
             PriceSection(homeViewModel, appliedFilters)
-
-            FilteringLabel(text = stringResource(R.string.coin_type), modifier = Modifier.padding(dp16))
-            FilteringCoinTypeMenu(appliedFilters)
-            FilteringSectionsDivider()
-
-            FilteringLabel(text = stringResource(R.string.mints), modifier = Modifier.padding(dp16))
-            FilteringMintMenu(appliedFilters)
-            FilteringSectionsDivider()
+            CollapsableSection(
+                collapsed = true,
+                sectionName = stringResource(R.string.coin_type)
+            ) { FilteringCoinTypeMenu(appliedFilters) }
+            CollapsableSection(
+                collapsed = true,
+                sectionName = stringResource(R.string.mints)
+            ) { FilteringMintMenu(appliedFilters) }
+            Spacer(modifier = Modifier.preferredHeight(buttonHeight))
         }
         Row(
             Modifier.fillMaxSize(),
@@ -164,8 +166,8 @@ private fun FilterGoldSetsSwitch(appliedFilters: HomeViewModel.Filters?) {
 }
 
 @Composable
-private fun CollapsableSection(sectionName: String, composable: @Composable (() -> Unit)) {
-    val isCollapsed = remember { mutableStateOf(false) }
+private fun CollapsableSection(collapsed: Boolean = false, sectionName: String, composable: @Composable (() -> Unit)) {
+    val isCollapsed = remember { mutableStateOf(collapsed) }
     val padding = if (isCollapsed.value) PaddingValues(top = dp16, end = dp16, start = dp16) else PaddingValues(dp16)
 
     CollapsableFilteringLabel(
@@ -317,6 +319,7 @@ private fun SortingMenu(appliedFilters: HomeViewModel.Filters?) {
     }
 }
 
+@ExperimentalLayout
 @Composable
 private fun FilteringCoinTypeMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
@@ -325,29 +328,22 @@ private fun FilteringCoinTypeMenu(appliedFilters: HomeViewModel.Filters?) {
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(baseIndex) }
 
-    DropdownMenu(
-        toggle = {
-            Text(
-                text = stringResource(GoldCoinType.values()[selectedIndex.value].coinName),
-                modifier = Modifier.fillMaxWidth().clickable(
-                    onClick = { showMenu.value = true }
+    Row(Modifier.padding(start = dp16)) {
+        FlowRow(
+            mainAxisSpacing = dp8,
+            crossAxisSpacing = dp4
+        ) {
+            GoldCoinType.values().forEachIndexed { index, value ->
+                Chip(
+                    text = stringResource(value.coinName),
+                    onClick = {
+                        selectedIndex.value = index
+                        showMenu.value = false
+                        viewModel.updateCoinTypeFiltering(value)
+                    },
+                    selected = currentFilter == value,
+                    closeable = false,
                 )
-            )
-        },
-        expanded = showMenu.value,
-        onDismissRequest = { showMenu.value = false },
-        toggleModifier = Modifier.fillMaxWidth(),
-        dropdownModifier = Modifier.fillMaxWidth()
-    ) {
-        GoldCoinType.values().forEachIndexed { index, value ->
-            DropdownMenuItem(
-                onClick = {
-                    selectedIndex.value = index
-                    showMenu.value = false
-                    viewModel.updateCoinTypeFiltering(value)
-                }
-            ) {
-                Text(text = stringResource(value.coinName))
             }
         }
     }
@@ -381,6 +377,7 @@ private fun FilteringWeightMenu(appliedFilters: HomeViewModel.Filters?) {
     }
 }
 
+@ExperimentalLayout
 @Composable
 private fun FilteringMintMenu(appliedFilters: HomeViewModel.Filters?) {
     val viewModel: HomeViewModel = viewModel()
@@ -389,29 +386,22 @@ private fun FilteringMintMenu(appliedFilters: HomeViewModel.Filters?) {
     val showMenu = remember { mutableStateOf(false) }
     val selectedIndex = remember { mutableStateOf(baseIndex) }
 
-    DropdownMenu(
-        toggle = {
-            Text(
-                text = Mint.values()[selectedIndex.value].fullName,
-                modifier = Modifier.fillMaxWidth().clickable(
-                    onClick = { showMenu.value = true }
+    Row(Modifier.padding(start = dp16)) {
+        FlowRow(
+            mainAxisSpacing = dp8,
+            crossAxisSpacing = dp4
+        ) {
+            Mint.values().forEachIndexed { index, value ->
+                Chip(
+                    text = value.fullName,
+                    onClick = {
+                        selectedIndex.value = index
+                        showMenu.value = false
+                        viewModel.updateMintFiltering(value)
+                    },
+                    selected = currentFilter == value,
+                    closeable = false,
                 )
-            )
-        },
-        expanded = showMenu.value,
-        onDismissRequest = { showMenu.value = false },
-        toggleModifier = Modifier.fillMaxWidth(),
-        dropdownModifier = Modifier.fillMaxWidth()
-    ) {
-        Mint.values().forEachIndexed { index, value ->
-            DropdownMenuItem(
-                onClick = {
-                    selectedIndex.value = index
-                    showMenu.value = false
-                    viewModel.updateMintFiltering(value)
-                }
-            ) {
-                Text(text = value.fullName)
             }
         }
     }
