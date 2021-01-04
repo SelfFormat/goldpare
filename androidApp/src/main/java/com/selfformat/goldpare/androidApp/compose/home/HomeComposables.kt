@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.AmbientContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -79,8 +78,7 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
         modifier = Modifier.height(topSectionHeight).padding(start = dp16, end = dp16, top = dp12, bottom = dp12)
     ) {
         Image(
-            vectorResource(id = R.drawable.ic_temp_mini_logo_black),
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.onBackground),
+            vectorResource(id = R.drawable.ic_logo),
             modifier = Modifier.padding(end = dp16),
         )
         Column(
