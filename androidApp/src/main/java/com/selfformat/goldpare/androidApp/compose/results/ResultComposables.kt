@@ -163,8 +163,8 @@ private fun SortFilterCTA(viewModel: HomeViewModel) {
 @Composable
 private fun ListOfAppliedFilters(viewModel: HomeViewModel) {
     val appliedFilters: HomeViewModel.Filters? = viewModel.appliedFilters.observeAsState().value
-    if (appliedFilters != null) {
-        ScrollableRow(contentPadding = PaddingValues(start = dp16, bottom = dp16)) {
+    if (appliedFilters != null && appliedFilters.anyFilterApplied) {
+        ScrollableRow(contentPadding = PaddingValues(top = dp8, start = dp16, bottom = dp16)) {
             AnimatedVisibility(visible = appliedFilters.isSortingApplied) {
                 Chip(
                     text = stringResource(appliedFilters.sortingType.sortingName),

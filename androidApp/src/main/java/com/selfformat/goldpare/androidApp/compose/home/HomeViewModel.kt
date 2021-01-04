@@ -51,6 +51,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val isPriceFromApplied = priceFromFilter != NO_PRICE_FILTERING
         val isPriceToApplied = priceToFilter != NO_PRICE_FILTERING
         val bothPricesApplied = isPriceFromApplied && isPriceToApplied
+        val anyFilterApplied = isSortingApplied || isGoldTypeApplied || isCoinTypeApplied || isWeightTypeApplied ||
+                isMintTypeApplied || isPriceFromApplied || isPriceToApplied
     }
 
     private val _appliedFilters = MutableLiveData(Filters())
