@@ -3,6 +3,7 @@ package com.selfformat.goldpare.androidApp.compose.filtering
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.ScrollableRow
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -102,11 +103,16 @@ fun FilteringView(homeViewModel: HomeViewModel) {
             verticalAlignment = Alignment.Bottom
         ) {
             TextButton(
-                modifier = Modifier.fillMaxWidth().height(buttonHeight).clip(shapes.medium).padding(
-                    start = dp12,
-                    end = dp12,
-                    top = dp8,
-                    bottom = dp8
+                modifier = Modifier
+                    .background(MaterialTheme.colors.background)
+                    .fillMaxWidth()
+                    .height(buttonHeight)
+                    .clip(shapes.medium)
+                    .padding(
+                        start = dp12,
+                        end = dp12,
+                        top = dp8,
+                        bottom = dp8
                 ),
                 onClick = { homeViewModel.showResults() },
                 colors = ButtonDefaults.textButtonColors(backgroundColor = Color.DarkGray, contentColor = Color.White)
