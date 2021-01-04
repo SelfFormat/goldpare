@@ -36,6 +36,8 @@ import com.selfformat.goldpare.androidApp.R
 import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
 import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeFakeSearchView
 import com.selfformat.goldpare.androidApp.compose.enums.GoldType
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
 import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
@@ -125,24 +127,31 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
             HeaderSection(viewModel = viewModel, xauToPln = xauPln)
         }
         itemsIndexed(list) { index, pair ->
-            if (index == 0) {
-                GoldCardWithLabel(
-                    pair.first,
-                    pair.second,
-                    xauPln,
-                    modifier = Modifier.padding(top = dp16)
-                ) {
-                    openWebPage(
-                        pair.first.link,
-                        context = context
-                    )
-                }
-            } else {
-                GoldCardWithLabel(pair.first, pair.second, xauPln, modifier = Modifier) {
-                    openWebPage(
-                        pair.first.link,
-                        context = context
-                    )
+            if (pair.second is PredefinedWeightRange) {
+                if (index == 0) {
+                    GoldCardWithLabel(
+                        pair.first,
+                        (pair.second as PredefinedWeightRange).predefinedWeightRanges,
+                        xauPln,
+                        modifier = Modifier.padding(top = dp16)
+                    ) {
+                        openWebPage(
+                            pair.first.link,
+                            context = context
+                        )
+                    }
+                } else {
+                    GoldCardWithLabel(
+                        pair.first,
+                        (pair.second as PredefinedWeightRange).predefinedWeightRanges,
+                        xauPln,
+                        modifier = Modifier
+                    ) {
+                        openWebPage(
+                            pair.first.link,
+                            context = context
+                        )
+                    }
                 }
             }
         }
@@ -155,13 +164,13 @@ private fun FeaturedGoldList(list: List<Pair<GoldItem, WeightRange>>, xauPln: Xa
 @Composable
 private fun GoldCardWithLabel(
     item: GoldItem,
-    weight: WeightRange,
+    predefinedWeight: PredefinedWeightRanges,
     xauPln: XauPln,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)
 ) {
     Box(modifier = modifier) {
-        WeightLabel(stringResource(weight.labelRangeName))
+        WeightLabel(stringResource(predefinedWeight.labelRangeName))
         GoldCard(item, xauPln, onClick)
     }
 }
@@ -188,7 +197,7 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp16))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = stringResource(GoldType.ALL.typeName).toUpperCase(Locale.getDefault())
+            text = stringResource(R.string.all).toUpperCase(Locale.getDefault())
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.ALL)
@@ -197,7 +206,7 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = stringResource(GoldType.COIN.typeName).toUpperCase(Locale.getDefault())
+            text = stringResource(R.string.coins).toUpperCase(Locale.getDefault())
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.COIN)
@@ -206,7 +215,7 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = stringResource(GoldType.BAR.typeName).toUpperCase(Locale.getDefault())
+            text = stringResource(R.string.bars).toUpperCase(Locale.getDefault())
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.BAR)

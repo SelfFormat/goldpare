@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="show_results">Show results</string>
+    <string name="show_results">Pokaż wyniki</string>
     <string name="filtering">Filtering</string>
     <string name="clear_filters">Wyczyść filtry</string>
-    <string name="show_sets">show sets: </string>
+    <string name="show_sets">Pokaż zestawy</string>
     <string name="prices">Ceny</string>
-    <string name="price_from">od</string>
-    <string name="price_to">do</string>
+    <string name="from">od</string>
+    <string name="to">do</string>
     <string name="mint">Mennica: %s</string>
     <string name="items_included">sztuk w zestawie: %d</string>
     <string name="price_markup">marża: %,.2f %%</string>
@@ -54,5 +54,12 @@
     <string name="american_eagle">Amerykański Orzeł</string>
     <string name="vienna_philharmonic">Filharmonicy Wiedeńscy</string>
     <string name="queens_bests">Bestie Królowej</string>
+    <string name="products">Produkty</string>
+    <string name="sorting">Sortowanie</string>
+    <string name="weights">Wagi</string>
+    <string name="mints">Mennice</string>
+    <string name="coin_type">Rodzaje monet</string>
+    <string name="custom">Custom</string>
+    <string name="grams">gramów</string>
 
 </resources>

@@ -11,10 +11,10 @@
     <string name="show_results">Show results</string>
     <string name="filtering">Filtering</string>
     <string name="clear_filters">Clear filters</string>
-    <string name="show_sets">Show sets: </string>
+    <string name="show_sets">Show sets</string>
     <string name="prices">Prices</string>
-    <string name="price_from">from</string>
-    <string name="price_to">to</string>
+    <string name="from">from</string>
+    <string name="to">to</string>
     <string name="mint">Mint: %s</string>
     <string name="items_included">items included: %d</string>
     <string name="price_markup">markup: %,.2f %%</string>
@@ -30,9 +30,10 @@
     <string name="filter_sort_label">FILTER / SORT</string>
     <string name="hide_sets">Hide sets</string>
     <string name="price_from_to_chip">price: %,.2fzł - %,.2fzł</string>
+    <string name="weight_from_to_chip" translatable="false">weight: %,.2fg - %,.2fg</string>
     <string name="price_from_chip">price from: %,.2fzł</string>
     <string name="price_to_chip">price to: %,.2fzł</string>
-    <string name="unknown_provider">Uknown provider</string>
+    <string name="unknown_provider">Unknown provider</string>
     <string name="all">ALL</string>
 
     <string name="oz_2">2 oz</string>
@@ -61,5 +62,13 @@
     <string name="american_eagle">American Eagle</string>
     <string name="vienna_philharmonic">Vienna Philharmonic</string>
     <string name="queens_bests">Queen\'s Beasts</string>
+    <string name="products">Products</string>
+    <string name="sorting">Sorting</string>
+    <string name="weights">Weights</string>
+    <string name="mints">Mints</string>
+    <string name="coin_type">Coin types</string>
+    <string name="custom">Custom</string>
+    <string name="pln" translatable="false">PLN</string>
+    <string name="grams">gram</string>
 
 </resources>

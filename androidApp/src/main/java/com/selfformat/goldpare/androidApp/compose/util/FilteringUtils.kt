@@ -3,6 +3,8 @@ package com.selfformat.goldpare.androidApp.compose.util
 import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
 import com.selfformat.goldpare.androidApp.compose.enums.GoldType
 import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.compose.enums.SortingType
 import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.shared.model.GoldItem
@@ -59,11 +61,15 @@ internal fun List<GoldItem>.filterGoldType(type: GoldType): List<GoldItem> {
     return this.filter { it.type == type.typeCode }
 }
 
-internal fun List<GoldItem>.filterByWeight(weight: WeightRange): List<GoldItem> {
-    if (weight == WeightRange.ALL) return this
+internal fun List<GoldItem>.filterByWeight(range: WeightRange): List<GoldItem> {
+    if (range is PredefinedWeightRange) {
+        if (range.predefinedWeightRanges == PredefinedWeightRanges.ALL) return this
+    }
     return this
-        .filter { it.weightInGrams != null } // first filter out items which doesn't have calculated weight in grams
-        .filter { it.weightInGrams!! >= weight.weightFromInGrams && it.weightInGrams!! <= weight.weightToInGrams }
+        .filter { it.weightInGrams != null }
+        .filter { it.weightInGrams!! >= range.weightFrom &&
+                it.weightInGrams!! <= range.weightTo
+        }
 }
 
 internal fun List<GoldItem>.filterByMint(currentMint: Mint): List<GoldItem> {
