@@ -16,7 +16,7 @@ internal const val SINGLE_ITEM = 1L
 internal fun List<GoldItem>.filterByCoinType(goldCoinType: GoldCoinType): List<GoldItem> {
     if (goldCoinType == GoldCoinType.ALL) return this
     return this.filter {
-        it.title.contains(goldCoinType.name, ignoreCase = true)
+        it.title.contains(goldCoinType.regex)
     }
 }
 
