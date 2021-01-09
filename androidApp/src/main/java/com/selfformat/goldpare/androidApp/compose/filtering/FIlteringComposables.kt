@@ -88,11 +88,11 @@ fun FilteringView(homeViewModel: HomeViewModel) {
             ShowSetsSection(appliedFilters)
             PriceSection(homeViewModel, appliedFilters)
             CollapsableSection(
-                collapsed = true,
+                collapsed = false,
                 sectionName = stringResource(R.string.coin_type)
             ) { FilteringCoinTypeMenu(appliedFilters) }
             CollapsableSection(
-                collapsed = true,
+                collapsed = false,
                 sectionName = stringResource(R.string.mints)
             ) { FilteringMintMenu(appliedFilters) }
             Spacer(modifier = Modifier.preferredHeight(buttonHeight))
