@@ -1,5 +1,6 @@
 package com.selfformat.goldpare.androidApp.compose.home
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSizeConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.AmbientContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -39,12 +41,12 @@ import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
 import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
-import com.selfformat.goldpare.androidApp.compose.theme.categoryBoxMinSize
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottomDark
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottomLight
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTopDark
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientTopLight
 import com.selfformat.goldpare.androidApp.compose.theme.dp12
+import com.selfformat.goldpare.androidApp.compose.theme.dp14
 import com.selfformat.goldpare.androidApp.compose.theme.dp16
 import com.selfformat.goldpare.androidApp.compose.theme.dp20
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
@@ -195,7 +197,8 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp16))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = stringResource(R.string.all).toUpperCase(Locale.getDefault())
+            text = stringResource(R.string.coins).toUpperCase(Locale.getDefault()),
+            backgroundImageId = R.drawable.coins_category
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.ALL)
@@ -204,7 +207,8 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = stringResource(R.string.coins).toUpperCase(Locale.getDefault())
+            text = stringResource(R.string.bars).toUpperCase(Locale.getDefault()),
+            backgroundImageId = R.drawable.bars_category
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.COIN)
@@ -213,7 +217,8 @@ private fun Categories(viewModel: HomeViewModel) {
         Spacer(modifier = Modifier.preferredWidth(dp8))
         CategoryBox(
             modifier = Modifier.weight(1f),
-            text = stringResource(R.string.bars).toUpperCase(Locale.getDefault())
+            text = stringResource(R.string.all).toUpperCase(Locale.getDefault()),
+            backgroundImageId = R.drawable.all_category
         ) {
             viewModel.clearFilters()
             viewModel.updateGoldTypeFiltering(GoldType.BAR)
@@ -224,24 +229,36 @@ private fun Categories(viewModel: HomeViewModel) {
 }
 
 @Composable
-private fun CategoryBox(text: String, modifier: Modifier, onClick: (() -> Unit)) {
+private fun CategoryBox(
+    text: String,
+    modifier: Modifier,
+    @DrawableRes backgroundImageId: Int? = null,
+    onClick: (() -> Unit)
+) {
     val isLightTheme = MaterialTheme.colors.isLight
     val gradientTopColor = if (isLightTheme) categoryGradientTopLight else categoryGradientTopDark
     val gradientBottomColor = if (isLightTheme) categoryGradientBottomLight else categoryGradientBottomDark
-    Column(
+
+    Box(
         modifier.clip(shapes.small).background(
             brush = Brush.verticalGradient(
                 0.0f to gradientTopColor,
                 1.0f to gradientBottomColor
             )
-        ).clickable(onClick = onClick).defaultMinSizeConstraints(categoryBoxMinSize)
+        ).clickable(onClick = onClick).fillMaxHeight()
     ) {
+        if (backgroundImageId != null) {
+            Image(imageResource(backgroundImageId))
+        }
+        val textAlignment = if (backgroundImageId != R.drawable.all_category) {
+            Alignment.BottomCenter
+        } else Alignment.Center
         Text(text = text, Modifier.padding(
             start = dp8,
             end = dp8,
             top = dp20,
-            bottom = dp20
-        ).wrapContentSize().align(Alignment.CenterHorizontally))
+            bottom = dp14
+        ).wrapContentSize().align(textAlignment))
     }
 }
 
