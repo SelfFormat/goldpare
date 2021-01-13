@@ -19,7 +19,7 @@ enum class Mint(val fullName: String) {
     MENNICASKARBOWA("Mennica Skarbowa"),
     MENNICAZIELONA("Mennica Zielona"),
     METALELOKACYJNE("Metale Lokacyjne"),
-    METALMARKETU("Metal Market Europe"),
+    METALMARKETEU("Metal Market Europe"),
     TRAVEX("Travex"),
     WYROBYMENNICZE("Wyroby Mennicze"),
     ZLOTAUNCJA("Złota Uncja")
