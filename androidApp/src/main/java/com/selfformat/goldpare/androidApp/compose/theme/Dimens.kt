@@ -10,6 +10,7 @@ val dp6 = 6.dp
 val dp8 = 8.dp
 val dp12 = 12.dp
 val dp16 = 16.dp
+val dp14 = 14.dp
 val dp20 = 20.dp
 val dp32 = 32.dp
 val imageWidth = 80.dp
