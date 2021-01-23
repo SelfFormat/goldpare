@@ -62,6 +62,30 @@ class GoldItemMapperTest {
     }
 
     @Test
+    fun `when weight is available with g keyword convert it to grams`() {
+        val expected = 132.0
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "132   g")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.weightInGrams)
+    }
+
+    @Test
+    fun `when weight is available with gramy keyword convert it to grams`() {
+        val expected = 3.0
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "3 gramy")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.weightInGrams)
+    }
+
+    @Test
+    fun `when weight is double with gram keyword convert it to grams`() {
+        val expected = 15.55
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "15.55 gram")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.weightInGrams)
+    }
+
+    @Test
     fun `when weight is not available then weightInGrams will be null`() {
         val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = null)
         val result = mapper.mapToDomain(customDatabaseGoldItem)
@@ -75,27 +99,6 @@ class GoldItemMapperTest {
         assertEquals(null, result.weightInGrams)
     }
 
-//
-//    @Test
-//    fun checkIfFractionWithUncjiKeywordIsParsedToGrams() {
-//        val ozTroy = 31.1034768
-//        val weight = "1/4 uncji"
-//        val goldItem = GoldItem(
-//            id = 0,
-//            price = null,
-//            title = "",
-//            link = "",
-//            website = "",
-//            image = null,
-//            weight = weight,
-//            quantity = 0,
-//            type = ""
-//        )
-//        val expected = ozTroy / 4
-//        val result = goldItem.weightInGrams(weight)
-//        assertEquals(expected, result)
-//    }
-//
 //    @Test
 //    fun checkIfWeightWithGKeywordIsParsedToGrams() {
 //        val weight = "8g"
