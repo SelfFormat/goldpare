@@ -55,7 +55,10 @@ internal class GoldItemMapper {
         priceDouble: Double?,
         quantity: Long
     ): Double? {
-        return weightInGrams?.let { priceDouble?.div(it) }?.div(quantity)
+        val pricePerGram: Double? = weightInGrams?.let { priceDouble?.div(it) }?.div(quantity)
+        return if (pricePerGram != null) {
+            if (pricePerGram >= 0) pricePerGram else null
+        } else null
     }
 
     private fun pricePerOunce(pricePerGram: Double?): Double? {

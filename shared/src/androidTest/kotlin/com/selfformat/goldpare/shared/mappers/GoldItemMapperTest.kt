@@ -17,7 +17,7 @@ class GoldItemMapperTest {
         "www.gold.com/1oz",
         "gold.com",
         "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
-        weight = "1/4oz",
+        weight = "15 g",
         quantity = 1,
         type = "coin"
     )
@@ -29,11 +29,11 @@ class GoldItemMapperTest {
         "www.gold.com/1oz",
         "gold.com",
         "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
-        weight = "1/4oz",
+        weight = "15 g",
         quantity = 1,
         type = "coin",
         priceDouble = 3000.0,
-        weightInGrams = 15.55,
+        weightInGrams = 15.00,
         pricePerGram = 100.0,
         pricePerOunce = 6000.0
     )
@@ -43,7 +43,8 @@ class GoldItemMapperTest {
     @Test
     fun `when weight is available as fraction with oz keyword convert it to grams`() {
         val expected = ozTroy / 4
-        val result = mapper.mapToDomain(fakeDatabaseGoldItem)
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "1/4oz")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
         assertEquals(expected, result.weightInGrams)
     }
 
@@ -150,6 +151,53 @@ class GoldItemMapperTest {
         val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "334")
         val result = mapper.mapToDomain(customDatabaseGoldItem)
         assertEquals(expectedPrice, result.priceDouble)
+    }
+
+    // endregion
+
+    // region price per gram conversion
+
+    @Test
+    fun `when price and weight in grams are not null and quantity is greater then 1 then calculate price per gram`() {
+        val expected = 200.0
+        val result = mapper.mapToDomain(fakeDatabaseGoldItem)
+        assertEquals(expected, result.pricePerGram)
+    }
+
+    @Test
+    fun `when price and weight in grams are not null then calculate price per gram`() {
+        val expected = 50.0
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(quantity = 4)
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.pricePerGram)
+    }
+
+    @Test
+    fun `when price is negative then price per gram is null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "-300")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.pricePerGram)
+    }
+
+    @Test
+    fun `when weight is negative then price per gram is null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "-300 gram")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.pricePerGram)
+    }
+
+    @Test
+    fun `when weight is null then price per gram is null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = null)
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.pricePerGram)
+    }
+
+    @Test
+    fun `when price is null then price per gram is null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = null)
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.pricePerGram)
     }
 
     // endregion
