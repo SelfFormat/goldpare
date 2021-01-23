@@ -1,6 +1,6 @@
 ## Requirements:
 
-* newest AS Canary 3
+* AS Canary 2
 * Emulator with API 30
 * newest JDK
 * if you want to build iOS then you need also xCode 11.3 or higher
