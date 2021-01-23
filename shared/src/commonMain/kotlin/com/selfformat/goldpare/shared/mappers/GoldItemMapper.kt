@@ -31,8 +31,23 @@ internal class GoldItemMapper {
     )
 
     private fun priceDouble(price: String?): Double? {
-        return price?.replace("\\s".toRegex(), "")?.replace("zł", "")?.replace("PLN", "")
-            ?.replace("/szt.", "")?.replace(",", ".")?.toDoubleOrNull()
+        val formattedPrice = price?.replace("\\s".toRegex(), "")
+            ?.replace("zł", "")
+            ?.replace("PLN", "")
+            ?.replace("/szt.", "")
+
+        return when {
+            formattedPrice == null -> null
+            formattedPrice.contains(",") && formattedPrice.contains(".") -> {
+                formattedPrice.replace(",", "").toDoubleOrNull()
+            }
+            formattedPrice.contains(",") -> {
+                formattedPrice.replace(",", ".").toDoubleOrNull()
+            }
+            else -> {
+                formattedPrice.toDoubleOrNull()
+            }
+        }
     }
 
     private fun pricePerGram(

@@ -38,6 +38,8 @@ class GoldItemMapperTest {
         pricePerOunce = 6000.0
     )
 
+    // region weightInGrams conversions
+
     @Test
     fun `when weight is available as fraction with oz keyword convert it to grams`() {
         val expected = ozTroy / 4
@@ -98,4 +100,57 @@ class GoldItemMapperTest {
         val result = mapper.mapToDomain(customDatabaseGoldItem)
         assertEquals(null, result.weightInGrams)
     }
+
+    // endregion
+
+    // region price convesions
+
+    @Test
+    fun `when price is number with zl keyword priceDouble will be null`() {
+        val expectedPrice = 10.33
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "10.33 zł")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expectedPrice, result.priceDouble)
+    }
+
+    @Test
+    fun `when price is number with PLN keyword priceDouble will be null`() {
+        val expectedPrice = 334.2
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "334.2PLN")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expectedPrice, result.priceDouble)
+    }
+
+    @Test
+    fun `when price is number with comma instead of dot for floating point priceDouble will be parsed to double`() {
+        val expectedPrice = 11.2
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "11,2 PLN")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expectedPrice, result.priceDouble)
+    }
+
+    @Test
+    fun `when price is using both comma and dot for number priceDouble will be parsed to double`() {
+        val expectedPrice = 1171.24
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "1,171.24 PLN")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expectedPrice, result.priceDouble)
+    }
+
+    @Test
+    fun `when price is not a number with zl or PLN keyword priceDouble will be null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "3 something")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.priceDouble)
+    }
+
+    @Test
+    fun `when price is just a number priceDouble will be null`() {
+        val expectedPrice = 334.0
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = "334")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expectedPrice, result.priceDouble)
+    }
+
+    // endregion
 }
