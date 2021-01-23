@@ -201,7 +201,7 @@ private fun Categories(viewModel: HomeViewModel) {
             backgroundImageId = R.drawable.coins_category
         ) {
             viewModel.clearFilters()
-            viewModel.updateGoldTypeFiltering(GoldType.ALL)
+            viewModel.updateGoldTypeFiltering(GoldType.COIN)
             viewModel.showResults()
         }
         Spacer(modifier = Modifier.preferredWidth(dp8))
@@ -211,7 +211,7 @@ private fun Categories(viewModel: HomeViewModel) {
             backgroundImageId = R.drawable.bars_category
         ) {
             viewModel.clearFilters()
-            viewModel.updateGoldTypeFiltering(GoldType.COIN)
+            viewModel.updateGoldTypeFiltering(GoldType.BAR)
             viewModel.showResults()
         }
         Spacer(modifier = Modifier.preferredWidth(dp8))
@@ -221,7 +221,7 @@ private fun Categories(viewModel: HomeViewModel) {
             backgroundImageId = R.drawable.all_category
         ) {
             viewModel.clearFilters()
-            viewModel.updateGoldTypeFiltering(GoldType.BAR)
+            viewModel.updateGoldTypeFiltering(GoldType.ALL)
             viewModel.showResults()
         }
         Spacer(modifier = Modifier.preferredWidth(dp16))
