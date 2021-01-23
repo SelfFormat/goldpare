@@ -1,7 +1,8 @@
-package com.selfformat.goldpare.shared.cache
+package com.selfformat.goldpare.shared.database
 
-import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.APIXauPln
+import com.selfformat.goldpare.shared.cache.AppDatabase
+import com.selfformat.goldpare.shared.models.APIXauPln
+import com.selfformat.goldpare.shared.models.XauPln
 
 internal class XauPlnDatabase(databaseDriverFactory: DatabaseDriverFactory) {
     private val db = AppDatabase(databaseDriverFactory.createDriver())

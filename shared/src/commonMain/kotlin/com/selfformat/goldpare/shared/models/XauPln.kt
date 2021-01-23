@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.shared.api
+package com.selfformat.goldpare.shared.models
 
 data class XauPln(
     val id: Long,

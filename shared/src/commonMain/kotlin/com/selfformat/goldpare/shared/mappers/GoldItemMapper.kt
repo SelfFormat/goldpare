@@ -1,6 +1,6 @@
-package com.selfformat.goldpare.shared.cache
+package com.selfformat.goldpare.shared.mappers
 
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.models.GoldItem
 
 internal class GoldItemMapper {
     fun priceDouble(price: String?): Double? {

@@ -1,7 +1,7 @@
 package com.selfformat.goldpare.shared.api
 
-import com.selfformat.goldpare.shared.model.APIGoldItem
-import com.selfformat.goldpare.shared.model.APIXauPln
+import com.selfformat.goldpare.shared.models.APIGoldItem
+import com.selfformat.goldpare.shared.models.APIXauPln
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer

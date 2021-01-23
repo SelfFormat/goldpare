@@ -7,7 +7,7 @@ import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRange
 import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.compose.data.SortingType
 import com.selfformat.goldpare.androidApp.compose.data.WeightRange
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.models.GoldItem
 
 internal const val NO_PRICE_FILTERING = -1.0
 internal const val SHOW_GOLD_SETS = true

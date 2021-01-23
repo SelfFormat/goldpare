@@ -25,7 +25,7 @@ import com.selfformat.goldpare.androidApp.compose.results.ResultsLoaded
 import com.selfformat.goldpare.androidApp.compose.theme.GoldpareTheme
 import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
 import com.selfformat.goldpare.androidApp.compose.viewModels.XauPlnViewModel
-import com.selfformat.goldpare.shared.api.XauPln
+import com.selfformat.goldpare.shared.models.XauPln
 
 class RootActivity : AppCompatActivity() {
 

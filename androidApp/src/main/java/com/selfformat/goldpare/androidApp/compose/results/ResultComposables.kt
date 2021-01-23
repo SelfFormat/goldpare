@@ -46,8 +46,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.utils.openWebPage
 import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
-import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
+import com.selfformat.goldpare.shared.models.GoldItem
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi

@@ -57,8 +57,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.smallFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.utils.openWebPage
 import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
-import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
+import com.selfformat.goldpare.shared.models.GoldItem
 import java.util.Locale
 
 @ExperimentalFoundationApi

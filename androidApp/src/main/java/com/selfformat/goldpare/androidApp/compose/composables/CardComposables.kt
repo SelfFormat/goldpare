@@ -52,8 +52,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.primaryGold
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.utils.drawColoredShadow
 import com.selfformat.goldpare.androidApp.compose.utils.mintFullName
-import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
+import com.selfformat.goldpare.shared.models.GoldItem
 
 @Composable
 fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {

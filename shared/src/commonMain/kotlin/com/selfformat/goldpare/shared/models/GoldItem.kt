@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.shared.model
+package com.selfformat.goldpare.shared.models
 
 data class GoldItem(
     val id: Long,

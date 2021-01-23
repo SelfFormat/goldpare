@@ -26,8 +26,8 @@ import com.selfformat.goldpare.androidApp.compose.utils.searchFor
 import com.selfformat.goldpare.androidApp.compose.utils.showCoinSets
 import com.selfformat.goldpare.androidApp.compose.utils.sortBy
 import com.selfformat.goldpare.shared.GoldSDK
-import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.database.DatabaseDriverFactory
+import com.selfformat.goldpare.shared.models.GoldItem
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")

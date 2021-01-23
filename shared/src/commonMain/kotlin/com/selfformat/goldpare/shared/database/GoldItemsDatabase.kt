@@ -1,7 +1,9 @@
-package com.selfformat.goldpare.shared.cache
+package com.selfformat.goldpare.shared.database
 
-import com.selfformat.goldpare.shared.model.APIGoldItem
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.cache.AppDatabase
+import com.selfformat.goldpare.shared.mappers.GoldItemMapper
+import com.selfformat.goldpare.shared.models.APIGoldItem
+import com.selfformat.goldpare.shared.models.GoldItem
 
 internal class GoldItemsDatabase(databaseDriverFactory: DatabaseDriverFactory) {
     private val db = AppDatabase(databaseDriverFactory.createDriver())
