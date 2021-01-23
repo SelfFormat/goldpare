@@ -63,10 +63,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     val state: LiveData<State> = _state
 
     init {
+        fetchData()
+    }
+
+    fun fetchData(forceReload: Boolean = false) {
         _state.value = State.Loading
         viewModelScope.launch {
             kotlin.runCatching {
-                sdk.getGoldItems(false)
+                sdk.getGoldItems(forceReload)
             }.onSuccess {
                 data = it
                 _state.value = loadedStateWithSortingAndFiltering()
