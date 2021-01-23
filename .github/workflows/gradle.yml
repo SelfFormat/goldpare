@@ -37,8 +37,10 @@ jobs:
         uses: natiginfo/action-detekt-all@1.15.0
         with:
           args: --fail-fast --config androidApp/config/detekt/detekt.yml
-      - name: Build with Gradle
+      - name: Run Android Unit Tests
         run: ./gradlew androidApp::testDebugUnitTest --stacktrace
+      - name: Run Shared Unit Tests
+        run: ./gradlew shared::testDebugUnitTest --stacktrace
 
   apk:
     name: Generate APK
