@@ -3,12 +3,39 @@ package com.selfformat.goldpare.shared.mappers
 import com.selfformat.goldpare.shared.models.GoldItem
 
 internal class GoldItemMapper {
-    fun priceDouble(price: String?): Double? {
+
+    fun mapToDomain(it: com.selfformat.goldpare.shared.cache.GoldItem) = GoldItem(
+        id = it.id,
+        price = it.price,
+        title = it.title,
+        link = it.link,
+        website = it.website,
+        image = it.image,
+        weight = it.weight,
+        quantity = it.quantity,
+        type = it.type,
+        priceDouble = priceDouble(it.price),
+        weightInGrams = weightInGrams(it.weight),
+        pricePerGram = pricePerGram(
+            weightInGrams = weightInGrams(it.weight),
+            priceDouble = priceDouble(it.price),
+            quantity = it.quantity
+        ),
+        pricePerOunce = pricePerOunce(
+            pricePerGram(
+                weightInGrams = weightInGrams(it.weight),
+                priceDouble = priceDouble(it.price),
+                quantity = it.quantity
+            )
+        )
+    )
+
+    private fun priceDouble(price: String?): Double? {
         return price?.replace("\\s".toRegex(), "")?.replace("zł", "")?.replace("PLN", "")
             ?.replace("/szt.", "")?.replace(",", ".")?.toDoubleOrNull()
     }
 
-    fun pricePerGram(
+    private fun pricePerGram(
         weightInGrams: Double?,
         priceDouble: Double?,
         quantity: Long
@@ -16,11 +43,11 @@ internal class GoldItemMapper {
         return weightInGrams?.let { priceDouble?.div(it) }?.div(quantity)
     }
 
-    fun pricePerOunce(pricePerGram: Double?): Double? {
-        return pricePerGram?.times(GoldItem.OZ_TROY)
+    private fun pricePerOunce(pricePerGram: Double?): Double? {
+        return pricePerGram?.times(OZ_TROY)
     }
 
-    fun weightInGrams(weight: String?): Double? {
+    private fun weightInGrams(weight: String?): Double? {
         val weightWithoutWhitespace =
             weight?.replace("\\s".toRegex(), "")?.replace(",", ".") ?: return null
         val ozRegex = "(?:uncj\\w)|(?:oz)".toRegex()
@@ -55,6 +82,10 @@ internal class GoldItemMapper {
     }
 
     private fun convertOzToGram(ozQuantity: Double?): Double? {
-        return ozQuantity?.times(GoldItem.OZ_TROY)
+        return ozQuantity?.times(OZ_TROY)
+    }
+
+    companion object {
+        private const val OZ_TROY = 31.1034768
     }
 }
