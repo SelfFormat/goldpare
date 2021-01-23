@@ -57,8 +57,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.smallFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
 import com.selfformat.goldpare.androidApp.compose.utils.openWebPage
 import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
-import com.selfformat.goldpare.shared.models.XauPln
 import com.selfformat.goldpare.shared.models.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
 import java.util.Locale
 
 @ExperimentalFoundationApi
@@ -80,7 +80,7 @@ private fun TopSection(xauToPln: XauPln?, viewModel: HomeViewModel) {
     ) {
         Image(
             vectorResource(id = R.drawable.ic_logo),
-            modifier = Modifier.padding(end = dp16),
+            modifier = Modifier.padding(end = dp16).clickable(onClick = { viewModel.fetchData(forceReload = true) }),
         )
         Column(
             modifier = Modifier.padding(end = dp16)
