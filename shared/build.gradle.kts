@@ -7,6 +7,18 @@ plugins {
     id("com.squareup.sqldelight")
 }
 
+// https://youtrack.jetbrains.com/issue/KT-43944 workaround
+android {
+    configurations {
+        create("androidTestApi")
+        create("androidTestDebugApi")
+        create("androidTestReleaseApi")
+        create("testApi")
+        create("testDebugApi")
+        create("testReleaseApi")
+    }
+}
+
 kotlin {
     ios {
         binaries {
