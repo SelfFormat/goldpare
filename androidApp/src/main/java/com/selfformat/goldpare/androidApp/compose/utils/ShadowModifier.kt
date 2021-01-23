@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.util
+package com.selfformat.goldpare.androidApp.compose.utils
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind

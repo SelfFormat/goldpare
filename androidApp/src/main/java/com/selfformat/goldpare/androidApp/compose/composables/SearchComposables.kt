@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.commonComposables
+package com.selfformat.goldpare.androidApp.compose.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

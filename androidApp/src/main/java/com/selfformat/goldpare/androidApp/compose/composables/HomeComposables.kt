@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.home
+package com.selfformat.goldpare.androidApp.compose.composables
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -34,12 +34,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.zIndex
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
-import com.selfformat.goldpare.androidApp.compose.commonComposables.HomeFakeSearchView
-import com.selfformat.goldpare.androidApp.compose.enums.GoldType
-import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
-import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
-import com.selfformat.goldpare.androidApp.compose.enums.WeightRange
+import com.selfformat.goldpare.androidApp.compose.data.GoldType
+import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRanges
+import com.selfformat.goldpare.androidApp.compose.data.WeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottomDark
 import com.selfformat.goldpare.androidApp.compose.theme.categoryGradientBottomLight
@@ -57,14 +55,15 @@ import com.selfformat.goldpare.androidApp.compose.theme.headerFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
 import com.selfformat.goldpare.androidApp.compose.theme.smallFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.topSectionHeight
-import com.selfformat.goldpare.androidApp.compose.util.openWebPage
+import com.selfformat.goldpare.androidApp.compose.utils.openWebPage
+import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 import java.util.Locale
 
 @ExperimentalFoundationApi
 @Composable
-internal fun HomeLoaded(
+fun HomeLoaded(
     viewModel: HomeViewModel,
     it: HomeViewModel.State.Home,
     xauPln: XauPln,

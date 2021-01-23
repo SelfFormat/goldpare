@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.commonComposables
+package com.selfformat.goldpare.androidApp.compose.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -50,8 +50,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.mediumFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
 import com.selfformat.goldpare.androidApp.compose.theme.primaryGold
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
-import com.selfformat.goldpare.androidApp.compose.util.drawColoredShadow
-import com.selfformat.goldpare.androidApp.compose.util.mintFullName
+import com.selfformat.goldpare.androidApp.compose.utils.drawColoredShadow
+import com.selfformat.goldpare.androidApp.compose.utils.mintFullName
 import com.selfformat.goldpare.shared.api.XauPln
 import com.selfformat.goldpare.shared.model.GoldItem
 

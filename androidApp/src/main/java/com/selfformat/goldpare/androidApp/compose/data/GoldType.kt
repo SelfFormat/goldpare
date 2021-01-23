@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.enums
+package com.selfformat.goldpare.androidApp.compose.data
 
 import com.selfformat.goldpare.androidApp.R
 

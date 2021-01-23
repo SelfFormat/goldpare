@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.filtering
+package com.selfformat.goldpare.androidApp.compose.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollableColumn
@@ -51,15 +51,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.commonComposables.Chip
-import com.selfformat.goldpare.androidApp.compose.enums.CustomWeightRange
-import com.selfformat.goldpare.androidApp.compose.enums.GoldCoinType
-import com.selfformat.goldpare.androidApp.compose.enums.GoldType
-import com.selfformat.goldpare.androidApp.compose.enums.Mint
-import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
-import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRanges
-import com.selfformat.goldpare.androidApp.compose.enums.SortingType
-import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.data.CustomWeightRange
+import com.selfformat.goldpare.androidApp.compose.data.GoldCoinType
+import com.selfformat.goldpare.androidApp.compose.data.GoldType
+import com.selfformat.goldpare.androidApp.compose.data.Mint
+import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRanges
+import com.selfformat.goldpare.androidApp.compose.data.SortingType
 import com.selfformat.goldpare.androidApp.compose.theme.buttonFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.buttonHeight
 import com.selfformat.goldpare.androidApp.compose.theme.dividerColor
@@ -71,7 +69,8 @@ import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.filteringLabelFontSize
 import com.selfformat.goldpare.androidApp.compose.theme.fontWeight500
 import com.selfformat.goldpare.androidApp.compose.theme.shapes
-import com.selfformat.goldpare.androidApp.compose.util.NO_PRICE_FILTERING
+import com.selfformat.goldpare.androidApp.compose.utils.NO_PRICE_FILTERING
+import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
 
 @ExperimentalLayout
 @ExperimentalFoundationApi

@@ -1,11 +1,11 @@
-package com.selfformat.goldpare.androidApp.compose.util
+package com.selfformat.goldpare.androidApp.compose.utils
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.enums.Mint
+import com.selfformat.goldpare.androidApp.compose.data.Mint
 
 fun openWebPage(url: String, context: Context) {
     val webpage: Uri = Uri.parse(url)
