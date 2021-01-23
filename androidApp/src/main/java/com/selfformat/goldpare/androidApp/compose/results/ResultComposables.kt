@@ -34,20 +34,20 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.commonComposables.Chip
-import com.selfformat.goldpare.androidApp.compose.commonComposables.GoldCard
-import com.selfformat.goldpare.androidApp.compose.commonComposables.ResultsSearchView
-import com.selfformat.goldpare.androidApp.compose.enums.CustomWeightRange
-import com.selfformat.goldpare.androidApp.compose.enums.GoldType
-import com.selfformat.goldpare.androidApp.compose.enums.PredefinedWeightRange
-import com.selfformat.goldpare.androidApp.compose.home.HomeViewModel
+import com.selfformat.goldpare.androidApp.compose.composables.Chip
+import com.selfformat.goldpare.androidApp.compose.composables.GoldCard
+import com.selfformat.goldpare.androidApp.compose.composables.ResultsSearchView
+import com.selfformat.goldpare.androidApp.compose.data.CustomWeightRange
+import com.selfformat.goldpare.androidApp.compose.data.GoldType
+import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRange
 import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
 import com.selfformat.goldpare.androidApp.compose.theme.dp16
 import com.selfformat.goldpare.androidApp.compose.theme.dp8
 import com.selfformat.goldpare.androidApp.compose.theme.noElevation
-import com.selfformat.goldpare.androidApp.compose.util.openWebPage
-import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.androidApp.compose.utils.openWebPage
+import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
+import com.selfformat.goldpare.shared.models.XauPln
+import com.selfformat.goldpare.shared.models.GoldItem
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi

@@ -1,11 +1,11 @@
 package com.selfformat.goldpare.shared
 
 import com.selfformat.goldpare.shared.api.GoldApi
-import com.selfformat.goldpare.shared.api.XauPln
-import com.selfformat.goldpare.shared.cache.GoldItemsDatabase
-import com.selfformat.goldpare.shared.cache.DatabaseDriverFactory
-import com.selfformat.goldpare.shared.cache.XauPlnDatabase
-import com.selfformat.goldpare.shared.model.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
+import com.selfformat.goldpare.shared.database.GoldItemsDatabase
+import com.selfformat.goldpare.shared.database.DatabaseDriverFactory
+import com.selfformat.goldpare.shared.database.XauPlnDatabase
+import com.selfformat.goldpare.shared.models.GoldItem
 
 class GoldSDK(databaseDriverFactory: DatabaseDriverFactory) {
     private val database = GoldItemsDatabase(databaseDriverFactory)
