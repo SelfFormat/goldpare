@@ -18,31 +18,7 @@ internal class GoldItemsDatabase(databaseDriverFactory: DatabaseDriverFactory) {
 
     internal fun getAllGoldItems(): List<GoldItem> {
         return dbQuery.selectAllGoldItems().executeAsList().map {
-            GoldItem(
-                id = it.id,
-                price = it.price,
-                title = it.title,
-                link = it.link,
-                website = it.website,
-                image = it.image,
-                weight = it.weight,
-                quantity = it.quantity,
-                type = it.type,
-                priceDouble = mapper.priceDouble(it.price),
-                weightInGrams = mapper.weightInGrams(it.weight),
-                pricePerGram = mapper.pricePerGram(
-                    weightInGrams = mapper.weightInGrams(it.weight),
-                    priceDouble = mapper.priceDouble(it.price),
-                    quantity = it.quantity
-                ),
-                pricePerOunce = mapper.pricePerOunce(
-                    mapper.pricePerGram(
-                        weightInGrams = mapper.weightInGrams(it.weight),
-                        priceDouble = mapper.priceDouble(it.price),
-                        quantity = it.quantity
-                    )
-                )
-            )
+            mapper.mapToDomain(it)
         }
     }
 
