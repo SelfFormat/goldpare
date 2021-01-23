@@ -22,7 +22,6 @@ data class GoldItem(
     }
 
     companion object {
-        const val OZ_TROY = 31.1034768
         val fakeGoldItem = GoldItem(
             1,
             "3000zł",

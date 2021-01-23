@@ -44,7 +44,7 @@ internal class GoldItemMapper {
     }
 
     private fun pricePerOunce(pricePerGram: Double?): Double? {
-        return pricePerGram?.times(GoldItem.OZ_TROY)
+        return pricePerGram?.times(OZ_TROY)
     }
 
     private fun weightInGrams(weight: String?): Double? {
@@ -82,6 +82,10 @@ internal class GoldItemMapper {
     }
 
     private fun convertOzToGram(ozQuantity: Double?): Double? {
-        return ozQuantity?.times(GoldItem.OZ_TROY)
+        return ozQuantity?.times(OZ_TROY)
+    }
+
+    companion object {
+        private const val OZ_TROY = 31.1034768
     }
 }
