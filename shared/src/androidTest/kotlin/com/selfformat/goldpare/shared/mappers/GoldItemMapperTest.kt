@@ -1,27 +1,49 @@
 package com.selfformat.goldpare.shared.mappers
 
+import com.selfformat.goldpare.shared.models.GoldItem
+import org.junit.Test
+import kotlin.test.assertEquals
+import com.selfformat.goldpare.shared.cache.GoldItem as DatabaseGoldItem
+
 class GoldItemMapperTest {
-// TODO fix tests
-//
-//    @Test
-//    fun checkIfFractionWithOzKeywordIsParsedToGrams() {
-//        val weight = "1/2 oz"
-//        val goldItem = GoldItem(
-//            id = 0,
-//            price = null,
-//            title = "",
-//            link = "",
-//            website = "",
-//            image = null,
-//            weight = weight,
-//            quantity = 0,
-//            type = "",
-//        )
-//        val ozTroy = 31.1034768
-//        val expected = ozTroy / 2
-//        val result = goldItem.weightInGrams(weight)
-//        assertEquals(expected, result)
-//    }
+
+    private val mapper = GoldItemMapper()
+    private val ozTroy = 31.1034768
+
+    private val fakeDatabaseGoldItem = DatabaseGoldItem(
+        1,
+        "3000zł",
+        "Gold 1/2 oz",
+        "www.gold.com/1oz",
+        "gold.com",
+        "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
+        weight = "1/4oz",
+        quantity = 1,
+        type = "coin"
+    )
+
+    private val fakeDomainGoldItem = GoldItem(
+        1,
+        "3000zł",
+        "Gold 1/2 oz",
+        "www.gold.com/1oz",
+        "gold.com",
+        "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
+        weight = "1/4oz",
+        quantity = 1,
+        type = "coin",
+        priceDouble = 3000.0,
+        weightInGrams = 15.55,
+        pricePerGram = 100.0,
+        pricePerOunce = 6000.0
+    )
+
+    @Test
+    fun `when weight is available as fraction with oz keyword convert it to grams`() {
+        val expected = ozTroy / 2
+        val result = mapper.mapToDomain(fakeDatabaseGoldItem)
+        assertEquals(expected, result.weightInGrams)
+    }
 //
 //    @Test
 //    fun checkIfFractionWithUncjiKeywordIsParsedToGrams() {
@@ -99,23 +121,4 @@ class GoldItemMapperTest {
 //        val result = goldItem.weightInGrams(weight)
 //        assertEquals(expected, result)
 //    }
-//
-//    @Test
-//    fun checkIfMarkupPriceIsCalculated() {
-//        val stockPrice = 6000.0
-//        val itemPrice = "7800.22"
-//        val goldItem = GoldItem(
-//            id = 0,
-//            price = itemPrice,
-//            title = "",
-//            link = "",
-//            website = "",
-//            image = null,
-//            weight = "31.10",
-//            quantity = 1,
-//            type = ""
-//        )
-//        assertEquals(30.0, goldItem.priceMarkup(stockPrice)!!, 0.1)
-//    }
-// }
 }
