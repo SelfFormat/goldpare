@@ -66,8 +66,7 @@ internal class GoldItemMapper {
                 weightWithoutWhitespace.replace(gramRegex, "").toDoubleOrNull()
             }
             else -> {
-                val toDouble = weightWithoutWhitespace.toDoubleOrNull()
-                toDouble ?: 1.0
+                weightWithoutWhitespace.toDoubleOrNull()
             }
         }
     }

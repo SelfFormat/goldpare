@@ -44,6 +44,37 @@ class GoldItemMapperTest {
         val result = mapper.mapToDomain(fakeDatabaseGoldItem)
         assertEquals(expected, result.weightInGrams)
     }
+
+    @Test
+    fun `when weight is available as fraction with uncji keyword convert it to grams`() {
+        val expected = ozTroy
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "1 uncja")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.weightInGrams)
+    }
+
+    @Test
+    fun `when weight is available as fraction with uncja keyword convert it to grams`() {
+        val expected = ozTroy / 7
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "1/7 uncji")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.weightInGrams)
+    }
+
+    @Test
+    fun `when weight is not available then weightInGrams will be null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = null)
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.weightInGrams)
+    }
+
+    @Test
+    fun `when weight is not a number with oz or uncj keyword weightInGrams will be null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "4 word 23")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.weightInGrams)
+    }
+
 //
 //    @Test
 //    fun checkIfFractionWithUncjiKeywordIsParsedToGrams() {
