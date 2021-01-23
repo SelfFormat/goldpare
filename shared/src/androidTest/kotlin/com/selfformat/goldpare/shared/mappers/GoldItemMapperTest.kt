@@ -40,7 +40,7 @@ class GoldItemMapperTest {
 
     @Test
     fun `when weight is available as fraction with oz keyword convert it to grams`() {
-        val expected = ozTroy / 2
+        val expected = ozTroy / 4
         val result = mapper.mapToDomain(fakeDatabaseGoldItem)
         assertEquals(expected, result.weightInGrams)
     }
