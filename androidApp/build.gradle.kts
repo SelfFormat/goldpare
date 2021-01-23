@@ -4,7 +4,7 @@ plugins {
     kotlin("android")
 }
 
-val composeVersion = "1.0.0-alpha09"
+val composeVersion = "1.0.0-alpha10"
 val coroutinesAndroidVersion = "1.3.9"
 val coreKTXVersion = "1.5.0-alpha05"
 val materialVersion = "1.2.1"
