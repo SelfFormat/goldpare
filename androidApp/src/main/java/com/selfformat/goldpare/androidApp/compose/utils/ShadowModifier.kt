@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.selfformat.goldpare.androidApp.compose.theme.dp20
 
-// Found on: https://gist.github.com/cedrickring/0497965b0658d6727aaec531f59e8c5c
+// From https://gist.github.com/cedrickring/0497965b0658d6727aaec531f59e8c5c
 fun Modifier.drawColoredShadow(
     color: Color,
     alpha: Float = 0.2f,

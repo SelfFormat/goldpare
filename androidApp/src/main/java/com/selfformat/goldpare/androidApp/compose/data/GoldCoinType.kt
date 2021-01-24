@@ -1,6 +1,7 @@
 package com.selfformat.goldpare.androidApp.compose.data
 
 import com.selfformat.goldpare.androidApp.R
+import com.selfformat.goldpare.androidApp.compose.utils.regexIgnoreCase
 
 enum class GoldCoinType(val coinName: Int, val regex: Regex) {
 
@@ -15,8 +16,4 @@ enum class GoldCoinType(val coinName: Int, val regex: Regex) {
     AMERYKANSKI_ORZEL(R.string.american_eagle, regexIgnoreCase("eagle|orze")),
     FILCHARMONICY_WIEDENSCY(R.string.vienna_philharmonic, regexIgnoreCase("vienna|philharmoni|filchar|wiede")),
     BESTIE_KROLOWEJ(R.string.queens_bests, regexIgnoreCase("bestie|beasts"))
-}
-
-private fun regexIgnoreCase(pattern: String): Regex {
-    return Regex(pattern = pattern, RegexOption.IGNORE_CASE)
 }

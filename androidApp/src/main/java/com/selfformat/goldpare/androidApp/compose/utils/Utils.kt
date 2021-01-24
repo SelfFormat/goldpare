@@ -21,3 +21,7 @@ fun mintFullName(website: String, context: Context): String {
     }
     return context.getString(R.string.unknown_provider)
 }
+
+fun regexIgnoreCase(pattern: String): Regex {
+    return Regex(pattern = pattern, RegexOption.IGNORE_CASE)
+}
