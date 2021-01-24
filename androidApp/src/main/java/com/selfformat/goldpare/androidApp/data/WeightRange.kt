@@ -1,8 +1,8 @@
-package com.selfformat.goldpare.androidApp.compose.data
+package com.selfformat.goldpare.androidApp.data
 
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.data.WeightRange.Companion.MAX_WEIGHT
-import com.selfformat.goldpare.androidApp.compose.data.WeightRange.Companion.MIN_WEIGHT
+import com.selfformat.goldpare.androidApp.data.WeightRange.Companion.MAX_WEIGHT
+import com.selfformat.goldpare.androidApp.data.WeightRange.Companion.MIN_WEIGHT
 
 sealed class WeightRange(
     open val weightFrom: Double = MIN_WEIGHT,

@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.theme
+package com.selfformat.goldpare.androidApp.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

@@ -1,7 +1,7 @@
-package com.selfformat.goldpare.androidApp.compose.data
+package com.selfformat.goldpare.androidApp.data
 
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.utils.regexIgnoreCase
+import com.selfformat.goldpare.androidApp.utils.regexIgnoreCase
 
 enum class GoldCoinType(val coinName: Int, val regex: Regex) {
 

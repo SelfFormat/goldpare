@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.composables
+package com.selfformat.goldpare.androidApp.composables
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -42,10 +42,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.theme.dp4
-import com.selfformat.goldpare.androidApp.compose.theme.dp6
-import com.selfformat.goldpare.androidApp.compose.theme.dp8
-import com.selfformat.goldpare.androidApp.compose.theme.searchHeight
+import com.selfformat.goldpare.androidApp.theme.dp4
+import com.selfformat.goldpare.androidApp.theme.dp6
+import com.selfformat.goldpare.androidApp.theme.dp8
+import com.selfformat.goldpare.androidApp.theme.searchHeight
 
 @ExperimentalFoundationApi
 @Composable

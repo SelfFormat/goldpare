@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.composables
+package com.selfformat.goldpare.androidApp.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,12 +34,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.theme.CHIP_CLOSE_ICON_SCALE
-import com.selfformat.goldpare.androidApp.compose.theme.dp12
-import com.selfformat.goldpare.androidApp.compose.theme.dp4
-import com.selfformat.goldpare.androidApp.compose.theme.dp8
-import com.selfformat.goldpare.androidApp.compose.theme.gradientHeight
-import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
+import com.selfformat.goldpare.androidApp.theme.CHIP_CLOSE_ICON_SCALE
+import com.selfformat.goldpare.androidApp.theme.dp12
+import com.selfformat.goldpare.androidApp.theme.dp4
+import com.selfformat.goldpare.androidApp.theme.dp8
+import com.selfformat.goldpare.androidApp.theme.gradientHeight
+import com.selfformat.goldpare.androidApp.viewModels.HomeViewModel
 
 @Composable
 internal fun BottomNavigationBar(homeViewModel: HomeViewModel) {

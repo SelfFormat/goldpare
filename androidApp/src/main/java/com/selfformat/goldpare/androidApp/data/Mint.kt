@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.data
+package com.selfformat.goldpare.androidApp.data
 
 enum class Mint(val fullName: String) {
     ALL("Wszystkie mennice"),

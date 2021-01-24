@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.composables
+package com.selfformat.goldpare.androidApp.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -34,26 +34,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.theme.SHADOW_ALPHA
-import com.selfformat.goldpare.androidApp.compose.theme.dividerColor
-import com.selfformat.goldpare.androidApp.compose.theme.dividerThickness
-import com.selfformat.goldpare.androidApp.compose.theme.dp12
-import com.selfformat.goldpare.androidApp.compose.theme.dp16
-import com.selfformat.goldpare.androidApp.compose.theme.dp32
-import com.selfformat.goldpare.androidApp.compose.theme.dp4
-import com.selfformat.goldpare.androidApp.compose.theme.dp6
-import com.selfformat.goldpare.androidApp.compose.theme.dp8
-import com.selfformat.goldpare.androidApp.compose.theme.gray200
-import com.selfformat.goldpare.androidApp.compose.theme.imageCornersShape
-import com.selfformat.goldpare.androidApp.compose.theme.imageWidth
-import com.selfformat.goldpare.androidApp.compose.theme.mediumFontSize
-import com.selfformat.goldpare.androidApp.compose.theme.noElevation
-import com.selfformat.goldpare.androidApp.compose.theme.primaryGold
-import com.selfformat.goldpare.androidApp.compose.theme.shapes
-import com.selfformat.goldpare.androidApp.compose.utils.drawColoredShadow
-import com.selfformat.goldpare.androidApp.compose.utils.mintFullName
-import com.selfformat.goldpare.shared.models.XauPln
+import com.selfformat.goldpare.androidApp.theme.SHADOW_ALPHA
+import com.selfformat.goldpare.androidApp.theme.dividerColor
+import com.selfformat.goldpare.androidApp.theme.dividerThickness
+import com.selfformat.goldpare.androidApp.theme.dp12
+import com.selfformat.goldpare.androidApp.theme.dp16
+import com.selfformat.goldpare.androidApp.theme.dp32
+import com.selfformat.goldpare.androidApp.theme.dp4
+import com.selfformat.goldpare.androidApp.theme.dp6
+import com.selfformat.goldpare.androidApp.theme.dp8
+import com.selfformat.goldpare.androidApp.theme.gray200
+import com.selfformat.goldpare.androidApp.theme.imageCornersShape
+import com.selfformat.goldpare.androidApp.theme.imageWidth
+import com.selfformat.goldpare.androidApp.theme.mediumFontSize
+import com.selfformat.goldpare.androidApp.theme.noElevation
+import com.selfformat.goldpare.androidApp.theme.primaryGold
+import com.selfformat.goldpare.androidApp.theme.shapes
+import com.selfformat.goldpare.androidApp.utils.drawColoredShadow
+import com.selfformat.goldpare.androidApp.utils.mintFullName
 import com.selfformat.goldpare.shared.models.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
 
 @Composable
 fun GoldCard(item: GoldItem, xauPln: XauPln, onClick: (() -> Unit)) {

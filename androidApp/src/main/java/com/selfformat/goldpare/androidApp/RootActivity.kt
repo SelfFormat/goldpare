@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose
+package com.selfformat.goldpare.androidApp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -15,16 +15,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.viewinterop.viewModel
-import com.selfformat.goldpare.androidApp.compose.composables.BottomGradient
-import com.selfformat.goldpare.androidApp.compose.composables.BottomNavigationBar
-import com.selfformat.goldpare.androidApp.compose.composables.ErrorView
-import com.selfformat.goldpare.androidApp.compose.composables.FilteringView
-import com.selfformat.goldpare.androidApp.compose.composables.HomeLoaded
-import com.selfformat.goldpare.androidApp.compose.composables.Loading
-import com.selfformat.goldpare.androidApp.compose.results.ResultsLoaded
-import com.selfformat.goldpare.androidApp.compose.theme.GoldpareTheme
-import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
-import com.selfformat.goldpare.androidApp.compose.viewModels.XauPlnViewModel
+import com.selfformat.goldpare.androidApp.composables.BottomGradient
+import com.selfformat.goldpare.androidApp.composables.BottomNavigationBar
+import com.selfformat.goldpare.androidApp.composables.ErrorView
+import com.selfformat.goldpare.androidApp.composables.FilteringView
+import com.selfformat.goldpare.androidApp.composables.HomeLoaded
+import com.selfformat.goldpare.androidApp.composables.Loading
+import com.selfformat.goldpare.androidApp.results.ResultsLoaded
+import com.selfformat.goldpare.androidApp.theme.GoldpareTheme
+import com.selfformat.goldpare.androidApp.viewModels.HomeViewModel
+import com.selfformat.goldpare.androidApp.viewModels.XauPlnViewModel
 import com.selfformat.goldpare.shared.models.XauPln
 
 class RootActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.composables
+package com.selfformat.goldpare.androidApp.composables
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable

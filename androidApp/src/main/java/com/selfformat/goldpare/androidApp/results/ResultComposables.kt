@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.results
+package com.selfformat.goldpare.androidApp.results
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -34,18 +34,18 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.composables.Chip
-import com.selfformat.goldpare.androidApp.compose.composables.GoldCard
-import com.selfformat.goldpare.androidApp.compose.composables.ResultsSearchView
-import com.selfformat.goldpare.androidApp.compose.data.CustomWeightRange
-import com.selfformat.goldpare.androidApp.compose.data.GoldType
-import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRange
-import com.selfformat.goldpare.androidApp.compose.theme.bottomNavigationHeight
-import com.selfformat.goldpare.androidApp.compose.theme.dp16
-import com.selfformat.goldpare.androidApp.compose.theme.dp8
-import com.selfformat.goldpare.androidApp.compose.theme.noElevation
-import com.selfformat.goldpare.androidApp.compose.utils.openWebPage
-import com.selfformat.goldpare.androidApp.compose.viewModels.HomeViewModel
+import com.selfformat.goldpare.androidApp.composables.Chip
+import com.selfformat.goldpare.androidApp.composables.GoldCard
+import com.selfformat.goldpare.androidApp.composables.ResultsSearchView
+import com.selfformat.goldpare.androidApp.data.CustomWeightRange
+import com.selfformat.goldpare.androidApp.data.GoldType
+import com.selfformat.goldpare.androidApp.data.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.theme.bottomNavigationHeight
+import com.selfformat.goldpare.androidApp.theme.dp16
+import com.selfformat.goldpare.androidApp.theme.dp8
+import com.selfformat.goldpare.androidApp.theme.noElevation
+import com.selfformat.goldpare.androidApp.utils.openWebPage
+import com.selfformat.goldpare.androidApp.viewModels.HomeViewModel
 import com.selfformat.goldpare.shared.models.XauPln
 import com.selfformat.goldpare.shared.models.GoldItem
 
