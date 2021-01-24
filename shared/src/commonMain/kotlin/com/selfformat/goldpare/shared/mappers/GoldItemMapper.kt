@@ -31,8 +31,23 @@ internal class GoldItemMapper {
     )
 
     private fun priceDouble(price: String?): Double? {
-        return price?.replace("\\s".toRegex(), "")?.replace("zł", "")?.replace("PLN", "")
-            ?.replace("/szt.", "")?.replace(",", ".")?.toDoubleOrNull()
+        val formattedPrice = price?.replace("\\s".toRegex(), "")
+            ?.replace("zł", "")
+            ?.replace("PLN", "")
+            ?.replace("/szt.", "")
+
+        return when {
+            formattedPrice == null -> null
+            formattedPrice.contains(",") && formattedPrice.contains(".") -> {
+                formattedPrice.replace(",", "").toDoubleOrNull()
+            }
+            formattedPrice.contains(",") -> {
+                formattedPrice.replace(",", ".").toDoubleOrNull()
+            }
+            else -> {
+                formattedPrice.toDoubleOrNull()
+            }
+        }
     }
 
     private fun pricePerGram(
@@ -40,7 +55,10 @@ internal class GoldItemMapper {
         priceDouble: Double?,
         quantity: Long
     ): Double? {
-        return weightInGrams?.let { priceDouble?.div(it) }?.div(quantity)
+        val pricePerGram: Double? = weightInGrams?.let { priceDouble?.div(it) }?.div(quantity)
+        return if (pricePerGram != null) {
+            if (pricePerGram >= 0) pricePerGram else null
+        } else null
     }
 
     private fun pricePerOunce(pricePerGram: Double?): Double? {
@@ -66,8 +84,7 @@ internal class GoldItemMapper {
                 weightWithoutWhitespace.replace(gramRegex, "").toDoubleOrNull()
             }
             else -> {
-                val toDouble = weightWithoutWhitespace.toDoubleOrNull()
-                toDouble ?: 1.0
+                weightWithoutWhitespace.toDoubleOrNull()
             }
         }
     }
