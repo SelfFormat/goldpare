@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.results
+package com.selfformat.goldpare.androidApp.composables
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -34,9 +34,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.viewinterop.viewModel
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.composables.Chip
-import com.selfformat.goldpare.androidApp.composables.GoldCard
-import com.selfformat.goldpare.androidApp.composables.ResultsSearchView
 import com.selfformat.goldpare.androidApp.data.CustomWeightRange
 import com.selfformat.goldpare.androidApp.data.GoldType
 import com.selfformat.goldpare.androidApp.data.PredefinedWeightRange
@@ -46,8 +43,8 @@ import com.selfformat.goldpare.androidApp.theme.dp8
 import com.selfformat.goldpare.androidApp.theme.noElevation
 import com.selfformat.goldpare.androidApp.utils.openWebPage
 import com.selfformat.goldpare.androidApp.viewModels.HomeViewModel
-import com.selfformat.goldpare.shared.models.XauPln
 import com.selfformat.goldpare.shared.models.GoldItem
+import com.selfformat.goldpare.shared.models.XauPln
 
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi

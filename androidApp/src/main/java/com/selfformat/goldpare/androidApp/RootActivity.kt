@@ -21,7 +21,7 @@ import com.selfformat.goldpare.androidApp.composables.ErrorView
 import com.selfformat.goldpare.androidApp.composables.FilteringView
 import com.selfformat.goldpare.androidApp.composables.HomeLoaded
 import com.selfformat.goldpare.androidApp.composables.Loading
-import com.selfformat.goldpare.androidApp.results.ResultsLoaded
+import com.selfformat.goldpare.androidApp.composables.ResultsLoaded
 import com.selfformat.goldpare.androidApp.theme.GoldpareTheme
 import com.selfformat.goldpare.androidApp.viewModels.HomeViewModel
 import com.selfformat.goldpare.androidApp.viewModels.XauPlnViewModel
