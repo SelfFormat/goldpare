@@ -1,8 +1,8 @@
 package com.selfformat.goldpare.shared.mappers
 
 import com.selfformat.goldpare.shared.models.GoldItem
+import org.junit.Assert.assertEquals
 import org.junit.Test
-import kotlin.test.assertEquals
 import com.selfformat.goldpare.shared.cache.GoldItem as DatabaseGoldItem
 
 class GoldItemMapperTest {
@@ -198,6 +198,25 @@ class GoldItemMapperTest {
         val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = null)
         val result = mapper.mapToDomain(customDatabaseGoldItem)
         assertEquals(null, result.pricePerGram)
+    }
+
+    // endregion
+
+    // region price per ounce
+
+    @Test
+    fun `when price is null then price per ounce is null`() {
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(price = null)
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(null, result.pricePerOunce)
+    }
+
+    @Test
+    fun `when price is correct then calculate price per ounce`() {
+        val expected = 622.069536
+        val customDatabaseGoldItem = fakeDatabaseGoldItem.copy(weight = "50.0 gram", price = "1000 zł")
+        val result = mapper.mapToDomain(customDatabaseGoldItem)
+        assertEquals(expected, result.pricePerOunce!!, 0.001)
     }
 
     // endregion
