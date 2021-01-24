@@ -15,6 +15,9 @@ val activityVersion = "1.1.0"
 val composeGlideVersion = "0.4.1"
 val lifecycleVersion = "2.3.0-beta01"
 val fragmentVersion = "1.2.5"
+val junitVersion = "4.13.1"
+val androidXTestVersion = "1.3.0"
+val androidXLegacySupportVersion = "1.0.0"
 
 dependencies {
     implementation(project(":shared"))
@@ -29,12 +32,14 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.legacy:legacy-support-v4:$androidXLegacySupportVersion")
     implementation("androidx.activity:activity-ktx:$activityVersion")
 
-    androidTestImplementation("junit:junit:4.13.1")
-    androidTestImplementation("androidx.test:rules:1.3.0")
-    androidTestImplementation("androidx.test:runner:1.3.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${rootProject.extra["kotlinVersion"]}")
+    androidTestImplementation("org.jetbrains.kotlin:kotlin-test-junit:${rootProject.extra["kotlinVersion"]}")
+    androidTestImplementation("junit:junit:$junitVersion")
+    androidTestImplementation("androidx.test:rules:$androidXTestVersion")
+    androidTestImplementation("androidx.test:runner:$androidXTestVersion")
     androidTestImplementation("androidx.compose.ui:ui-test:$composeVersion")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
 
