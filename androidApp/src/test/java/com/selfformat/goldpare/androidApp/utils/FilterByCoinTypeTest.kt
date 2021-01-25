@@ -9,7 +9,7 @@ class FilterByCoinTypeTest {
 
     @Test
     fun `check if filters by all returns the same list of items`() {
-        val titles = createListOfTitles(
+        val titles = createGoldItemsWithTitles(
             listOf(
                 "Krugerrand 123g",
                 "Nice Gold 24k Krugerrand 1 oz",
@@ -99,29 +99,13 @@ class FilterByCoinTypeTest {
         correctTitles: List<String>,
         wrongTitles: List<String>
     ) {
-        val proper = createListOfTitles(correctTitles)
-        val wrong = createListOfTitles(wrongTitles)
+        val proper = createGoldItemsWithTitles(correctTitles)
+        val wrong = createGoldItemsWithTitles(wrongTitles)
         val allItems = proper + wrong
         assertEquals(proper, allItems.filterByCoinType(type))
     }
 
-    private fun fakeGoldItem() = GoldItem(
-        id = 1,
-        price = "3000zł",
-        title = "Krugerrand 1/2 oz",
-        link = "www.gold.com/1oz",
-        website = "gold.com",
-        image = "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
-        weight = "1/4oz",
-        quantity = 1,
-        type = "coin",
-        priceDouble = 3000.0,
-        weightInGrams = 15.55,
-        pricePerGram = 100.0,
-        pricePerOunce = 6000.0
-    )
-
-    private fun createListOfTitles(titles: List<String>): List<GoldItem> {
+    private fun createGoldItemsWithTitles(titles: List<String>): List<GoldItem> {
         return titles.map { fakeGoldItem().copy(title = it) }.toList()
     }
 }
