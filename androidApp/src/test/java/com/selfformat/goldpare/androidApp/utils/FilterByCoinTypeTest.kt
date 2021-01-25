@@ -8,6 +8,23 @@ import kotlin.test.assertEquals
 class FilterByCoinTypeTest {
 
     @Test
+    fun `check if filters by all returns the same list of items`() {
+        val titles = createListOfTitles(
+            listOf(
+                "Krugerrand 123g",
+                "Nice Gold 24k Krugerrand 1 oz",
+                "Krugerrandy",
+                "krugerrand",
+                "Dukat 123g",
+                "Nice Gold 24k Ducats 1 oz",
+                "3 dukaty 6g",
+                "Dukat"
+            )
+        )
+        assertEquals(titles, titles.filterByCoinType(GoldCoinType.ALL))
+    }
+
+    @Test
     fun `check if filters by krugerrand returns correct items regardless case`() = testCoinTypeFiltering(
         GoldCoinType.KRUGERRAND,
         listOf("Krugerrand 123g", "Nice Gold 24k Krugerrand 1 oz", "Krugerrandy", "krugerrand"),
