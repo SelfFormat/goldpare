@@ -35,6 +35,7 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:$androidXLegacySupportVersion")
     implementation("androidx.activity:activity-ktx:$activityVersion")
 
+    testImplementation("org.mockito:mockito-core:1.10.19")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${rootProject.extra["kotlinVersion"]}")
     androidTestImplementation("org.jetbrains.kotlin:kotlin-test-junit:${rootProject.extra["kotlinVersion"]}")
     androidTestImplementation("junit:junit:$junitVersion")
