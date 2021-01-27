@@ -239,8 +239,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         val goldItem = data.filterGoldType(GoldType.COIN)
             .filterByWeight(weightRange)
             .showCoinSets(false)
-            .filter { it.priceDouble != null }
-            .minByOrNull { it.priceDouble!! }
+            .filter { it.pricePerOunce != null }
+            .minByOrNull { it.pricePerOunce!! }
         return if (goldItem == null) {
             null
         } else {

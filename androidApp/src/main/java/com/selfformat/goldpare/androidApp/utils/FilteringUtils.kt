@@ -48,8 +48,8 @@ internal fun List<GoldItem>.showCoinSets(show: Boolean): List<GoldItem> {
 
 internal fun List<GoldItem>.sortBy(sortingType: SortingType): List<GoldItem> {
     return when (sortingType) {
-        SortingType.PRICE_ASC -> this.sortedBy { it.price }
-        SortingType.PRICE_DESC -> this.sortedByDescending { it.price }
+        SortingType.PRICE_ASC -> this.sortedBy { it.priceDouble }
+        SortingType.PRICE_DESC -> this.sortedByDescending { it.priceDouble }
         SortingType.PRICE_PER_OZ_ASC -> this.sortedBy { it.pricePerOunce }
         SortingType.PRICE_PER_OZ_DESC -> this.sortedByDescending { it.pricePerOunce }
         SortingType.NONE -> this
