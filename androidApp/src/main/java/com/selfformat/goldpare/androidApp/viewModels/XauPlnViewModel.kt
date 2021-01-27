@@ -1,4 +1,4 @@
-package com.selfformat.goldpare.androidApp.compose.viewModels
+package com.selfformat.goldpare.androidApp.viewModels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.selfformat.goldpare.shared.GoldSDK
-import com.selfformat.goldpare.shared.models.XauPln
 import com.selfformat.goldpare.shared.database.DatabaseDriverFactory
+import com.selfformat.goldpare.shared.models.XauPln
 import kotlinx.coroutines.launch
 
 internal class XauPlnViewModel(application: Application) : AndroidViewModel(application) {

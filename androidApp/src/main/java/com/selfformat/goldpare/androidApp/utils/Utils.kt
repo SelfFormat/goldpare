@@ -1,11 +1,11 @@
-package com.selfformat.goldpare.androidApp.compose.utils
+package com.selfformat.goldpare.androidApp.utils
 
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat
 import com.selfformat.goldpare.androidApp.R
-import com.selfformat.goldpare.androidApp.compose.data.Mint
+import com.selfformat.goldpare.androidApp.data.Mint
 
 fun openWebPage(url: String, context: Context) {
     val webpage: Uri = Uri.parse(url)
@@ -20,4 +20,8 @@ fun mintFullName(website: String, context: Context): String {
         }
     }
     return context.getString(R.string.unknown_provider)
+}
+
+fun regexIgnoreCase(pattern: String): Regex {
+    return Regex(pattern = pattern, RegexOption.IGNORE_CASE)
 }

@@ -1,6 +1,5 @@
 package com.selfformat.goldpare.shared.mappers
 
-import com.selfformat.goldpare.shared.models.GoldItem
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import com.selfformat.goldpare.shared.cache.GoldItem as DatabaseGoldItem
@@ -20,22 +19,6 @@ class GoldItemMapperTest {
         weight = "15 g",
         quantity = 1,
         type = "coin"
-    )
-
-    private val fakeDomainGoldItem = GoldItem(
-        1,
-        "3000zł",
-        "Gold 1/2 oz",
-        "www.gold.com/1oz",
-        "gold.com",
-        "https://79element.pl/1382-home_default/australijski-lunar-lii-rok-myszy-2020-1oz.jpg",
-        weight = "15 g",
-        quantity = 1,
-        type = "coin",
-        priceDouble = 3000.0,
-        weightInGrams = 15.00,
-        pricePerGram = 100.0,
-        pricePerOunce = 6000.0
     )
 
     // region weightInGrams conversions

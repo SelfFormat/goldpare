@@ -1,12 +1,12 @@
-package com.selfformat.goldpare.androidApp.compose.utils
+package com.selfformat.goldpare.androidApp.utils
 
-import com.selfformat.goldpare.androidApp.compose.data.GoldCoinType
-import com.selfformat.goldpare.androidApp.compose.data.GoldType
-import com.selfformat.goldpare.androidApp.compose.data.Mint
-import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRange
-import com.selfformat.goldpare.androidApp.compose.data.PredefinedWeightRanges
-import com.selfformat.goldpare.androidApp.compose.data.SortingType
-import com.selfformat.goldpare.androidApp.compose.data.WeightRange
+import com.selfformat.goldpare.androidApp.data.GoldCoinType
+import com.selfformat.goldpare.androidApp.data.GoldType
+import com.selfformat.goldpare.androidApp.data.Mint
+import com.selfformat.goldpare.androidApp.data.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.data.PredefinedWeightRanges
+import com.selfformat.goldpare.androidApp.data.SortingType
+import com.selfformat.goldpare.androidApp.data.WeightRange
 import com.selfformat.goldpare.shared.models.GoldItem
 
 internal const val NO_PRICE_FILTERING = -1.0
