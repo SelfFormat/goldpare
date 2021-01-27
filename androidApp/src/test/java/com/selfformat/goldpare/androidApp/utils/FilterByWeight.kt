@@ -1,6 +1,8 @@
 package com.selfformat.goldpare.androidApp.utils
 
 import com.selfformat.goldpare.androidApp.data.CustomWeightRange
+import com.selfformat.goldpare.androidApp.data.PredefinedWeightRange
+import com.selfformat.goldpare.androidApp.data.PredefinedWeightRanges
 import com.selfformat.goldpare.androidApp.data.WeightRange
 import com.selfformat.goldpare.shared.models.GoldItem
 import org.junit.Test
@@ -40,6 +42,16 @@ class FilterByWeight {
         assertEquals(
             expected,
             weights.filterByWeight(CustomWeightRange(WeightRange.MIN_WEIGHT, WeightRange.MAX_WEIGHT))
+        )
+    }
+
+    @Test
+    fun `when range is predefined all then should return all items`() {
+        val weights = createGoldItemsWithWeight(listOf(11.3, 115153.31, 14.0, -111.2, 33.0, 0.0, 0.001, 200.0, 305.11))
+
+        assertEquals(
+            weights,
+            weights.filterByWeight(PredefinedWeightRange(PredefinedWeightRanges.ALL))
         )
     }
 
