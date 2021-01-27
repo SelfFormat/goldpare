@@ -31,7 +31,7 @@ class FilterSearchResults {
                 "1 nice dukat 123g",
                 "   1 DUKAT   ",
             ),
-            searchedItems = listOf("Krugerrand i 1 dukat 123g","   1 DUKAT   ")
+            searchedItems = listOf("Krugerrand i 1 dukat 123g", "   1 DUKAT   ")
         )
     }
 
