@@ -13,3 +13,5 @@ local.properties
 /shared/java_pid41192.hprof
 xcuserdata/
 Pods/
+*.hprof
+
